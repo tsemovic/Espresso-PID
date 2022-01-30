@@ -9,13 +9,15 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "^3.4.4",
+    "recharts": "^2.1.8",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "postbuild": "node postbuild.js"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {

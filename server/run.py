@@ -1,7 +1,6 @@
 from flask import Flask  # Import flask
 
-#app = Flask(__name__)  # Setup the flask app by creating an instance of Flask
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__, static_url_path='') # Setup the Flask app by creating an instance of Flask
 
 @app.route('/')
 def home():  # At the same home function as before

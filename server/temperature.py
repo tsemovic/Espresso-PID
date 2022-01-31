@@ -26,18 +26,13 @@
 #logging.basicConfig(level=logging.DEBUG)
 
 import time
-
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
-
+import RPi.GPIO as GPIO
 
 # Define a function to convert celsius to fahrenheit.
-def c_to_f(c):
-        return c * 9.0 / 5.0 + 32.0
-
-
-# Uncomment one of the blocks of code below to configure your Pi or BBB to use
-# software or hardware SPI.
+# def c_to_f(c):
+#         return c * 9.0 / 5.0 + 32.0
 
 # Raspberry Pi software SPI configuration.
 CLK = 4
@@ -45,27 +40,17 @@ CS  = 3
 DO  = 2
 sensor = MAX31855.MAX31855(CLK, CS, DO)
 
-# Raspberry Pi hardware SPI configuration.
-#SPI_PORT   = 0
-#SPI_DEVICE = 0
-#sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-# BeagleBone Black software SPI configuration.
-#CLK = 'P9_12'
-#CS  = 'P9_15'
-#DO  = 'P9_23'
-#sensor = MAX31855.MAX31855(CLK, CS, DO)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(21, GPIO.OUT)
+GPIO.output(21, GPIO.HIGH)
 
-# BeagleBone Black hardware SPI configuration.
-#SPI_PORT   = 1
-#SPI_DEVICE = 0
-#sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 # Loop printing measurements every second.
 print('Press Ctrl-C to quit.')
 while True:
     temp = sensor.readTempC()
     internal = sensor.readInternalC()
-    print('Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp)))
-    print('    Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal)))
+    print('Thermocouple Temperature: {0:0.3F}*C')
+    print('Internal Temperature: {0:0.3F}*C')
     time.sleep(1.0)

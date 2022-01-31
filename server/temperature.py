@@ -62,8 +62,6 @@ while True:
     temp = sensor.readTempC()
     internal = sensor.readInternalC()
     print(temp)
-    print('Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp)))
-    print('Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal)))
     if(temp > 50):
         GPIO.output(21, GPIO.LOW)
     else:

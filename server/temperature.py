@@ -31,8 +31,8 @@ import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 
 # Define a function to convert celsius to fahrenheit.
-# def c_to_f(c):
-#         return c * 9.0 / 5.0 + 32.0
+def c_to_f(c):
+        return c * 9.0 / 5.0 + 32.0
 
 # Raspberry Pi software SPI configuration.
 CLK = 4
@@ -41,16 +41,14 @@ DO  = 2
 sensor = MAX31855.MAX31855(CLK, CS, DO)
 
 
-GPIO.setmode(GPIO.BOARD)
 GPIO.setup(21, GPIO.OUT)
 GPIO.output(21, GPIO.HIGH)
-
 
 # Loop printing measurements every second.
 print('Press Ctrl-C to quit.')
 while True:
     temp = sensor.readTempC()
     internal = sensor.readInternalC()
-    print('Thermocouple Temperature: {0:0.3F}*C')
-    print('Internal Temperature: {0:0.3F}*C')
+    print('Thermocouple Temperature: {0:0.3F}*C'.format(temp, temp))
+    print('Internal Temperature: {0:0.3F}*C'.format(internal, internal))
     time.sleep(1.0)

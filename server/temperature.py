@@ -64,4 +64,8 @@ while True:
     print(temp)
     print('Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp)))
     print('Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal)))
-    time.sleep(1.0)
+    if(temp < 50):
+        GPIO.output(21, GPIO.LOW)
+    else:
+        GPIO.output(21, GPIO.HIGH)
+    time.sleep(0.5)

@@ -42,4 +42,4 @@ def my_event(message):
     emit('my response', {'data': 'got it!'})
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    socketio.run(app)  # Start the server
+    socketio.run(app, host='localhost', port=80)  # Start the server

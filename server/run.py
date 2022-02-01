@@ -8,6 +8,13 @@ import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
+from flask_cors import CORS
+
+
+# Webserver setup
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secretkey'
+socketio = SocketIO(app, logger=True)
 
 # PID setup
 P = 1
@@ -35,10 +42,6 @@ def handler(signum, frame):
         exit(1)
 signal.signal(signal.SIGINT, handler)
 
-
-app = Flask(__name__, static_url_path='') # Setup the Flask app by creating an instance of Flask
-socketio = SocketIO(app)
-
 # Webserver Routes
 @app.route('/')
 def home():  # At the same home function as before
@@ -64,10 +67,17 @@ def test():
 
 @socketio.on('connect')
 def test_connect():
+    socketio.emit('message', "HI FROM SEVER!");
+
     print('someone connected to websocket')
     
+# Receive a message from the front end HTML
+@socketio.on('send_message')   
+def message_recieved(data):
+    print(data['text'])
+    emit('message_from_server', {'text':'Message recieved!'})
     
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    socketio.run(app, host='0.0.0.0', port=80)  # Start the server
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)  # Start the server
     
     

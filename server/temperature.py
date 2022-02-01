@@ -30,15 +30,15 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
-import simple_pid as PID
+from simple_pid import PID
 
-PID_target = 90
-P = 10
-I = 1
-D = 1
+P = 1
+I = 0.1
+D = 0.05
 
-pid = PID.PID(P, I, D, 0.25)
-pid.SetPoint = PID_target
+pid = PID(P, I, D)
+pid.sample_time = 0.01
+pid.setpoint = 90
 
 # Define a function to convert celsius to fahrenheit.
 def c_to_f(c):

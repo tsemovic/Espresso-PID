@@ -30,7 +30,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
-import simple_pid
+import simple_pid as PID
 
 PID_target = 90
 P = 10

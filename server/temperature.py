@@ -30,7 +30,16 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
+from simple_pid import PID
 
+PID_target = 90
+P = 10
+I = 1
+D = 1
+
+pid = PID.PID(P, I, D)
+pid.SetPoint = PID_target
+pid.setSampleTime(0.25)
 
 # Define a function to convert celsius to fahrenheit.
 def c_to_f(c):
@@ -62,8 +71,10 @@ while True:
     temp = sensor.readTempC()
     internal = sensor.readInternalC()
     print(temp)
-    if(temp > 90):
-        GPIO.output(21, GPIO.LOW)
-    else:
-        GPIO.output(21, GPIO.HIGH)
-    time.sleep(0.5)
+
+    output = pid(temp)
+    print("OUTPUT: " + output);
+
+        #GPIO.output(21, GPIO.HIGH)
+        
+    time.sleep(0.25)

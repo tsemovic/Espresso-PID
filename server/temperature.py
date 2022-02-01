@@ -37,9 +37,8 @@ P = 10
 I = 1
 D = 1
 
-pid = PID.PID(P, I, D)
+pid = PID.PID(P, I, D, 0.25)
 pid.SetPoint = PID_target
-pid.setSampleTime(0.25)
 
 # Define a function to convert celsius to fahrenheit.
 def c_to_f(c):

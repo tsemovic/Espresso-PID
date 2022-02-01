@@ -72,9 +72,12 @@ while True:
     print(temp)
 
     output = pid(temp)
-    print("OUTPUT -------------------------");
-    print(output);
-
-        #GPIO.output(21, GPIO.HIGH)
+    print("OUTPUT -------------------------")
+    print(output)
+    if(output > 0){
+        GPIO.output(21, GPIO.HIGH)
+    }else{
+        GPIO.output(21, GPIO.LOW)  
+    }
         
     time.sleep(0.25)

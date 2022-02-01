@@ -1,16 +1,39 @@
 <template>
-  <v-app>
-    <client />
-  </v-app>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
+  </div>
 </template>
 
-<script>
-import Client from './components/client';
 
+
+<script>
+import SocketioService from './services/socketio.service.js';
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    Client
+  },
+  created() {
+    SocketioService.setupSocketConnection();
+  },
+  beforeUnmount() {
+    SocketioService.disconnect();
   }
 }
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  background-image: url('~@/assets/beansDark.jpg'); 
+
+}
+</style>

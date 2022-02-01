@@ -72,7 +72,8 @@ while True:
     print(temp)
 
     output = pid(temp)
-    print("OUTPUT: " + output);
+    print("OUTPUT -------------------------");
+    print(output);
 
         #GPIO.output(21, GPIO.HIGH)
         

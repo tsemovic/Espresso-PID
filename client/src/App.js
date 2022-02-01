@@ -7,6 +7,7 @@ function App() {
 		<SocketContext.Provider  value={socket}> 
 			<div className="container"> 
 			</div>
+      <p>hello world</p>
 		</SocketContext.Provider>
 	);
 }

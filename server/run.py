@@ -39,9 +39,6 @@ signal.signal(signal.SIGINT, handler)
 app = Flask(__name__, static_url_path='') # Setup the Flask app by creating an instance of Flask
 socketio = SocketIO(app)
 
-if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    socketio.run(app, host='0.0.0.0', port=80)  # Start the server
-    
 # Webserver Routes
 @app.route('/')
 def home():  # At the same home function as before
@@ -65,8 +62,12 @@ def test():
 
 
 
-
-
 @socketio.on('connect')
 def test_connect():
     print('someone connected to websocket')
+    
+    
+if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
+    socketio.run(app, host='0.0.0.0', port=80)  # Start the server
+    
+    

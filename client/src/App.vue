@@ -4,14 +4,15 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view />
+  <div>
+    <md-button class="md-raised md-primary">Primary</md-button>
+  </div>
   </div>
 </template>
 
-
-
 <script>
 import SocketioService from './services/socketio.service.js';
+
 export default {
   name: 'App',
   components: {

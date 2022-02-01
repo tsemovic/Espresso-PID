@@ -1,6 +1,9 @@
 Adafruit_Blinka==6.20.1
 adafruit_circuitpython_max31855==3.2.10
+Adafruit_GPIO==1.0.3
 adafruit_max31855==1.6.1
+Adafruit_MAX31855==1.6.1
 board==1.0
 Flask==2.0.2
 Flask_SocketIO==5.1.1
+simple_pid==1.0.1

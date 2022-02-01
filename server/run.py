@@ -45,24 +45,7 @@ signal.signal(signal.SIGINT, handler)
 # Webserver Routes
 @app.route('/')
 def home():  # At the same home function as before
-    return app.send_static_file('index.html')  # Return index.html from the static folder
-
-@app.route("/test/")
-def test():
-
-    def streamer():
-        counter = "1";
-        while True:
-            counter = counter + "1"
-            #tempC = max31855.temperature
-            #tempF = tempC * 9 / 5 + 32
-            #print("Temperature: {} C {} F ".format(tempC, tempF))
-            yield counter
-
-            time.sleep(1.0)
-
-    return Response(streamer())
-
+    return app.send_static_file('index.html')
 
 
 @socketio.on('connect')
@@ -70,14 +53,6 @@ def test_connect():
     socketio.emit('message', "HI FROM SEVER!");
 
     print('someone connected to websocket')
-    
-# Receive a message from the front end HTML
-@socketio.on('send_message')   
-def message_recieved(data):
-    print(data['text'])
-    emit('message_from_server', {'text':'Message recieved!'})
-    
+       
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)  # Start the server
-    
-    
+    socketio.run(app, host='192.168.1.21', port=80, debug=True)  # Start the server

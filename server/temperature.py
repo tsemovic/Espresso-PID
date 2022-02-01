@@ -74,10 +74,8 @@ while True:
     output = pid(temp)
     print("OUTPUT -------------------------")
     print(output)
-    if(output > 0){
+    if(output > 0):
         GPIO.output(21, GPIO.HIGH)
-    }else{
-        GPIO.output(21, GPIO.LOW)  
-    }
-        
+    else:
+        GPIO.output(21, GPIO.LOW)      
     time.sleep(0.25)

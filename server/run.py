@@ -37,9 +37,9 @@ def test():
     return Response(streamer())
 
 
-@socketio.event
-def my_event(message):
-    emit('my response', {'data': 'got it!'})
+@socketio.on('connect')
+def test_connect():
+    print('someone connected to websocket')
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     socketio.run(app, host='0.0.0.0', port=80)  # Start the server

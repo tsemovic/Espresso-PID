@@ -62,7 +62,7 @@ while True:
     temp = sensor.readTempC()
     internal = sensor.readInternalC()
     print(temp)
-    if(temp > 50):
+    if(temp > 90):
         GPIO.output(21, GPIO.LOW)
     else:
         GPIO.output(21, GPIO.HIGH)

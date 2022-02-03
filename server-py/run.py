@@ -50,7 +50,6 @@ def home():  # At the same home function as before
     return "<p>Hello</p>"
 
 
-x = threading.Thread(target=coffee, args=(True,))
 
 @socketio.on('connect')
 def test_connect():
@@ -77,6 +76,7 @@ def coffee(val):
         else:
             GPIO.output(21, GPIO.LOW)      
     time.sleep(1)
+x = threading.Thread(target=coffee, args=(True,))
 
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)

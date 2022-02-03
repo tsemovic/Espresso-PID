@@ -1,0 +1,4 @@
+adafruit_circuitpython_max31855==3.2.10
+Adafruit_GPIO==1.0.3
+Adafruit_MAX31855==1.6.1
+simple_pid==1.0.1

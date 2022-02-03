@@ -6,17 +6,26 @@ const io = require('socket.io')(http, {
   }
 });
 
-var max31855 = require('max31855');
-var thermoSensor = new max31855();
+
+import {PythonShell} from 'python-shell';
+let pyshell = new PythonShell('./temp.py');
+
+// sends a message to the Python script via stdin
+// pyshell.send('hello');
+
+pyshell.on('message', function (message) {
+  // received a message sent from the Python script (a simple "print" statement)
+  console.log(message);
+});
 
 
-while(true){
-  setTimeout(function(){
-    thermoSensor.readTempC(function(temp) {
-      console.log('Temp in degrees celsius: ', temp);
-    });
-  }, 1000)
-}
+// end the input stream and allow the process to exit
+pyshell.end(function (err,code,signal) {
+  if (err) throw err;
+  console.log('The exit code was: ' + code);
+  console.log('The exit signal was: ' + signal);
+  console.log('finished');
+});
 
 
 app.get('/', (req, res) => {

@@ -51,10 +51,10 @@ def home():  # At the same home function as before
 
 
 @socketio.on('connect')
-def test_connect():
+async def test_connect():
     #socketio.emit('message', "HI FROM SEVER!");
     print('someone connected to websocket')
-    coffee(True);
+    data = await coffee(True)
     
 async def coffee(val):
     while (val == True):

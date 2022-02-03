@@ -6,15 +6,18 @@ const io = require('socket.io')(http, {
   }
 });
 
-const temperatureMap = new Map();
+var max31855 = require('max31855');
+var thermoSensor = new max31855();
 
-for(i = 0; i <= 59; i++){
-  temperatureMap.set(i, 0);
+
+while(true){
+  setTimeout(function(){
+    thermoSensor.readTempC(function(temp) {
+      console.log('Temp in degrees celsius: ', temp);
+    });
+  }, 1000)
 }
 
-function add(i, val){
-  temperatureMap.set(i ,val)
-}
 
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>');

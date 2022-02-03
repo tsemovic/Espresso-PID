@@ -57,7 +57,7 @@ def test_connect():
         temp = sensor.readTempC()
         internal = sensor.readInternalC()
         print(temp)
-
+        socketio.emit('temperature', temp);
         output = pid(temp)
         print("OUTPUT -------------------------")
         print(output)

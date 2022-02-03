@@ -6,6 +6,16 @@ const io = require('socket.io')(http, {
   }
 });
 
+const temperatureMap = new Map();
+
+for(i = 0; i <= 59; i++){
+  temperatureMap.set(i, 0);
+}
+
+function add(i, val){
+  temperatureMap.set(i ,val)
+}
+
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>');
 });
@@ -29,6 +39,10 @@ io.on('connection', (socket) => {
 
 var temp = 0;
 function intervalFunc() {
+  let date_ob = new Date();
+
+  console.log("TIME : " + date_ob.getSeconds());
+
   temp++;
   console.log('temperature: ' + temp);
   io.emit('temperature', temp);

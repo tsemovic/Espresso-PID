@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  
+
   console.log('a user connected');
   
   socket.on('disconnect', () => {
@@ -21,7 +21,19 @@ io.on('connection', (socket) => {
   socket.on('my message', (msg) => {
     io.emit('my broadcast', `server: ${msg}`);
   });
+  
+  setInterval(intervalFunc, 1000);
+
+
 });
+
+var temp = 0;
+function intervalFunc() {
+  temp++;
+  console.log('temperature: ' + temp);
+  io.emit('temperature', temp);
+
+}
 
 http.listen(3000, () => {
   console.log('listening on *:3000');

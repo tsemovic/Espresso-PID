@@ -16,7 +16,16 @@ class SocketioService {
     if (this.socket) {
         this.socket.disconnect();
     }
-}
+  }
+
+  getData(){
+    this.socket.on("temperature", fetchedData => {
+      return fetchedData 
+    })
+  }
+
+
+
 }
 
 export default new SocketioService();

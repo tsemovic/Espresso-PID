@@ -50,9 +50,22 @@ def home():  # At the same home function as before
 
 @socketio.on('connect')
 def test_connect():
-    socketio.emit('message', "HI FROM SEVER!");
-
+    #socketio.emit('message', "HI FROM SEVER!");
     print('someone connected to websocket')
+    
+    while True:
+        temp = sensor.readTempC()
+        internal = sensor.readInternalC()
+        print(temp)
+
+        output = pid(temp)
+        print("OUTPUT -------------------------")
+        print(output)
+        if(output > 0):
+            GPIO.output(21, GPIO.HIGH)
+        else:
+            GPIO.output(21, GPIO.LOW)      
+        time.sleep(0.25)
        
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

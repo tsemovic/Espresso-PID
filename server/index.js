@@ -7,16 +7,19 @@ const io = require('socket.io')(http, {
 });
 
 
-import {PythonShell} from 'python-shell';
+let {PythonShell} = require('python-shell')
+
 let pyshell = new PythonShell('./temp.py');
 
 // sends a message to the Python script via stdin
 // pyshell.send('hello');
+while(true){
+  pyshell.on('message', function (message) {
+    // received a message sent from the Python script (a simple "print" statement)
+    console.log(message);
+  });
+}
 
-pyshell.on('message', function (message) {
-  // received a message sent from the Python script (a simple "print" statement)
-  console.log(message);
-});
 
 
 // end the input stream and allow the process to exit

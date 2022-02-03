@@ -50,13 +50,20 @@ def home():  # At the same home function as before
     return "<p>Hello</p>"
 
 
+x = threading.Thread(target=coffee, args=(True,))
+
 @socketio.on('connect')
-async def test_connect():
+def test_connect():
     #socketio.emit('message', "HI FROM SEVER!");
     print('someone connected to websocket')
-    data = await coffee(True)
+    x.start();
     
-async def coffee(val):
+    
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+
+def coffee(val):
     while (val == True):
         temp = sensor.readTempC()
         internal = sensor.readInternalC()

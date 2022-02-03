@@ -8,7 +8,8 @@ import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
-from flask_cors import CORS
+import threading
+
 
 
 # Webserver setup
@@ -53,7 +54,8 @@ def test_connect():
     #socketio.emit('message', "HI FROM SEVER!");
     print('someone connected to websocket')
     
-    while True:
+def coffee(val):
+    while (val == True):
         temp = sensor.readTempC()
         internal = sensor.readInternalC()
         print(temp)
@@ -65,7 +67,10 @@ def test_connect():
             GPIO.output(21, GPIO.HIGH)
         else:
             GPIO.output(21, GPIO.LOW)      
-        time.sleep(0.25)
-       
+    time.sleep(0.25)
+
+t1 = threading.Thread(target=coffee, args=(True,))
+t1.start()
+
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

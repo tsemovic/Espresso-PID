@@ -59,14 +59,15 @@ def thread_function(_q):
     while(True):
         
         @socketio.on('connect')
-        def test_connect():
+        def connect():
+            global userConnected
             userConnected = True
             print('someone connected to websocket') 
             print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             print(userConnected)
            
         @socketio.on('disconnect')
-        def test_disconnect():
+        def disconnect():
             print('Client disconnected')   
             userConnected = False
 
@@ -80,8 +81,8 @@ def thread_function(_q):
             GPIO.output(21, GPIO.LOW)  
             
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
-        
         print("USER STATIS: " + str(userConnected))
+        
         # If user is connected send data via socket
         if(userConnected == True):
             print("SENDING DATA")

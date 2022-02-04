@@ -77,7 +77,7 @@ async def temperature():
              
     asyncio.sleep(2)
 
-print("HELLO TULLY")
+temperature()
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

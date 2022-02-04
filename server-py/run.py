@@ -52,7 +52,9 @@ def test_connect():
     print('someone connected to websocket')
     userConnected = True
     #print(parent_conn.recv())   # prints output
-    #socketio.emit('temperature', parent_conn.recv());        
+    #socketio.emit('temperature', parent_conn.recv());  
+    while(True):
+        print("TEMP FROM FLASK: " + str(temp))      
     
 @socketio.on('disconnect')
 def test_disconnect():
@@ -82,6 +84,6 @@ def thread_function(_q):
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
-    threading.Thread(target=socketio.start_background_task(thread_function)).start()
+    #threading.Thread(target=socketio.start_background_task(thread_function)).start()
     threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
-    #threading.Thread(target=thread_function, args=(1,)).start()
+    threading.Thread(target=thread_function, args=(1,)).start()

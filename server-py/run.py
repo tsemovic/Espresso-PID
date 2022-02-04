@@ -60,8 +60,10 @@ def thread_function(_q):
         
         @socketio.on('connect')
         def test_connect():
-            print('someone connected to websocket') 
             userConnected = True
+            print('someone connected to websocket') 
+            print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+            print(userConnected)
            
         @socketio.on('disconnect')
         def test_disconnect():

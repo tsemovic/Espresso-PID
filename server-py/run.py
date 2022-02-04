@@ -16,11 +16,11 @@ connected = False
 # Webserver setup
 # app = Flask(__name__)
 # app.config['SECRET_KEY'] = 'secretkey'
+
+app = Flask(__name__)
 socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
-
 sio = socketio.Server(async_mode='threading')
-app = Flask(__name__)
 app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)
 
 

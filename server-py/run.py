@@ -82,7 +82,7 @@ def thread_function(_q):
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
         
         # If user is connected send data via socket
-        if(userConnected):
+        if(userConnected == True):
             socketio.emit('temperature', output)
 
         time.sleep(1);

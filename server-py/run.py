@@ -10,6 +10,8 @@ import signal
 from simple_pid import PID
 from multiprocessing import Process,Queue,Pipe
 from espresso import run
+import threading
+
 
 runTemperatureLoop = True
 connected = False
@@ -58,8 +60,12 @@ def test_disconnect():
     print('Client disconnected')
     connected = False
 
+def thread_function(num):
+    while(True):
+        print("THREAD")
+        time.sleep(1)
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server
-
-    
+    #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
+    threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
+    threading.Thread(target=thread_function, args=(1,)).start()

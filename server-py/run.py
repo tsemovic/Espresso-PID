@@ -82,7 +82,7 @@ def thread_function(_q):
         
 q = Queue()
 q.put("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-threading.Thread(target=socketio.start_background_task(thread_function), args=(q,)).start()
+threading.Thread(target=thread_function, args=(q,)).start()
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server

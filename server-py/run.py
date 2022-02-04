@@ -9,6 +9,8 @@ import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
 import threading
+from multiprocessing import Process,Queue,Pipe
+from espresso import run
 
 runTemperatureLoop = True
 connected = False
@@ -59,26 +61,13 @@ def test_disconnect():
     print('Client disconnected')
     connected = False
 
-def temperature():
-    while (runTemperatureLoop == True):
-        #internal = sensor.readInternalC()
-        temp = sensor.readTempC()
-        output = pid(temp)
 
-        if(output > 0):
-            GPIO.output(21, GPIO.HIGH)
-        else:
-            GPIO.output(21, GPIO.LOW)
-            
-        if(connected):
-            socketio.emit('temperature', temp);
-            print("Temperature: " + str(temp) + " PID: " + str(output))     
-             
-    time.sleep(2)
+# socketio.emit('temperature', temp);
 
-#temperature()
-thread2 = threading.Thread(target=temperature)
-thread2.start()
+parent_conn,child_conn = Pipe()
+p = Process(target=run, args=(child_conn,))
+p.start()
+print(parent_conn.recv())   # prints "Hello"
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

@@ -4,6 +4,8 @@ import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
+from multiprocessing import Process,Pipe
+
 
 P = 1
 I = 0.1
@@ -12,11 +14,6 @@ D = 0.05
 pid = PID(P, I, D)
 pid.sample_time = 0.01
 pid.setpoint = 90
-
-# Define a function to convert celsius to fahrenheit.
-def c_to_f(c):
-        return c * 9.0 / 5.0 + 32.0
-
 
 # Raspberry Pi software SPI configuration.
 CLK = 4
@@ -38,17 +35,21 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 # Loop printing measurements every second.
-print('Press Ctrl-C to quit.')
-while True:
-    temp = sensor.readTempC()
-    internal = sensor.readInternalC()
-    print(temp)
+def runMain(child_conn):
+    print('Press Ctrl-C to quit.')
+    while True:
+        temp = sensor.readTempC()
+        internal = sensor.readInternalC()
+        print(temp)
 
-    output = pid(temp)
-    print("OUTPUT -------------------------")
-    print(output)
-    if(output > 0):
-        GPIO.output(21, GPIO.HIGH)
-    else:
-        GPIO.output(21, GPIO.LOW)      
+        child_conn.send(temp)
+
+        output = pid(temp)
+        print("OUTPUT -------------------------")
+        print(output)
+        if(output > 0):
+            GPIO.output(21, GPIO.HIGH)
+        else:
+            GPIO.output(21, GPIO.LOW)      
     time.sleep(0.25)
+

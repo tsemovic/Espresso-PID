@@ -35,7 +35,7 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 # Loop printing measurements every second.
-def runMain(child_conn):
+def run(child_conn):
     print('Press Ctrl-C to quit.')
     while True:
         temp = sensor.readTempC()

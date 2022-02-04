@@ -36,6 +36,7 @@ def home():  # At the same home function as before
 
 def thread_function(_q):
     
+    print("THREAD STARTING")
     # PID setup
     P = 1
     I = 0.1
@@ -66,10 +67,10 @@ def thread_function(_q):
             print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             print(userConnected)
            
-        @socketio.on('disconnect')
-        def disconnect():
-            print('Client disconnected')   
-            userConnected = False
+        # @socketio.on('disconnect')
+        # def disconnect():
+        #     print('Client disconnected')   
+        #     userConnected = False
 
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()

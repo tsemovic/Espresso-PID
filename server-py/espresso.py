@@ -36,17 +36,18 @@ signal.signal(signal.SIGINT, handler)
 
 # Loop printing measurements every second.
 def run(child_conn):
-    print('Press Ctrl-C to quit.')
-    while True:
+    while(True):
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()
-
-        child_conn.send(temp)
 
         output = pid(temp)
         if(output > 0):
             GPIO.output(21, GPIO.HIGH)
         else:
-            GPIO.output(21, GPIO.LOW)      
-    time.sleep(0.2)
+            GPIO.output(21, GPIO.LOW)  
+            
+        child_conn.send(temp)
+        
+        time.sleep(1);
+    
 

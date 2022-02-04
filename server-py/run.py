@@ -53,12 +53,13 @@ def test_disconnect():
     connected = False
 
 
-# socketio.emit('temperature', temp);
+# 
 
 parent_conn,child_conn = Pipe()
 p = Process(target=run, args=(child_conn,))
 p.start()
-print(parent_conn.recv())   # prints "Hello"
+print(parent_conn.recv())   # prints output
+socketio.emit('temperature', parent_conn.recv());
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

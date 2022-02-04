@@ -79,9 +79,7 @@ def temperature():
 temperature()
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    thread1 = threading.Thread(target=socketio.run(app, host='192.168.1.21', port=3000, debug=True))
-    thread1.start()
-
     thread2 = threading.Thread(target=temperature)
     thread2.start()
-    #socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server
+    
+    socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

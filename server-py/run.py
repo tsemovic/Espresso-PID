@@ -12,19 +12,17 @@ from multiprocessing import Process,Queue,Pipe
 from espresso import run
 import threading
 
-
-runTemperatureLoop = True
 connected = False
+temp = 0
 
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
-
-parent_conn,child_conn = Pipe()
-p = Process(target=run, args=(child_conn,))
-p.start()
+# parent_conn,child_conn = Pipe()
+# p = Process(target=run, args=(child_conn,))
+# p.start()
 
 # PID setup
 P = 1
@@ -52,8 +50,10 @@ def home():  # At the same home function as before
 @socketio.on('connect')
 def test_connect():
     print('someone connected to websocket')
-    print(parent_conn.recv())   # prints output
-    socketio.emit('temperature', parent_conn.recv());    
+    #print(parent_conn.recv())   # prints output
+    #socketio.emit('temperature', parent_conn.recv());    
+    socketio.emit('temperature', temp);    
+
     
 @socketio.on('disconnect')
 def test_disconnect():
@@ -62,8 +62,17 @@ def test_disconnect():
 
 def thread_function(num):
     while(True):
-        print("THREAD")
-        time.sleep(1)
+        temp = sensor.readTempC()
+        #internal = sensor.readInternalC()
+
+        output = pid(temp)
+        if(output > 0):
+            GPIO.output(21, GPIO.HIGH)
+        else:
+            GPIO.output(21, GPIO.LOW)  
+            
+        print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
+        time.sleep(1);
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server

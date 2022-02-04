@@ -53,7 +53,7 @@ export default {
   },
   data() {
     return {
-      test: 22
+      test: "waiting to connnect"
     };
   },
   created() {

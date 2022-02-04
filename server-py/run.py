@@ -9,7 +9,6 @@ import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
 import threading
-import asyncio
 
 runTemperatureLoop = True
 connected = False
@@ -60,7 +59,7 @@ def test_disconnect():
     print('Client disconnected')
     connected = False
 
-async def temperature():
+def temperature():
     while (runTemperatureLoop == True):
         #internal = sensor.readInternalC()
         temp = sensor.readTempC()
@@ -75,9 +74,14 @@ async def temperature():
             socketio.emit('temperature', temp);
             print("Temperature: " + str(temp) + " PID: " + str(output))     
              
-    asyncio.sleep(2)
+    time.sleep(2)
 
 temperature()
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server
+    thread1 = threading.Thread(target=socketio.run(app, host='192.168.1.21', port=3000, debug=True))
+    thread1.start()
+
+    thread2 = threading.Thread(target=temperature)
+    thread2.start()
+    #socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

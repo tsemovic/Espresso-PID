@@ -8,7 +8,6 @@ import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
-import threading
 from multiprocessing import Process,Queue,Pipe
 from espresso import run
 
@@ -37,14 +36,6 @@ sensor = MAX31855.MAX31855(CLK, CS, DO)
 # SSR setup
 GPIO.setup(21, GPIO.OUT)
 GPIO.output(21, GPIO.HIGH)
-
-# Crtl-c handler (turns off SSR)
-def handler(signum, frame):
-    res = input("Ctrl-c was pressed. Do you really want to exit? y/n ")
-    if res == 'y':
-        GPIO.output(21, GPIO.LOW)
-        exit(1)
-signal.signal(signal.SIGINT, handler)
 
 # Webserver Routes
 @app.route('/')

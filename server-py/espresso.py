@@ -39,17 +39,14 @@ def run(child_conn):
     print('Press Ctrl-C to quit.')
     while True:
         temp = sensor.readTempC()
-        internal = sensor.readInternalC()
-        print(temp)
+        #internal = sensor.readInternalC()
 
         child_conn.send(temp)
 
         output = pid(temp)
-        print("OUTPUT -------------------------")
-        print(output)
         if(output > 0):
             GPIO.output(21, GPIO.HIGH)
         else:
             GPIO.output(21, GPIO.LOW)      
-    time.sleep(0.25)
+    time.sleep(0.2)
 

@@ -12,7 +12,7 @@ from multiprocessing import Process,Queue,Pipe
 from espresso import run
 import threading
 
-connected = False
+userConnected = False
 temp = 0
 
 # Webserver setup
@@ -50,16 +50,16 @@ def home():  # At the same home function as before
 @socketio.on('connect')
 def test_connect():
     print('someone connected to websocket')
-    connected = True
+    userConnected = True
     #print(parent_conn.recv())   # prints output
     #socketio.emit('temperature', parent_conn.recv());        
     
 @socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
-    connected = False
+    userConnected = False
 
-def thread_function(num):
+def thread_function(_q):
     while(True):
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()
@@ -71,13 +71,17 @@ def thread_function(num):
             GPIO.output(21, GPIO.LOW)  
             
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
-        if(connected):
-            socketio.emit('temperature', output)
+        
+
+        
         socketio.emit('temperature', output)
+        #socketio.emit('temperature', output)
 
         time.sleep(1);
+        
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
+    socketio.start_background_task(thread_function)
     threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
-    threading.Thread(target=thread_function, args=(1,)).start()
+    #threading.Thread(target=thread_function, args=(1,)).start()

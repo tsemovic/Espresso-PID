@@ -49,15 +49,11 @@ def home():  # At the same home function as before
 
 @socketio.on('connect')
 def test_connect():
-    print('someone connected to websocket')
-    userConnected = True
-    #print(parent_conn.recv())   # prints output
-    #socketio.emit('temperature', parent_conn.recv());  
+    print('someone connected to websocket')  
     
 @socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
-    userConnected = False
 
 def thread_function(_q):
     while(True):
@@ -72,10 +68,9 @@ def thread_function(_q):
             
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
         
-        print(_q.get())
+        #print(_q.get())
         
         socketio.emit('temperature', output)
-        #socketio.emit('temperature', output)
 
         time.sleep(1);
         
@@ -83,10 +78,10 @@ def thread_function(_q):
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     
-    q = Queue()
-    q.put("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIi")
+    #q = Queue()
+    #q.put("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIi")
     #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
     #threading.Thread(target=socketio.start_background_task(thread_function)).start()
     threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
-    threading.Thread(target=thread_function, args=(q,)).start()
+    threading.Thread(target=thread_function, args=(1,)).start()
     

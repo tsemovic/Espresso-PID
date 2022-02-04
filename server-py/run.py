@@ -12,9 +12,6 @@ from multiprocessing import Process,Queue,Pipe
 from espresso import run
 import threading
 
-userConnected = False
-temp = 0
-
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -23,24 +20,6 @@ socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 # parent_conn,child_conn = Pipe()
 # p = Process(target=run, args=(child_conn,))
 # p.start()
-
-# PID setup
-P = 1
-I = 0.1
-D = 3
-pid = PID(P, I, D)
-pid.sample_time = 0.01
-pid.setpoint = 90
-
-# MAX3188 setup
-CLK = 4
-CS  = 3
-DO  = 2
-sensor = MAX31855.MAX31855(CLK, CS, DO)
-
-# SSR setup
-GPIO.setup(21, GPIO.OUT)
-GPIO.output(21, GPIO.HIGH)
 
 # Webserver Routes
 @app.route('/')
@@ -51,12 +30,44 @@ def home():  # At the same home function as before
 # def test_connect():
 #     print('someone connected to websocket')  
     
-@socketio.on('disconnect')
-def test_disconnect():
-    print('Client disconnected')
+# @socketio.on('disconnect')
+# def test_disconnect():
+#     print('Client disconnected')
 
 def thread_function(_q):
+    
+    # PID setup
+    P = 1
+    I = 0.1
+    D = 3
+    pid = PID(P, I, D)
+    pid.sample_time = 0.01
+    pid.setpoint = 90
+
+    # MAX3188 setup
+    CLK = 4
+    CS  = 3
+    DO  = 2
+    sensor = MAX31855.MAX31855(CLK, CS, DO)
+
+    # SSR setup
+    GPIO.setup(21, GPIO.OUT)
+    GPIO.output(21, GPIO.HIGH)
+    
+    userConnected = False
+
     while(True):
+        
+        @socketio.on('connect')
+        def test_connect():
+            print('someone connected to websocket') 
+            userConnected = True
+           
+        @socketio.on('disconnect')
+        def test_disconnect():
+            print('Client disconnected')   
+            userConnected = False
+
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()
         
@@ -68,12 +79,9 @@ def thread_function(_q):
             
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
         
-        @socketio.on('connect')
-        def test_connect():
-            print('someone connected to websocketgggggggggggggggggggggggggggggggggggggg')  
-        #print(_q.get())
-        
-        socketio.emit('temperature', output)
+        # If user is connected send data via socket
+        if(userConnected):
+            socketio.emit('temperature', output)
 
         time.sleep(1);
         

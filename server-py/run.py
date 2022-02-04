@@ -47,9 +47,9 @@ GPIO.output(21, GPIO.HIGH)
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
-@socketio.on('connect')
-def test_connect():
-    print('someone connected to websocket')  
+# @socketio.on('connect')
+# def test_connect():
+#     print('someone connected to websocket')  
     
 @socketio.on('disconnect')
 def test_disconnect():
@@ -68,6 +68,9 @@ def thread_function(_q):
             
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
         
+        @socketio.on('connect')
+        def test_connect():
+            print('someone connected to websocketgggggggggggggggggggggggggggggggggggggg')  
         #print(_q.get())
         
         socketio.emit('temperature', output)

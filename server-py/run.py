@@ -81,7 +81,7 @@ def thread_function(_q):
         
         
 q = Queue()
-q.put(hi)
+q.put("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 threading.Thread(target=socketio.start_background_task(thread_function), args=(q,)).start()
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)

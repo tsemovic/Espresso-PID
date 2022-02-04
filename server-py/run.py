@@ -80,12 +80,13 @@ def thread_function(_q):
         time.sleep(1);
         
         
-q = Queue()
-q.put("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-threading.Thread(target=thread_function, args=(q,)).start()
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-    socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
+    
+    q = Queue()
+    q.put("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIi")
+    #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
     #threading.Thread(target=socketio.start_background_task(thread_function)).start()
-    #threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
-    #threading.Thread(target=thread_function, args=(1,)).start()
+    threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
+    threading.Thread(target=thread_function, args=(q,)).start()
+    

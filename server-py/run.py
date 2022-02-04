@@ -81,6 +81,7 @@ def thread_function(_q):
             
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
         
+        print("USER STATIS: " + str(userConnected))
         # If user is connected send data via socket
         if(userConnected == True):
             print("SENDING DATA")

@@ -14,15 +14,9 @@ runTemperatureLoop = True
 connected = False
 
 # Webserver setup
-# app = Flask(__name__)
-# app.config['SECRET_KEY'] = 'secretkey'
-# socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
-
-
-sio = SocketIO.Server(async_mode='threading')
 app = Flask(__name__)
-app.wsgi_app = SocketIO.WSGIApp(sio, app.wsgi_app)
-
+app.config['SECRET_KEY'] = 'secretkey'
+socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
 # PID setup
 P = 1
@@ -82,11 +76,11 @@ def temperature():
              
     time.sleep(2)
 
+#temperature()
 thread2 = threading.Thread(target=temperature)
 thread2.start()
 
-# if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
-#     socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server
+if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
+    socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server
 
-if __name__ == '__main__':
-    app.run()  
+    

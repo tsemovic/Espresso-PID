@@ -45,7 +45,9 @@ def run():
             GPIO.output(21, GPIO.HIGH)
         else:
             GPIO.output(21, GPIO.LOW)  
-                    
+            
+            
+        print("TEMPERATURE: " + str(temp) + "  |  PID: " + str(output))        
         time.sleep(1);
         
 run()

@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, Response  # Import flask
+from flask import Flask, session  # Import flask
 import time
 from datetime import datetime
 from flask_socketio import SocketIO, emit
@@ -55,13 +55,13 @@ def thread_function(_q):
     GPIO.setup(21, GPIO.OUT)
     GPIO.output(21, GPIO.HIGH)
     
+    global userConnected 
     userConnected = False
 
     while(True):
         
         @socketio.on('connect')
         def connect():
-            global userConnected
             userConnected = True
             print('someone connected to websocket') 
             print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")

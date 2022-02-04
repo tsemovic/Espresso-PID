@@ -54,7 +54,8 @@ def test_connect():
     #print(parent_conn.recv())   # prints output
     #socketio.emit('temperature', parent_conn.recv());  
     while(True):
-        print("TEMP FROM FLASK: " + str(temp))      
+        print("TEMP FROM FLASK: " + str(temp))     
+        time.sleep(2) 
     
 @socketio.on('disconnect')
 def test_disconnect():

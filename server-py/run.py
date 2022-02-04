@@ -73,6 +73,8 @@ def thread_function(num):
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
         if(connected):
             socketio.emit('temperature', output)
+        socketio.emit('temperature', output)
+
         time.sleep(1);
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)

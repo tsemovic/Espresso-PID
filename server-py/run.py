@@ -19,6 +19,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
+
+parent_conn,child_conn = Pipe()
+p = Process(target=run, args=(child_conn,))
+p.start()
+
 # PID setup
 P = 1
 I = 0.1
@@ -45,21 +50,14 @@ def home():  # At the same home function as before
 @socketio.on('connect')
 def test_connect():
     print('someone connected to websocket')
-    connected = True    
+    print(parent_conn.recv())   # prints output
+    socketio.emit('temperature', parent_conn.recv());    
     
 @socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
     connected = False
 
-
-# 
-
-parent_conn,child_conn = Pipe()
-p = Process(target=run, args=(child_conn,))
-p.start()
-print(parent_conn.recv())   # prints output
-socketio.emit('temperature', parent_conn.recv());
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     socketio.run(app, host='192.168.1.21', port=3000, debug=True)  # Start the server

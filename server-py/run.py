@@ -51,9 +51,7 @@ def home():  # At the same home function as before
 def test_connect():
     print('someone connected to websocket')
     #print(parent_conn.recv())   # prints output
-    #socketio.emit('temperature', parent_conn.recv());    
-    socketio.emit('temperature', temp);    
-
+    #socketio.emit('temperature', parent_conn.recv());        
     
 @socketio.on('disconnect')
 def test_disconnect():
@@ -64,7 +62,7 @@ def thread_function(num):
     while(True):
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()
-
+        
         output = pid(temp)
         if(output > 0):
             GPIO.output(21, GPIO.HIGH)
@@ -72,6 +70,8 @@ def thread_function(num):
             GPIO.output(21, GPIO.LOW)  
             
         print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
+        if(connected):
+            socketio.emit('temperature', temp)
         time.sleep(1);
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)

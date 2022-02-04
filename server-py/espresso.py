@@ -35,7 +35,7 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 # Loop printing measurements every second.
-def run(child_conn):
+def run():
     while(True):
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()
@@ -45,9 +45,9 @@ def run(child_conn):
             GPIO.output(21, GPIO.HIGH)
         else:
             GPIO.output(21, GPIO.LOW)  
-            
-        child_conn.send(temp)
-        
+                    
         time.sleep(1);
+        
+run()
     
 

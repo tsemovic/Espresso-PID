@@ -6,8 +6,9 @@ const io = require('socket.io')(http, {
   }
 });
 
-var PythonShell = require('python-shell');
-var pyshell = new PythonShell('temp.py');
+let {PythonShell} = require('python-shell')
+let pyshell = new PythonShell('temp.py');
+
 pyshell.send(JSON.stringify([1,2,3,4,5]));
 
 pyshell.on('message', function (message) {

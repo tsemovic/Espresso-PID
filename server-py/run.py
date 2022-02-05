@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, session  # Import flask
+from flask import Flask  # Import flask
 import time
 from datetime import datetime
 from flask_socketio import SocketIO, emit
@@ -7,7 +7,6 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 from simple_pid import PID
-from multiprocessing import Process,Queue,Pipe,Value
 from espresso import mainFunc
 import threading
 
@@ -70,8 +69,8 @@ def temperature_give():
 @socketio.on('PID_update')
 def PID_update(data):
     print("updated PID settings: " + str(data))
-    print(data)            
-
+    print(data)
+ 
 def espresso():
     
     print("THREAD STARTING")

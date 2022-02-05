@@ -62,7 +62,6 @@ export default {
   },
   mounted(){
     this.askForTemperature();
-    this.setPID();
   },
   methods: {
     fillData(fetchedData) {

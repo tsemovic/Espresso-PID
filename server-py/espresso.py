@@ -8,8 +8,8 @@ from multiprocessing import Process,Pipe
 
 
 P = 1
-I = 0.1
-D = 0.05
+I = 0.02
+D = 3
 
 pid = PID(P, I, D)
 pid.sample_time = 0.01
@@ -50,5 +50,7 @@ def mainFunc(_q):
         print("TEMPERATURE: " + str(temp) + "  |  PID: " + str(output)) 
         print("FROM ESPRESS)))): " + str(_q.get()))       
         time.sleep(1);
+        
+mainFunc(1);
             
 

@@ -23,6 +23,10 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
 
   console.log('a user connected');
+  pyshell.on('message', function (message) {
+    // received a message sent from the Python script (a simple "print" statement)
+    console.log(message);
+  });
   
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -33,20 +37,8 @@ io.on('connection', (socket) => {
   });
   
   // setInterval(intervalFunc, 1000);
-
-
 });
 
-// var temp = 0;
-// function intervalFunc() {
-//   let date_ob = new Date();
-
-//   console.log("TIME : " + date_ob.getSeconds());
-
-//   temp++;
-//   console.log('temperature: ' + temp);
-//   io.emit('temperature', temp);
-// }
 
 http.listen(3000, () => {
   console.log('listening on *:3000');

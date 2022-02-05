@@ -10,11 +10,24 @@ import signal
 from simple_pid import PID
 from multiprocessing import Process,Queue,Pipe,Value
 import threading
+from celery import Celery
+
 
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
+
+# Celery configuration
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+
 socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
+
+
+# Initialize Celery
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
+
 
 # parent_conn,child_conn = Pipe()
 # p = Process(target=run, args=(child_conn,))
@@ -59,6 +72,10 @@ def connect():
     print('someone connected to websocket') 
     print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
     print("USER CONNECTED: " + str(userConnected))
+    # while True:
+        
+    #     print("SOCKETIO")
+    #     socketio.sleep(0)
             
 def thread_function(arg):
     
@@ -88,7 +105,16 @@ def thread_function(arg):
 
         time.sleep(2);
         
+@celery.task
+def my_background_task(arg1, arg2):
+    # some long running task here
+    while True:
+        print("CELERY IS YUMBO")
+        time.sleep(2)
         
+task = my_background_task.apply_async(args=[10, 20])
+
+    
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     
     #q = Queue()
@@ -97,10 +123,6 @@ if __name__ == '__main__':  # If the script that was run is this script (we have
     #threading.Thread(target=socketio.start_background_task(thread_function)).start()
     #threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
     #threading.Thread(target=thread_function, args=(1,)).start()
-    recording_on = Value('b', True)
 
-    p = Process(target=thread_function, args=(recording_on,))
-    p.start()  
     socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
-    p.join()
     

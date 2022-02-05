@@ -47,10 +47,7 @@ while True:
     temp = sensor.readTempC()
     internal = sensor.readInternalC()
     
-    lines = read_in()
-    total = 0
-    # for item in lines:
-    #     total += item
+    #lines = read_in()
         
     print(temp)
 
@@ -60,4 +57,4 @@ while True:
         GPIO.output(21, GPIO.HIGH)
     else:
         GPIO.output(21, GPIO.LOW)      
-    time.sleep(0.25) 
+    time.sleep(1) 

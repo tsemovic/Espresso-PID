@@ -62,6 +62,7 @@ def thread_function(_q):
         
         @socketio.on('connect')
         def connect():
+            global userConnected
             userConnected = True
             print('someone connected to websocket') 
             print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
@@ -92,7 +93,6 @@ def thread_function(_q):
         time.sleep(2);
         
         
-threading.Thread(target=thread_function, args=(1,)).start()
 
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     
@@ -101,4 +101,5 @@ if __name__ == '__main__':  # If the script that was run is this script (we have
     #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
     #threading.Thread(target=socketio.start_background_task(thread_function)).start()
     threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
+    threading.Thread(target=thread_function, args=(1,)).start()
     

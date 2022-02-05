@@ -6,30 +6,16 @@ const io = require('socket.io')(http, {
   }
 });
 
+var PythonShell = require('python-shell');
+var pyshell = new PythonShell('temp.py');
+pyshell.send(JSON.stringify([1,2,3,4,5]));
 
-let {PythonShell} = require('python-shell')
+pyshell.on('message', function (message) {
+  // received a message sent from the Python script (a simple "print" statement)
+  console.log("PYTHON MESSAGE");
 
-let pyshell = new PythonShell('./temp.py');
-
-// sends a message to the Python script via stdin
-// pyshell.send('hello');
-while(true){
-  pyshell.on('message', function (message) {
-    // received a message sent from the Python script (a simple "print" statement)
-    console.log(message);
-  });
-}
-
-
-
-// end the input stream and allow the process to exit
-pyshell.end(function (err,code,signal) {
-  if (err) throw err;
-  console.log('The exit code was: ' + code);
-  console.log('The exit signal was: ' + signal);
-  console.log('finished');
+  console.log(message);
 });
-
 
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>');
@@ -47,22 +33,21 @@ io.on('connection', (socket) => {
     io.emit('my broadcast', `server: ${msg}`);
   });
   
-  setInterval(intervalFunc, 1000);
+  // setInterval(intervalFunc, 1000);
 
 
 });
 
-var temp = 0;
-function intervalFunc() {
-  let date_ob = new Date();
+// var temp = 0;
+// function intervalFunc() {
+//   let date_ob = new Date();
 
-  console.log("TIME : " + date_ob.getSeconds());
+//   console.log("TIME : " + date_ob.getSeconds());
 
-  temp++;
-  console.log('temperature: ' + temp);
-  io.emit('temperature', temp);
-
-}
+//   temp++;
+//   console.log('temperature: ' + temp);
+//   io.emit('temperature', temp);
+// }
 
 http.listen(3000, () => {
   console.log('listening on *:3000');

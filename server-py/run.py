@@ -68,6 +68,8 @@ def thread_function(arg):
             
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
         print("USER CONNECTED: " + str(userConnected))
+        if userConnected == True:
+            socketio.emit("temperature", output) 
 
         time.sleep(2);
     

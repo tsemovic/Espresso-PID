@@ -54,7 +54,7 @@ def connect():
     global userConnected
     userConnected = True
     print('someone connected to websocket')
-    emit('temperature', "WOW")
+    socketio.emit('temperature', "WOW")
 
     # while True:
     #     print(temp)

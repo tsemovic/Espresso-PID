@@ -21,6 +21,24 @@ socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 # p = Process(target=run, args=(child_conn,))
 # p.start()
 
+# PID setup
+P = 1
+I = 0.1
+D = 3
+pid = PID(P, I, D)
+pid.sample_time = 0.01
+pid.setpoint = 90
+
+# MAX3188 setup
+CLK = 4
+CS  = 3
+DO  = 2
+sensor = MAX31855.MAX31855(CLK, CS, DO)
+
+# SSR setup
+GPIO.setup(21, GPIO.OUT)
+GPIO.output(21, GPIO.HIGH)
+
 # Webserver Routes
 @app.route('/')
 def home():  # At the same home function as before
@@ -34,43 +52,23 @@ def home():  # At the same home function as before
 # def test_disconnect():
 #     print('Client disconnected')
 
+@socketio.on('connect')
+def connect():
+    global userConnected
+    userConnected = True
+    print('someone connected to websocket') 
+    print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+    print(userConnected)
+            
 def thread_function(arg):
     
+    print("THREAD STARTING")
+
     if arg.value == True:
         print("TRUEUREURUERUEUREUREURUEUREU")
-    
-    print("THREAD STARTING")
-    # PID setup
-    P = 1
-    I = 0.1
-    D = 3
-    pid = PID(P, I, D)
-    pid.sample_time = 0.01
-    pid.setpoint = 90
-
-    # MAX3188 setup
-    CLK = 4
-    CS  = 3
-    DO  = 2
-    sensor = MAX31855.MAX31855(CLK, CS, DO)
-
-    # SSR setup
-    GPIO.setup(21, GPIO.OUT)
-    GPIO.output(21, GPIO.HIGH)
-    
-    global userConnected 
-    userConnected = False
 
     while(True):
         
-        @socketio.on('connect')
-        def connect():
-            global userConnected
-            userConnected = True
-            print('someone connected to websocket') 
-            print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-            print(userConnected)
-           
         # @socketio.on('disconnect')
         # def disconnect():
         #     print('Client disconnected')   
@@ -85,18 +83,11 @@ def thread_function(arg):
         else:
             GPIO.output(21, GPIO.LOW)  
             
-        print("TEMPERATURE: " + str(temp) + " |  PID: " + str(output))
-        print("USER STATIS: " + str(userConnected))
-        
-        # If user is connected send data via socket
-        if(userConnected == True):
-            print("SENDING DATA")
-            socketio.emit('temperature', output)
+        print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
 
         time.sleep(2);
         
         
-
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     
     #q = Queue()

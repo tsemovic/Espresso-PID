@@ -56,6 +56,7 @@ def connect():
     print('someone connected to websocket')
     #socketio.emit("temperature", temp) 
     while True:
+        print(temp)
         socketio.emit('temperature' , temp)
         socketio.sleep(1)
     
@@ -92,7 +93,7 @@ def thread_function(arg):
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
         print("USER CONNECTED: " + str(userConnected))
         
-        sendData(output)
+        #sendData(output)
 
         time.sleep(2);
     

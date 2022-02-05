@@ -56,10 +56,10 @@ def connect():
     print('someone connected to websocket')
     emit('temperature', "WOW")
 
-    while True:
-        print(temp)
-        #socketio.emit('temperature' , "HELLO")
-        socketio.sleep(2)
+    # while True:
+    #     print(temp)
+    #     #socketio.emit('temperature' , "HELLO")
+    #     socketio.sleep(2)
     
     
 @socketio.on('disconnect')

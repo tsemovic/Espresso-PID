@@ -4,8 +4,6 @@ import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
-from multiprocessing import Process,Pipe
-
 
 P = 1
 I = 0.02
@@ -21,10 +19,8 @@ CS  = 3
 DO  = 2
 sensor = MAX31855.MAX31855(CLK, CS, DO)
 
-
 GPIO.setup(21, GPIO.OUT)
 GPIO.output(21, GPIO.HIGH)
-
 
 def handler(signum, frame):
     res = input("Ctrl-c was pressed. Do you really want to exit? y/n ")
@@ -48,7 +44,6 @@ def mainFunc(_q):
             
             
         print("TEMPERATURE: " + str(temp) + "  |  PID: " + str(output)) 
-        print("FROM ESPRESS)))): " + str(_q.get()))       
         time.sleep(1);
         
 mainFunc(1);

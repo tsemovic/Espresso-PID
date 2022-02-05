@@ -50,7 +50,7 @@ def connect():
     socketio.emit("temperature", temp) 
             
             
-def thread_function():
+def thread_function(arg):
     
     print("THREAD STARTING")
     global temp

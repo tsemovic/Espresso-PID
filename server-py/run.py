@@ -72,7 +72,7 @@ def disconnect():
             
 def sendDat(data):            
     print("SENDING DATA : " + str(data))
-    socketio.emit('temperature', "DATATATATA")
+    socketio.emit('temperature', data)
 
 def thread_function(arg):
     

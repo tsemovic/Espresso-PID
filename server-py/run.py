@@ -9,7 +9,6 @@ import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
 from multiprocessing import Process,Queue,Pipe,Value
-from espresso import run
 import threading
 
 # Webserver setup

@@ -56,10 +56,10 @@ def connect():
     print('someone connected to websocket')
     socketio.emit('temperature', "WOW")
 
-    for x in "HELLO":
+    for x in "HELlllllLO":
         print(temp)
         socketio.emit('temperature' , x)
-        socketio.sleep(2)
+        socketio.sleep(5)
         
 
     
@@ -96,7 +96,7 @@ def thread_function(arg):
         
         sendDat(output)
         
-        time.sleep(2);
+        time.sleep(10);
     
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     

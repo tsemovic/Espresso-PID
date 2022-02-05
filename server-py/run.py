@@ -54,19 +54,13 @@ def connect():
     global userConnected
     userConnected = True
     print('someone connected to websocket')
-    #calll()
-    socketio.sleep(2)
-    socketio.emit('temperature', "TERRY")
-    socketio.sleep(2)
-    socketio.emit('temperature', "GOOG")
+
+
+@socketio.on('askForTemperature')
+def disconnect():
+    socketio.emit('temperature', "HELLOOOOOOOOOOO")
 
         
-# async def calll():
-#     while True:
-#         socketio.emit('temperature', "calllll")
-#         time.sleep(2)
-
-
     
 @socketio.on('disconnect')
 def disconnect():
@@ -74,10 +68,6 @@ def disconnect():
     userConnected = False
     print('user disconnected to websocket')  
             
-            
-def sendDat(data):            
-    print("SENDING DATA : " + str(data))
-    socketio.emit('temperature', data)
 
 def thread_function(arg):
     
@@ -97,10 +87,7 @@ def thread_function(arg):
             
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
         print("USER CONNECTED: " + str(userConnected))
-        
-        
-        sendDat(output)
-        
+                
         time.sleep(2);
     
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)

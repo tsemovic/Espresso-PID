@@ -53,11 +53,15 @@ export default {
   },
   data() {
     return {
-      test: "waiting to connnect"
+      test: "waiting to connnect",
+      askingForTemperature: True
     };
   },
   created() {
     this.getRealtimeData()
+  },
+  mounted(){
+    this.askForTemperature();
   },
   methods: {
     fillData(fetchedData) {
@@ -67,6 +71,11 @@ export default {
       socket.on("temperature", fetchedData => {
         this.fillData(fetchedData) 
       })
+    },
+    askForTemperature: function() {
+      setInterval(function(){
+        socket.emit("askForTemperature")
+      }, 1000);
     }
   }
 };

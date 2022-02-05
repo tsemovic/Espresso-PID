@@ -54,13 +54,16 @@ def connect():
     global userConnected
     userConnected = True
     print('someone connected to websocket')
-    calll()
-        
-        
-async def calll():
+    #calll()
     while True:
-        socketio.emit('temperature', "calllll")
-        time.sleep(2)
+        socketio.emit('temperature', temp)
+        time.sleep(1)
+        
+        
+# async def calll():
+#     while True:
+#         socketio.emit('temperature', "calllll")
+#         time.sleep(2)
 
 
     

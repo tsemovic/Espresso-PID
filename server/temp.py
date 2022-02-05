@@ -24,7 +24,6 @@ CS  = 3
 DO  = 2
 sensor = MAX31855.MAX31855(CLK, CS, DO)
 
-
 GPIO.setup(21, GPIO.OUT)
 GPIO.output(21, GPIO.HIGH)
 
@@ -43,29 +42,22 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 
-def main():
-    #get our data as an array from read_in()
-    # Loop printing measurements every second.
-    while True:
-        temp = sensor.readTempC()
-        internal = sensor.readInternalC()
-        
-        lines = read_in()
-        total = 0
-        # for item in lines:
-        #     total += item
-            
-        print(temp)
-
-        output = pid(temp)
-
-        if(output > 0):
-            GPIO.output(21, GPIO.HIGH)
-        else:
-            GPIO.output(21, GPIO.LOW)      
-        time.sleep(0.25) 
+# Loop printing measurements every second.
+while True:
+    temp = sensor.readTempC()
+    internal = sensor.readInternalC()
     
-# Start process
-if __name__ == '__main__':
-    print("STARTING")
-    main()
+    lines = read_in()
+    total = 0
+    # for item in lines:
+    #     total += item
+        
+    print(temp)
+
+    output = pid(temp)
+
+    if(output > 0):
+        GPIO.output(21, GPIO.HIGH)
+    else:
+        GPIO.output(21, GPIO.LOW)      
+    time.sleep(0.25) 

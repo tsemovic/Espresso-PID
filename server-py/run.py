@@ -54,11 +54,11 @@ def connect():
     global userConnected
     userConnected = True
     print('someone connected to websocket')
-    socketio.emit("temperature", "HELLO") 
+    emit('temperature', "WOW")
+
     while True:
         print(temp)
-        socketio.emit('temperature' , "HELLO")
-        emit('temperature', "WOW")
+        #socketio.emit('temperature' , "HELLO")
         socketio.sleep(2)
     
     

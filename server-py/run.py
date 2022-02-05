@@ -50,6 +50,7 @@ def home():  # At the same home function as before
 # @socketio.on('disconnect')
 # def test_disconnect():
 #     print('Client disconnected')
+userConnected = False
 
 @socketio.on('connect')
 def connect():
@@ -57,7 +58,7 @@ def connect():
     userConnected = True
     print('someone connected to websocket') 
     print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-    print(userConnected)
+    print("USER CONNECTED: " + str(userConnected))
             
 def thread_function(arg):
     
@@ -83,6 +84,7 @@ def thread_function(arg):
             GPIO.output(21, GPIO.LOW)  
             
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
+        print("USER CONNECTED: " + str(userConnected))
 
         time.sleep(2);
         

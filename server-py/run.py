@@ -68,6 +68,10 @@ def disconnect():
     userConnected = False
     print('user disconnected to websocket')  
             
+            
+def sendDat(data):            
+    print("SENDING DATA : " + str(data))
+
 def thread_function(arg):
     
     print("THREAD STARTING")
@@ -86,6 +90,9 @@ def thread_function(arg):
             
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
         print("USER CONNECTED: " + str(userConnected))
+        
+        
+        sendDat(output)
         
         time.sleep(2);
     

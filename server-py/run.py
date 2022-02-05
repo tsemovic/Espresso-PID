@@ -57,7 +57,8 @@ def connect():
     socketio.emit("temperature", "HELLO") 
     while True:
         print(temp)
-        socketio.emit('temperature' , temp)
+        socketio.emit('temperature' , "HELLO")
+        emit('temperature', "WOW")
         socketio.sleep(2)
     
     

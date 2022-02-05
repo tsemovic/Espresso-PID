@@ -55,7 +55,10 @@ def disconnect():
     userConnected = False
     print('user disconnected to websocket')
     #socketio.emit("temperature", temp) 
-            
+       
+def sendData(data):
+    print("SENDING DATA")
+    socketio.emit("temperature", data)      
             
 def thread_function(arg):
     
@@ -76,8 +79,7 @@ def thread_function(arg):
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
         print("USER CONNECTED: " + str(userConnected))
         
-        if userConnected == True:
-            socketio.emit("temperature", output) 
+        sendData(output)
 
         time.sleep(2);
     

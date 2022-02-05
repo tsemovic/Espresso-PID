@@ -9,12 +9,10 @@ const io = require('socket.io')(http, {
 let {PythonShell} = require('python-shell')
 let pyshell = new PythonShell('temp.py');
 
-pyshell.send(JSON.stringify([1,2,3,4,5]));
+pyshell.send("HELLO");
 
 pyshell.on('message', function (message) {
   // received a message sent from the Python script (a simple "print" statement)
-  console.log("PYTHON MESSAGE");
-
   console.log(message);
 });
 

@@ -24,12 +24,12 @@ userConnected = False
 
 # PID setup
 P = 1
-I = 0.1
+I = 0.02
 D = 3
+
 pid = PID(P, I, D)
 pid.sample_time = 0.01
 pid.setpoint = 90
-
 
 # MAX3188 setup
 CLK = 4
@@ -48,28 +48,31 @@ GPIO.output(21, GPIO.HIGH)
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
-
+# Connect and Disconnect
 @socketio.on('connect')
 def connect():
     global userConnected
     userConnected = True
-    print('someone connected to websocket')
-
-
-@socketio.on('askForTemperature')
-def disconnect():
-    socketio.emit('temperature', temp)
-
-        
+    print('user connected to websocket')
     
 @socketio.on('disconnect')
 def disconnect():
     global userConnected
     userConnected = False
     print('user disconnected to websocket')  
-            
 
-def thread_function(arg):
+# Update Temperature
+@socketio.on('temperature_give')
+def temperature_give():
+    socketio.emit('temperature', temp)
+
+# Update PID
+@socketio.on('PID_update')
+def PID_update(data):
+    print("updated PID settings: " + str(data))
+    print(data)            
+
+def espresso():
     
     print("THREAD STARTING")
     global temp
@@ -86,14 +89,11 @@ def thread_function(arg):
             GPIO.output(21, GPIO.LOW)  
             
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
-        print("USER CONNECTED: " + str(userConnected))
                 
         time.sleep(2);
     
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     
+    # Run flask and espresso controller on seperate threads
     threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
-    threading.Thread(target=thread_function, args=(1,)).start()
-
-    #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
-    
+    threading.Thread(target=espresso).start()    

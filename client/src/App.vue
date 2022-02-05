@@ -62,6 +62,7 @@ export default {
   },
   mounted(){
     this.askForTemperature();
+    this.setPID();
   },
   methods: {
     fillData(fetchedData) {
@@ -74,8 +75,12 @@ export default {
     },
     askForTemperature: function() {
       setInterval(function(){
-        socket.emit("askForTemperature")
+        socket.emit("temperature_give")
       }, 1000);
+    },
+    setPID: function() {
+      var data = {P:1, I:0.03, D:2}
+      socket.emit("PID_update", data)
     }
   }
 };

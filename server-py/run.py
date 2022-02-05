@@ -55,12 +55,13 @@ def connect():
     userConnected = True
     print('someone connected to websocket')
     socketio.emit('temperature', "WOW")
-
-    for x in "HELlllllLO":
-        print(temp)
-        socketio.emit('temperature' , x)
-        socketio.sleep(5)
+    calll()
         
+        
+async def calll():
+    while True:
+        socketio.emit('temperature', "calllll")
+
 
     
 @socketio.on('disconnect')

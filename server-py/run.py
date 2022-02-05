@@ -9,15 +9,15 @@ import RPi.GPIO as GPIO
 from simple_pid import PID
 from multiprocessing import Process,Queue,Pipe,Value
 from espresso import mainFunc
+import threading
 
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
-
-q = Queue(maxsize=1)
-
+temp = 0
+userConnected = False
 
 # PID setup
 P = 1
@@ -43,42 +43,19 @@ def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
 @socketio.on('connect')
-def test_connect():
-    print('someone connected to websocket')  
-    q.put("FUCKKKER")
-    p = Process(target=mainFunc, args=(q,))
-    p.daemon = True
-    p.start()
-# @socketio.on('disconnect')
-# def test_disconnect():
-#     print('Client disconnected')
-userConnected = False
-
-@socketio.on('connect')
 def connect():
     global userConnected
     userConnected = True
-    print('someone connected to websocket') 
-    print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-    print("USER CONNECTED: " + str(userConnected))
-    # while True:
-        
-    #     print("SOCKETIO")
-    #     socketio.sleep(0)
+    print('someone connected to websocket')
+    socketio.emit("temperature", temp) 
             
-def thread_function(arg):
+            
+def thread_function():
     
     print("THREAD STARTING")
-
-    if arg.value == True:
-        print("TRUEUREURUERUEUREUREURUEUREU")
-
+    global temp
+    global userConnected
     while(True):
-        
-        # @socketio.on('disconnect')
-        # def disconnect():
-        #     print('Client disconnected')   
-        #     userConnected = False
 
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()
@@ -96,12 +73,8 @@ def thread_function(arg):
     
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     
-    #q = Queue()
-    #q.put("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIi")
-    #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
-    #threading.Thread(target=socketio.start_background_task(thread_function)).start()
-    #threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
-    #threading.Thread(target=thread_function, args=(1,)).start()
+    threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
+    threading.Thread(target=thread_function, args=(1,)).start()
 
-    socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
+    #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
     

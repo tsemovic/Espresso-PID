@@ -6,32 +6,20 @@ from flask_socketio import SocketIO, emit
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
-import signal
 from simple_pid import PID
 from multiprocessing import Process,Queue,Pipe,Value
-import threading
-from celery import Celery
-
+from espresso import mainFunc
 
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
-
-# Celery configuration
-app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
-
 socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
 
-# Initialize Celery
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-celery.conf.update(app.config)
-
-
-# parent_conn,child_conn = Pipe()
-# p = Process(target=run, args=(child_conn,))
-# p.start()
+q = Queue(maxsize=1)
+p = Process(target=mainFunc, args=(q,))
+p.daemon = True
+p.start()
 
 # PID setup
 P = 1
@@ -56,9 +44,10 @@ GPIO.output(21, GPIO.HIGH)
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
-# @socketio.on('connect')
-# def test_connect():
-#     print('someone connected to websocket')  
+@socketio.on('connect')
+def test_connect():
+    print('someone connected to websocket')  
+    q.put("FUCKKKER")
     
 # @socketio.on('disconnect')
 # def test_disconnect():
@@ -104,16 +93,6 @@ def thread_function(arg):
         print("USER CONNECTED: " + str(userConnected))
 
         time.sleep(2);
-        
-@celery.task
-def my_background_task(arg1, arg2):
-    # some long running task here
-    while True:
-        print("CELERY IS YUMBO")
-        time.sleep(2)
-        
-task = my_background_task.apply_async(args=[10, 20])
-
     
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     

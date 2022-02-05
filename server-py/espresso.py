@@ -35,7 +35,7 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 # Loop printing measurements every second.
-def run():
+def mainFunc(_q):
     while(True):
         temp = sensor.readTempC()
         #internal = sensor.readInternalC()
@@ -47,9 +47,8 @@ def run():
             GPIO.output(21, GPIO.LOW)  
             
             
-        print("TEMPERATURE: " + str(temp) + "  |  PID: " + str(output))        
+        print("TEMPERATURE: " + str(temp) + "  |  PID: " + str(output)) 
+        print("FROM ESPRESS)))): " + str(_q.get()))       
         time.sleep(1);
-        
-run()
-    
+            
 

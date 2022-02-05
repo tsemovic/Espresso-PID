@@ -8,7 +8,7 @@ import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 import signal
 from simple_pid import PID
-from multiprocessing import Process,Queue,Pipe
+from multiprocessing import Process,Queue,Pipe,Value
 from espresso import run
 import threading
 
@@ -34,7 +34,10 @@ def home():  # At the same home function as before
 # def test_disconnect():
 #     print('Client disconnected')
 
-def thread_function(_q):
+def thread_function(arg):
+    
+    if arg.value == True:
+        print("TRUEUREURUERUEUREUREURUEUREU")
     
     print("THREAD STARTING")
     # PID setup
@@ -100,6 +103,12 @@ if __name__ == '__main__':  # If the script that was run is this script (we have
     #q.put("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIi")
     #socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
     #threading.Thread(target=socketio.start_background_task(thread_function)).start()
-    threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
-    threading.Thread(target=thread_function, args=(1,)).start()
+    #threading.Thread(target=lambda: socketio.run(app, host='192.168.1.21', port=3000, debug=False)).start()
+    #threading.Thread(target=thread_function, args=(1,)).start()
+    recording_on = Value('b', True)
+
+    p = Process(target=thread_function, args=(recording_on,))
+    p.start()  
+    socketio.run(app, host='192.168.1.21', port=3000, debug=False)  # Start the server
+    p.join()
     

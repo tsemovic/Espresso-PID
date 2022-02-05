@@ -17,9 +17,7 @@ socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
 
 q = Queue(maxsize=1)
-p = Process(target=mainFunc, args=(q,))
-p.daemon = True
-p.start()
+
 
 # PID setup
 P = 1
@@ -48,7 +46,9 @@ def home():  # At the same home function as before
 def test_connect():
     print('someone connected to websocket')  
     q.put("FUCKKKER")
-    
+    p = Process(target=mainFunc, args=(q,))
+    p.daemon = True
+    p.start()
 # @socketio.on('disconnect')
 # def test_disconnect():
 #     print('Client disconnected')

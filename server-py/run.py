@@ -11,13 +11,16 @@ from multiprocessing import Process,Queue,Pipe,Value
 from espresso import mainFunc
 import threading
 
+
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
 
+
 temp = 0
 userConnected = False
+
 
 # PID setup
 P = 1
@@ -27,20 +30,24 @@ pid = PID(P, I, D)
 pid.sample_time = 0.01
 pid.setpoint = 90
 
+
 # MAX3188 setup
 CLK = 4
 CS  = 3
 DO  = 2
 sensor = MAX31855.MAX31855(CLK, CS, DO)
 
+
 # SSR setup
 GPIO.setup(21, GPIO.OUT)
 GPIO.output(21, GPIO.HIGH)
+
 
 # Webserver Routes
 @app.route('/')
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
+
 
 @socketio.on('connect')
 def connect():
@@ -48,6 +55,10 @@ def connect():
     userConnected = True
     print('someone connected to websocket')
     #socketio.emit("temperature", temp) 
+    while True:
+        socketio.emit('temperature' , temp)
+        socketio.sleep(1)
+    
     
 @socketio.on('disconnect')
 def disconnect():
@@ -55,10 +66,12 @@ def disconnect():
     userConnected = False
     print('user disconnected to websocket')
     #socketio.emit("temperature", temp) 
+  
        
 def sendData(data):
     print("SENDING DATA")
-    socketio.emit("temperature", data)      
+    socketio.emit('temperature' , 'SNSNSNSNS')      
+  
             
 def thread_function(arg):
     

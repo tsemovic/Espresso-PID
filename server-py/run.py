@@ -58,7 +58,7 @@ def connect():
 
 @socketio.on('askForTemperature')
 def disconnect():
-    socketio.emit('temperature', "HELLOOOOOOOOOOO")
+    socketio.emit('temperature', temp)
 
         
     

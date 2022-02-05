@@ -53,8 +53,8 @@ export default {
   },
   data() {
     return {
-      test: "waiting to connnect",
-      askingForTemperature: True
+      test: "waiting to connnect"
+
     };
   },
   created() {

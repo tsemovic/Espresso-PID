@@ -11,7 +11,7 @@
 
       <div class="row center">
         <div class="col-auto">
-          <Graph v-bind:temperature="currentTemperature" />
+          <Graph v-bind:dataArray="data_set" />
         </div>
       </div>
 
@@ -105,6 +105,8 @@ export default {
       input_I: "",
       input_D: "",
       input_targetTemperature: "",
+
+      data_set: [[2,3], [3,2],[4,5]],
     };
   },
   created() {

@@ -1,13 +1,10 @@
 # Imports
 from flask import Flask  # Import flask
 import time
-from datetime import datetime
 from flask_socketio import SocketIO, emit
-import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 from simple_pid import PID
-from espresso import mainFunc
 import threading
 import json
 
@@ -74,7 +71,6 @@ def PID_update(data):
     print(data)
  
 def readPID():
-    
     # read file
     with open('settings.json', 'r') as myfile:
         data=myfile.read()
@@ -84,12 +80,13 @@ def readPID():
     print(jsonData['PID'])
      
 def setPID():
-     P = 2
+    P = 2
  
 def espresso():
     print("THREAD STARTING")
     global temp
     global userConnected
+    
     while(True):
 
         temp = sensor.readTempC()

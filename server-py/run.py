@@ -14,10 +14,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
-
 temp = 0
 userConnected = False
-
 
 # PID setup
 P = 1
@@ -27,6 +25,30 @@ D = 3
 pid = PID(P, I, D)
 pid.sample_time = 0.01
 pid.setpoint = 90
+
+def readSettings():
+    
+    # read settings file
+    with open('settings.json', 'r') as myfile:
+        data=myfile.read()
+    jsonData = json.loads(data)
+    
+    global P
+    global I
+    global D
+    global pid
+    
+    P = (jsonData['PID']['P'])
+    I = (jsonData['PID']['I'])
+    D = (jsonData['PID']['D'])
+    targetTemperature = jsonData['TargetTemperature']
+
+    pid = PID(P, I, D)
+    pid.sample_time = 0.01
+    pid.setpoint = targetTemperature
+    
+readSettings()
+
 
 # MAX3188 setup
 CLK = 4
@@ -62,7 +84,7 @@ def disconnect():
 @socketio.on('temperature_give')
 def temperature_give():
     socketio.emit('temperature', temp)
-    readPID()
+    print(pid.setpoint)
 
 # Update PID
 @socketio.on('PID_update')
@@ -70,20 +92,10 @@ def PID_update(data):
     print("updated PID settings: " + str(data))
     print(data)
  
-def readPID():
-    # read file
-    with open('settings.json', 'r') as myfile:
-        data=myfile.read()
-
-    # parse file
-    jsonData = json.loads(data)
-    print(jsonData['PID'])
-    print(jsonData['PID']["P"])
-
-     
+    
 def setPID():
     P = 2
- 
+
 def espresso():
     print("THREAD STARTING")
     global temp

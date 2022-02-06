@@ -97,6 +97,8 @@ def PID_update(data):
     writeSettings(data)
     readSettings()
     socketio.emit('recieve_PID', currentSettings)
+    print("CURRENT SETTINGS")
+    print(currentSettings)
 
 
 # function to write data to settings.json file

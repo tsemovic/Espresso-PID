@@ -57,6 +57,7 @@ export default {
       this.I = fetchedData["PID"]["I"];
       this.D = fetchedData["PID"]["D"];
       this.targetTemperature = fetchedData["TargetTemperature"];
+      console.log(fetchedData)
     },
     getTemperature() {
       socket.on("recieve_temperature", fetchedData => {

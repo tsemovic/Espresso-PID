@@ -19,16 +19,16 @@
         <div class="col-auto">
           <q-card class="my-card bg-secondary text-white">
             <q-card-section>
-              <div class="text-h6">Our Changing Planet</div>
-              <div class="text-subtitle2">by John Doe</div>
+              <div class="text-h6">Main</div>
+              <div class="text-subtitle2">Sub</div>
             </q-card-section>
           </q-card>
         </div>
         <div class="col-auto">
           <q-card class="my-card bg-secondary text-white">
             <q-card-section>
-              <div class="text-h6">Our Changing Planet</div>
-              <div class="text-subtitle2">by John Doe</div>
+              <div class="text-h6">Main</div>
+              <div class="text-subtitle2">Sub</div>
             </q-card-section>
           </q-card>
         </div>
@@ -90,7 +90,7 @@ import Graph from "./components/Graph.vue";
 
 export default {
   components: {
-    Graph,
+    Graph
   },
   data() {
     return {
@@ -163,3 +163,27 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 12px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+}
+.container__item {
+  padding: 12px;
+  width: 100%;
+  margin-top: 24px;
+}
+.example {
+  margin: 0 auto 40px;
+  border-bottom: 2px solid #aaa;
+  padding-bottom: 20px;
+}
+</style>

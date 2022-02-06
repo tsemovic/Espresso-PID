@@ -68,15 +68,12 @@ def readSettings():
 # readSettings called once at startup to get previously saved configuration from settings.json file
 readSettings()
 
-
 # Webserver Routes
 @app.route('/')
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
 # SOCKET: connect
-
-
 @socketio.on('connect')
 def connect():
     global userConnected
@@ -84,8 +81,6 @@ def connect():
     print('user connected to websocket')
 
 # SOCKET: disconnect
-
-
 @socketio.on('disconnect')
 def disconnect():
     global userConnected
@@ -93,15 +88,11 @@ def disconnect():
     print('user disconnected to websocket')
 
 # SOCKET: send temperature to socket connection
-
-
 @socketio.on('send_temperature')
 def temperature_give():
     socketio.emit('recieve_temperature', temp)
 
 # SOCKET: update settings file and re-instantiate PID settings
-
-
 @socketio.on('send_PID')
 def PID_update(data):
     writeSettings(data)
@@ -111,16 +102,12 @@ def PID_update(data):
     print(currentSettings)
 
 # SOCKET: update settings file and re-instantiate PID settings
-
-
 @socketio.on('get_PID')
 def PID_update():
     print("EMIT: give_PID " + str(currentSettings))
     socketio.emit('give_PID', currentSettings)
 
 # function to write data to settings.json file
-
-
 def writeSettings(data):
     P = data["P"]
     I = data["I"]

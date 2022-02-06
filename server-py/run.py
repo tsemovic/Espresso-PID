@@ -9,11 +9,10 @@ import threading
 import json
 
 
-
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
-socketio = SocketIO(app, logger=True, cors_allowed_origins="*")
+socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
 
 temp = 0
@@ -63,6 +62,7 @@ def disconnect():
 @socketio.on('temperature_give')
 def temperature_give():
     socketio.emit('temperature', temp)
+    readPID()
 
 # Update PID
 @socketio.on('PID_update')
@@ -78,6 +78,8 @@ def readPID():
     # parse file
     jsonData = json.loads(data)
     print(jsonData['PID'])
+    print(jsonData['PID']["P"])
+
      
 def setPID():
     P = 2

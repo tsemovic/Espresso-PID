@@ -99,8 +99,13 @@ def PID_update(data):
     socketio.emit('recieve_PID', currentSettings)
     print("CURRENT SETTINGS")
     print(currentSettings)
-
-
+    
+# SOCKET: update settings file and re-instantiate PID settings
+@socketio.on('get_PID')
+def PID_update():
+    print("EMIT: give_PID " + str(currentSettings))
+    socketio.emit('give_PID', currentSettings)
+    
 # function to write data to settings.json file
 def writeSettings(data):
     P = data["P"]

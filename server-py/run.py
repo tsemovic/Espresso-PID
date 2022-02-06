@@ -15,7 +15,7 @@ socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
 temp = 0
 userConnected = False
-currentSettings
+currentSettings = ""
 
 # PID setup (default settings)
 P = 1

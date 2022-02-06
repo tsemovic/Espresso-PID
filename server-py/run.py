@@ -17,7 +17,7 @@ socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 temp = 0
 userConnected = False
 
-# PID setup
+# PID setup (default settings)
 P = 1
 I = 0.02
 D = 3
@@ -26,11 +26,12 @@ pid = PID(P, I, D)
 pid.sample_time = 0.01
 pid.setpoint = 90
 
+# read PID settings from settings.json
 def readSettings():
     
     # read settings file
-    with open('settings.json', 'r') as myfile:
-        data=myfile.read()
+    with open('settings.json', 'r') as f:
+        data=f.read()
     jsonData = json.loads(data)
     
     global P
@@ -46,7 +47,8 @@ def readSettings():
     pid = PID(P, I, D)
     pid.sample_time = 0.01
     pid.setpoint = targetTemperature
-    
+
+
 readSettings()
 
 
@@ -84,17 +86,26 @@ def disconnect():
 @socketio.on('temperature_give')
 def temperature_give():
     socketio.emit('temperature', temp)
-    print(pid.setpoint)
 
 # Update PID
 @socketio.on('PID_update')
 def PID_update(data):
     print("updated PID settings: " + str(data))
     print(data)
- 
+
+
+def writeSettings(P, I, D, Temperature):
+    dictionary = {"PID":   { "P":P, "I":I, "D":D }, "TargetTemperature": Temperature}
     
-def setPID():
-    P = 2
+    # write settings file
+    with open('data.json', 'w') as f:
+        json.dump(dictionary, f)
+        
+print("==================================================================")
+
+writeSettings(1, 2, 3, 69)
+readSettings()
+print(pid.setpoint)
 
 def espresso():
     print("THREAD STARTING")

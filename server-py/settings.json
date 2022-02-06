@@ -1,2 +1,1 @@
-{"PID":   { "P":1, "I":0.02, "D":3 },
- "TargetTemperature": 92}
+{"PID":   { "P":1, "I":0.02, "D":3 }, "TargetTemperature": 92}

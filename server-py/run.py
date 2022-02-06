@@ -95,11 +95,12 @@ def PID_update(data):
 
 
 def writeSettings(P, I, D, Temperature):
+    
     dictionary = {"PID":   { "P":P, "I":I, "D":D }, "TargetTemperature": Temperature}
     
     # write settings file
-    with open('data.json', 'w') as f:
-        json.dump(dictionary, f)
+    with open('settings.json', 'w', encoding='utf-8') as f:
+        json.dump(dictionary, f, ensure_ascii=False, indent=4)
         
 print("==================================================================")
 

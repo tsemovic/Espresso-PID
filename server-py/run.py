@@ -15,6 +15,7 @@ socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
 temp = 0
 userConnected = False
+currentSettings
 
 # PID setup (default settings)
 P = 1
@@ -47,11 +48,14 @@ def readSettings():
     global I
     global D
     global pid
+    global currentSettings
     
     P = (jsonData['PID']['P'])
     I = (jsonData['PID']['I'])
     D = (jsonData['PID']['D'])
     targetTemperature = jsonData['TargetTemperature']
+
+    currentSettings = {"PID":   { "P":P, "I":I, "D":D }, "TargetTemperature": targetTemperature}
 
     pid = PID(P, I, D)
     pid.sample_time = 0.01
@@ -83,24 +87,26 @@ def disconnect():
     print('user disconnected to websocket')  
 
 # SOCKET: send temperature to socket connection
-@socketio.on('temperature_give')
+@socketio.on('send_temperature')
 def temperature_give():
-    socketio.emit('temperature', temp)
+    socketio.emit('recieve_temperature', temp)
 
 # SOCKET: update settings file and re-instantiate PID settings
-@socketio.on('PID_update')
+@socketio.on('send_PID')
 def PID_update(data):
     writeSettings(data)
     readSettings()
+    socketio.emit('recieve_PID', currentSettings)
+
 
 # function to write data to settings.json file
 def writeSettings(data):
     P = data["P"]
     I = data["I"]
     D = data["D"]
-    TargetTemperature = data["TargetTemperature"]
+    targetTemperature = data["targetTemperature"]
 
-    dictionary = {"PID":   { "P":P, "I":I, "D":D }, "TargetTemperature": TargetTemperature}
+    dictionary = {"PID":   { "P":P, "I":I, "D":D }, "TargetTemperature": targetTemperature}
     
     # write settings file
     with open('settings.json', 'w', encoding='utf-8') as f:

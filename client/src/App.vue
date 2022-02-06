@@ -7,7 +7,12 @@
         <Info />
       </div>
       <div class="row">
-        <div class="col-3">1</div>
+        <div class="col-3">
+
+          <button v-on:click="setPID">SET PID</button>
+
+
+        </div>
         <div class="col-6">{{ test }}</div>
         <div class="col-3">1</div>
       </div>
@@ -16,34 +21,10 @@
 </template>
 
 <script>
+// css setup
 import './assets/customCSS.css';
-// import SocketioService from './services/socketio.service.js';
 
-// import Graph from './components/Graph.vue'
-// import Info from './components/Info.vue'
-
-
-// export default {
-//   name: 'LayoutDefault',
-
-//   components: {
-//      Graph,
-//      Info
-//   },
-//   data(){
-//       return{
-//           test: 30
-//       }
-//   },
-//   created() {
-//     SocketioService.setupSocketConnection();
-//     SocketioService.getData();
-//   },
-//   beforeUnmount() {
-//     SocketioService.disconnect();
-//   }
-// }
-
+// socket io setup
 import io from "socket.io-client";
 var socket = io.connect(process.env.VUE_APP_SOCKET_ENDPOINT);
 
@@ -58,7 +39,7 @@ export default {
     };
   },
   created() {
-    this.getRealtimeData()
+    this.getTemperature()
   },
   mounted(){
     this.askForTemperature();
@@ -68,7 +49,7 @@ export default {
     fillData(fetchedData) {
       this.test = fetchedData;
     },
-    getRealtimeData() {
+    getTemperature() {
       socket.on("temperature", fetchedData => {
         this.fillData(fetchedData) 
       })

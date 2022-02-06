@@ -8,7 +8,6 @@ from simple_pid import PID
 import threading
 import json
 
-
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -21,10 +20,20 @@ userConnected = False
 P = 1
 I = 0.02
 D = 3
-
 pid = PID(P, I, D)
 pid.sample_time = 0.01
 pid.setpoint = 90
+
+# MAX3188 setup
+CLK = 4
+CS  = 3
+DO  = 2
+sensor = MAX31855.MAX31855(CLK, CS, DO)
+
+# SSR setup
+GPIO.setup(21, GPIO.OUT)
+GPIO.output(21, GPIO.HIGH)
+
 
 # read PID settings from settings.json
 def readSettings():
@@ -48,20 +57,10 @@ def readSettings():
     pid.sample_time = 0.01
     pid.setpoint = targetTemperature
 
+    print("Updated PID settings to: " + str(jsonData))
 
+# readSettings called once at startup to get previously saved configuration from settings.json file
 readSettings()
-
-
-# MAX3188 setup
-CLK = 4
-CS  = 3
-DO  = 2
-sensor = MAX31855.MAX31855(CLK, CS, DO)
-
-
-# SSR setup
-GPIO.setup(21, GPIO.OUT)
-GPIO.output(21, GPIO.HIGH)
 
 
 # Webserver Routes
@@ -69,40 +68,45 @@ GPIO.output(21, GPIO.HIGH)
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
-# Connect and Disconnect
+# SOCKET: connect
 @socketio.on('connect')
 def connect():
     global userConnected
     userConnected = True
     print('user connected to websocket')
     
+# SOCKET: disconnect
 @socketio.on('disconnect')
 def disconnect():
     global userConnected
     userConnected = False
     print('user disconnected to websocket')  
 
-# Update Temperature
+# SOCKET: send temperature to socket connection
 @socketio.on('temperature_give')
 def temperature_give():
     socketio.emit('temperature', temp)
 
-# Update PID
+# SOCKET: update settings file and re-instantiate PID settings
 @socketio.on('PID_update')
 def PID_update(data):
-    print("updated PID settings: " + str(data))
-    print(data["P"])
-    print(data["TargetTemperature"])
+    writeSettings(data)
+    readSettings()
 
+# function to write data to settings.json file
+def writeSettings(data):
+    P = data["P"]
+    I = data["I"]
+    D = data["D"]
+    TargetTemperature = data["TargetTemperature"]
 
-
-def writeSettings(P, I, D, Temperature):
-    
-    dictionary = {"PID":   { "P":P, "I":I, "D":D }, "TargetTemperature": Temperature}
+    dictionary = {"PID":   { "P":P, "I":I, "D":D }, "TargetTemperature": TargetTemperature}
     
     # write settings file
     with open('settings.json', 'w', encoding='utf-8') as f:
         json.dump(dictionary, f, ensure_ascii=False, indent=4)
+        
+    print("Written settings to file: " + str(dictionary))
         
 
 def espresso():
@@ -121,7 +125,7 @@ def espresso():
         else:
             GPIO.output(21, GPIO.LOW)  
             
-        print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
+        #print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
                 
         time.sleep(1);
     

@@ -1,18 +1,27 @@
-
 /* background image setup */
-.bg-image{
-    background-image: url("../assets/beansDark.jpg");
+.bg-image {
+  background-image: url("../assets/beansDark.jpg");
+}
+
+.row {
+  color: red;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* custom font setup */
 @font-face {
-    font-family: customfont;
-    src: url(../assets/RelayComp.woff);
+  font-family: customfont;
+  src: url(../assets/RelayComp.woff);
 }
-  
+
 .headerFont {
-    font-family: 'customfont';
-    color: white;
-    font-size: 10vmax;
-    line-height: 75%;
+  font-family: "customfont";
+  color: white;
+  font-size: 10vmax;
+  line-height: 75%;
 }

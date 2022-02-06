@@ -1,0 +1,18 @@
+
+/* background image setup */
+.bg-image{
+    background-image: url("../assets/beansDark.jpg");
+}
+
+/* custom font setup */
+@font-face {
+    font-family: customfont;
+    src: url(../assets/RelayComp.woff);
+}
+  
+.headerFont {
+    font-family: 'customfont';
+    color: white;
+    font-size: 10vmax;
+    line-height: 75%;
+}

@@ -2,19 +2,19 @@
   <q-layout view="hHh lpR fFf" class="bg-image">
     <q-page-container>
       <!-- <Graph /> -->
-      <div class="row">
-        <Graph />
-        <Info />
+
+      <div class="row text-center">
+        <div class="col">
+          <h1 class="text-center headerFont">GAGGIA CONTROLLER</h1>
+        </div>
       </div>
+      
       <div class="row">
         <div class="col-3">
 
-          <button v-on:click="setPID">SET PID</button>
-          <input v-model.number="input_P" type="number">
-          <input v-model.number="input_I" type="number">
-          <input v-model.number="input_D" type="number">
-          <input v-model.number="input_targetTemperature" type="number">
+          <q-btn rounded color="red" v-on:click="setPID" icon="settings" label="Configuration" />
 
+          <q-input standout="bg-red text-white" ref="hello" v-model="input_I" mask="##.##" label="Custom standout" />
 
         </div>
         <div class="col-3">{{ currentTemperature }}</div>
@@ -28,7 +28,7 @@
 
 <script>
 // css setup
-import './assets/customCSS.css';
+import './styles/customCSS.css';
 
 // socket io setup
 import io from "socket.io-client";
@@ -75,7 +75,13 @@ export default {
         this.P = fetchedData["PID"]["P"];
         this.I = fetchedData["PID"]["I"];
         this.D = fetchedData["PID"]["D"];
-        this.targetTemperature = fetchedData["TargetTemperature"];
+
+        this.input_P = fetchedData["PID"]["P"];
+        this.input_I = fetchedData["PID"]["I"];
+        this.input_D = fetchedData["PID"]["D"];
+        this.input_targetTemperature = fetchedData["TargetTemperature"];
+
+
       })
     },
     getPID2(){

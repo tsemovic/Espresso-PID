@@ -91,7 +91,9 @@ def temperature_give():
 @socketio.on('PID_update')
 def PID_update(data):
     print("updated PID settings: " + str(data))
-    print(data)
+    print(data["P"])
+    print(data["TargetTemperature"])
+
 
 
 def writeSettings(P, I, D, Temperature):
@@ -102,11 +104,6 @@ def writeSettings(P, I, D, Temperature):
     with open('settings.json', 'w', encoding='utf-8') as f:
         json.dump(dictionary, f, ensure_ascii=False, indent=4)
         
-print("==================================================================")
-
-writeSettings(1, 2, 3, 69)
-readSettings()
-print(pid.setpoint)
 
 def espresso():
     print("THREAD STARTING")

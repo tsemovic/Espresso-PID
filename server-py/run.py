@@ -9,6 +9,8 @@ import RPi.GPIO as GPIO
 from simple_pid import PID
 from espresso import mainFunc
 import threading
+import json
+
 
 
 # Webserver setup
@@ -71,8 +73,20 @@ def PID_update(data):
     print("updated PID settings: " + str(data))
     print(data)
  
-def espresso():
+def readPID():
     
+    # read file
+    with open('settings.json', 'r') as myfile:
+        data=myfile.read()
+
+    # parse file
+    jsonData = json.loads(data)
+    print(jsonData['PID'])
+     
+def setPID():
+     P = 2
+ 
+def espresso():
     print("THREAD STARTING")
     global temp
     global userConnected
@@ -89,7 +103,7 @@ def espresso():
             
         print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
                 
-        time.sleep(2);
+        time.sleep(1);
     
 if __name__ == '__main__':  # If the script that was run is this script (we have not been imported)
     

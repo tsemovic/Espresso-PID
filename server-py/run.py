@@ -7,13 +7,16 @@ import RPi.GPIO as GPIO
 from simple_pid import PID
 import threading
 import json
+from datetime import datetime
+
 
 # Webserver setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
-temp = 0
+temperature = 0
+temperatureArray = []
 userConnected = False
 currentSettings = ""
 
@@ -90,7 +93,7 @@ def disconnect():
 # SOCKET: send temperature to socket connection
 @socketio.on('send_temperature')
 def temperature_give():
-    socketio.emit('recieve_temperature', temp)
+    socketio.emit('recieve_temperature', temperatureArray)
 
 # SOCKET: update settings file and re-instantiate PID settings
 @socketio.on('send_PID')
@@ -126,21 +129,28 @@ def writeSettings(data):
 
 def espresso():
     print("THREAD STARTING")
-    global temp
-    global userConnected
+    global temperature
+    global temperatureArray
 
     while(True):
 
-        temp = sensor.readTempC()
+        temperature = sensor.readTempC()
         #internal = sensor.readInternalC()
 
-        output = pid(temp)
+        date = datetime.today().strftime('%H:%M:%S')
+
+        if (len(temperatureArray) >=30):
+            temperatureArray.pop(0)
+            
+        temperatureArray.append([date, temperature])
+
+        output = pid(temperature)
         if(output > 0):
             GPIO.output(21, GPIO.HIGH)
         else:
             GPIO.output(21, GPIO.LOW)
 
-        print("TEMPERATURE: " + str(temp) + " |  PID OUTPUT: " + str(output))
+        print("TEMPERATURE: " + str(temperature) + " |  PID OUTPUT: " + str(output))
 
         time.sleep(1)
 

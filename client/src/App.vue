@@ -122,7 +122,8 @@ export default {
   methods: {
     getTemperature() {
       socket.on("recieve_temperature", (fetchedData) => {
-        this.currentTemperature = fetchedData;
+        this.currentTemperature = fetchedData.at(-1);
+        this.data_set = fetchedData
       });
     },
     getPID() {

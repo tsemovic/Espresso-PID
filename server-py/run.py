@@ -94,7 +94,7 @@ def disconnect():
 # SOCKET: send temperature to socket connection
 @socketio.on('send_temperature')
 def temperature_give():
-    socketio.emit('recieve_temperature', {temperature: temperatureArray, time: timestampArray})
+    socketio.emit('recieve_temperature', {"temperature": temperatureArray, "timestamp": timestampArray})
 
 # SOCKET: update settings file and re-instantiate PID settings
 @socketio.on('send_PID')

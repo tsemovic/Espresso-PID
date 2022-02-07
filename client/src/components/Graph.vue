@@ -16,7 +16,7 @@
     <div>
       <button @click="updateChart">Update!</button>
     </div>
-    <div>{{ dataArray}}</div>
+    <div>{{ temperature}}</div>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
-  props: ["dataArray"],
+  props: ["temperature", "time"],
   data: function () {
     return {
       chartOptions: {
@@ -76,11 +76,11 @@ export default {
       series: [
         {
           name: "Temperature",
-          data: this.dataArray,
-          // data: [{
-          //   x: this.dataArray,
-          //   y: this.dataArray
-          // }]
+          // data: this.dataArray,
+          data: [{
+            x: this.temperature,
+            y: this.time
+          }]
         },
       ],
     };
@@ -93,7 +93,10 @@ export default {
       // In the same way, update the series option
         this.series = [
           {
-            data: this.dataArray,
+            data: [{
+              x: this.temperature,
+              y: this.time
+            }]
           },
         ];
     },

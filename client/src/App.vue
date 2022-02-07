@@ -11,7 +11,7 @@
 
       <div class="row center">
         <div class="col-auto">
-          <Graph v-bind:dataArray="data_set" />
+          <Graph v-bind:temperature="temperatureData" v-bind:time="timestampData" />
         </div>
       </div>
 
@@ -73,6 +73,7 @@
         <div class="col-3">{{ currentTemperature }}</div>
         <div class="col-3">{{ P }} {{ I }} {{ D }} {{ targetTemperature }}</div>
       </div>
+
     </q-page-container>
   </q-layout>
 </template>
@@ -106,7 +107,9 @@ export default {
       input_D: "",
       input_targetTemperature: "",
 
-      data_set: [[2,3], [3,2],[4,5]],
+      // data_set: [ [ "10:09:12", 27.75 ], [ "10:09:13", 27.75 ], [ "10:09:14", 27.75 ], [ "10:09:15", 27.75 ], [ "10:09:16", 27.75 ], [ "10:09:17", 27.75 ], [ "10:09:18", 27.75 ], [ "10:09:19", 27.75 ], [ "10:09:20", 27.75 ], [ "10:09:21", 21.75 ], [ "10:09:22", 27.75 ], [ "10:09:23", 27.75 ], [ "10:09:24", 28 ], [ "10:09:25", 27.75 ], [ "10:09:26", 27.75 ], [ "10:09:27", 27.75 ], [ "10:09:28", 27.75 ], [ "10:09:29", 27.75 ], [ "10:09:30", 28 ], [ "10:09:31", 27.75 ], [ "10:09:32", 27.75 ], [ "10:09:33", 27.75 ], [ "10:09:34", 27.75 ], [ "10:09:35", 27.75 ], [ "10:09:36", 27.75 ], [ "10:09:37", 27.75 ], [ "10:09:38", 27.75 ], [ "10:09:39", 27.75 ], [ "10:09:40", 27.75 ], [ "10:09:41", 27.75 ] ],
+      temperatureData: [],
+      timestampData: []
     };
   },
   created() {
@@ -122,8 +125,10 @@ export default {
   methods: {
     getTemperature() {
       socket.on("recieve_temperature", (fetchedData) => {
-        this.currentTemperature = fetchedData.at(-1);
-        this.data_set = fetchedData
+        this.currentTemperature = fetchedData.temperature.at(-1);
+        this.temperatureData = fetchedData.temperature;
+        this.timestampData = fetchedData.timestampData;
+
       });
     },
     getPID() {

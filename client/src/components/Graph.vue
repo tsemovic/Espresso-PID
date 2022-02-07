@@ -12,6 +12,11 @@
         ></apexchart>
       </q-card-section>
     </q-card>
+
+    <div>
+      <button @click="updateChart">Update!</button>
+    </div>
+    <div>{{ dataArray}}</div>
   </div>
 </template>
 
@@ -28,53 +33,70 @@ export default {
     return {
       chartOptions: {
         chart: {
-          id: 'realtime',
+          id: "realtime",
           height: 350,
-          type: 'line',
+          type: "line",
           animations: {
             enabled: true,
-            easing: 'linear',
+            easing: "linear",
             dynamicAnimation: {
-              speed: 1000
-            }
+              speed: 1000,
+            },
           },
           toolbar: {
-            show: false
+            show: true,
           },
           zoom: {
-            enabled: false
-          }
+            enabled: true,
+          },
         },
         dataLabels: {
-          enabled: false
+          enabled: false,
         },
         stroke: {
-          curve: 'smooth'
+          curve: "smooth",
         },
         title: {
-          text: 'Temperature',
-          align: 'left'
+          text: "Temperature",
+          align: "left",
         },
         markers: {
-          size: 0
+          size: 0,
         },
         xaxis: {
-          type: 'time',
+          type: "category",
         },
         yaxis: {
-          max: 100
+          max: 100,
         },
         legend: {
-          show: false
+          show: false,
         },
       },
       series: [
         {
           name: "Temperature",
           data: this.dataArray,
+          // data: [{
+          //   x: this.dataArray,
+          //   y: this.dataArray
+          // }]
         },
       ],
     };
+  },
+  mounted() {
+    // this.updateChart();
+  },
+  methods: {
+    updateChart: function () {
+      // In the same way, update the series option
+        this.series = [
+          {
+            data: this.dataArray,
+          },
+        ];
+    },
   },
 };
 </script>

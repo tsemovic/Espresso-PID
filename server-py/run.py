@@ -17,6 +17,7 @@ socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
 temperature = 0
 temperatureArray = []
+timestampArray = []
 userConnected = False
 currentSettings = ""
 
@@ -93,7 +94,7 @@ def disconnect():
 # SOCKET: send temperature to socket connection
 @socketio.on('send_temperature')
 def temperature_give():
-    socketio.emit('recieve_temperature', temperatureArray)
+    socketio.emit('recieve_temperature', {temperature: temperatureArray, time: timestampArray})
 
 # SOCKET: update settings file and re-instantiate PID settings
 @socketio.on('send_PID')
@@ -131,6 +132,7 @@ def espresso():
     print("THREAD STARTING")
     global temperature
     global temperatureArray
+    global timestampArray
 
     while(True):
 
@@ -141,8 +143,11 @@ def espresso():
 
         if (len(temperatureArray) >=30):
             temperatureArray.pop(0)
+            timestampArray.pop(0)
             
-        temperatureArray.append([date, temperature])
+        temperatureArray.append(temperature)
+        timestampArray.append(date)
+        
 
         output = pid(temperature)
         if(output > 0):

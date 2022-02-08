@@ -47,24 +47,28 @@
 
           <q-input
             standout="bg-red text-white"
+            bg-color="green"
             ref="hello"
             v-model="input_P"
             label="Custom standout"
           />
           <q-input
             standout="bg-red text-white"
+            bg-color="green"
             ref="hello"
             v-model="input_I"
             label="Custom standout"
           />
           <q-input
             standout="bg-red text-white"
+            bg-color="green"
             ref="hello"
             v-model="input_D"
             label="Custom standout"
           />
           <q-input
             standout="bg-red text-white"
+            bg-color="green"
             ref="hello"
             v-model="input_targetTemperature"
             label="Custom standout"

@@ -118,8 +118,8 @@ def writeSettings(data):
     D = data["D"]
     targetTemperature = data["targetTemperature"]
 
-    dictionary = {"PID":   {"P": P, "I": I, "D": D},
-                  "TargetTemperature": targetTemperature}
+    dictionary = {"PID":   {"P": float(P), "I": float(I), "D": float(D)},
+                  "TargetTemperature": float(targetTemperature)}
 
     # write settings file
     with open('settings.json', 'w', encoding='utf-8') as f:

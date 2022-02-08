@@ -1,10 +1,23 @@
+
+/* Small devices (portrait tablets and large phones, 600px and down) */
+@media only screen and (max-width: 600px) {.headerFont {
+  font-family: "customfont";
+  color: white;
+  font-size: 10vmin;
+  line-height: 75%;
+}}
+
+/* Medium devices (landscape tablets, 600px and up) */
+@media only screen and (min-width: 600px) {.headerFont {
+  font-family: "customfont";
+  color: white;
+  font-size: 10vmax;
+  line-height: 75%;
+}}
+
 /* background image setup */
 .bg-image {
   background-image: url("../assets/beansDark.jpg");
-}
-
-.row {
-  color: red;
 }
 
 .center {
@@ -22,6 +35,6 @@
 .headerFont {
   font-family: "customfont";
   color: white;
-  font-size: 10vmax;
+  font-size: 10vmin;
   line-height: 75%;
 }

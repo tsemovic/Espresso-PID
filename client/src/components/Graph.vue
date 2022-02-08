@@ -33,6 +33,7 @@ export default {
           id: "realtime",
           height: 350,
           type: "line",
+          redrawOnWindowResize: true,
           animations: {
             enabled: true,
             easing: "linear",
@@ -45,10 +46,11 @@ export default {
             },
           },
           toolbar: {
-            show: false,
+            show: true,
           },
           zoom: {
             enabled: false,
+            
           },
         },
         colors: ["#D95448", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
@@ -70,8 +72,8 @@ export default {
           categories: this.time,
         },
         yaxis: {
-          max: 150,
-          min: 70,
+          
+
         },
         legend: {
           show: false,
@@ -94,11 +96,21 @@ export default {
   methods: {
     updateChart: function () {
       this.intervalid1 = setInterval(() => {
+
+        var current = this.temperature.at(-1)
+
+        var newMin = (Math.floor((current+1)/10)*10) - 20;
+        var newMax = (Math.ceil(current / 10) * 10) + 20;
+
         this.testData = this.testData + 1;
         this.chartOptions = {
           xaxis: {
             categories: this.time,
           },
+          yaxis:{
+            min: newMin,
+            max: newMax
+          }
         };
         this.series = [
           {

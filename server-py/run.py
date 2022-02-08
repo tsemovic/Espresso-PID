@@ -8,6 +8,8 @@ from simple_pid import PID
 import threading
 import json
 from datetime import datetime
+from atexit import register
+
 
 
 # Webserver setup
@@ -161,7 +163,12 @@ def espresso():
 
         time.sleep(1)
 
+@register
 
+def terminate():
+    GPIO.output(21, GPIO.LOW)
+    print("Goodbye!")
+    
 # If the script that was run is this script (we have not been imported)
 if __name__ == '__main__':
 

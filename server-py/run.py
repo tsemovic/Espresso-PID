@@ -27,6 +27,7 @@ I = 0.02
 D = 3
 pid = PID(P, I, D)
 pid.sample_time = 0.01
+pid.output_limits = (-10, 10)
 pid.setpoint = 90
 
 # MAX3188 setup
@@ -64,6 +65,7 @@ def readSettings():
 
     pid = PID(P, I, D)
     pid.sample_time = 0.01
+    pid.output_limits = (-10, 10)
     pid.setpoint = targetTemperature
 
     print("Updated PID settings to: " + str(jsonData))

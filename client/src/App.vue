@@ -127,7 +127,7 @@ export default {
       socket.on("recieve_temperature", (fetchedData) => {
         this.currentTemperature = fetchedData.temperature.at(-1);
         this.temperatureData = fetchedData.temperature;
-        this.timestampData = fetchedData.timestampData;
+        this.timestampData = fetchedData.timestamp;
 
       });
     },

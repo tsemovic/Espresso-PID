@@ -1,35 +1,38 @@
 <template>
-  <q-layout view="lHr lpr lFr" class="bg-image">
+  <q-layout view="hHh lpR fFf" class="bg-image">
     <q-page-container>
       <!-- <Graph /> -->
+      <q-page>
+        <div class="box">
+          <div class="row text-center">
+            <div class="col">
+              <h1 class="text-center headerFont">GAGGIA CONTROLLER</h1>
+            </div>
+          </div>
 
-      <div class="row text-center">
-        <div class="col">
-          <h1 class="text-center headerFont">GAGGIA CONTROLLER</h1>
-        </div>
-      </div>
+          <div class="row content justify-center">
+            <!-- Graph -->
+            <div class="graph col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6 q-pa-md">
+              <Graph
+                v-bind:temperature="temperatureData"
+                v-bind:time="timestampData"
+              />
+            </div>
 
-      <div class="row center">
-        <!-- Graph -->
-        <div class="col-xs-11 col-sm-11 col-md-8 q-pa-sm">
-          <Graph
-            v-bind:temperature="temperatureData"
-            v-bind:time="timestampData"
-          />
+            <!-- Info -->
+            <div class="graph col-xs-12 col-sm-12 col-md-3 col-lg-2 col-xl-3 q-pa-md">
+              <Info
+                v-bind:P="P"
+                v-bind:I="I"
+                v-bind:D="D"
+                v-bind:targetTemperature="targetTemperature"
+                v-bind:temperature="temperatureData"
+                @setPID="setPID($event)"
+              />
+            </div>
+          </div>
         </div>
-
-        <!-- Info -->
-        <div class="col-xs-11 col-sm-11 col-md-2 q-pa-sm">
-          <Info
-            v-bind:P="P"
-            v-bind:I="I"
-            v-bind:D="D"
-            v-bind:targetTemperature="targetTemperature"
-            v-bind:temperature="temperatureData"
-            @setPID="setPID($event)"
-          />
-        </div>
-      </div>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
@@ -115,13 +118,13 @@ export default {
     askForPID: function () {
       socket.emit("get_PID");
     },
-    setPID: function () {
-      var data = {
-        P: this.input_P,
-        I: this.input_I,
-        D: this.input_D,
-        targetTemperature: this.input_targetTemperature,
-      };
+    setPID: function (data) {
+      // var data = {
+      //   P: this.input_P,
+      //   I: this.input_I,
+      //   D: this.input_D,
+      //   targetTemperature: this.input_targetTemperature,
+      // };
       socket.emit("send_PID", data);
     },
   },

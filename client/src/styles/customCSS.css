@@ -1,19 +1,23 @@
 
-/* Small devices (portrait tablets and large phones, 600px and down) */
+/* Small devices (portrait tablets and large phones, 600px and down)
 @media only screen and (max-width: 600px) {.headerFont {
-  font-family: "customfont";
-  color: white;
-  font-size: 10vmin;
-  line-height: 75%;
-}}
-
-/* Medium devices (landscape tablets, 600px and up) */
-@media only screen and (min-width: 600px) {.headerFont {
   font-family: "customfont";
   color: white;
   font-size: 10vmax;
   line-height: 75%;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }}
+
+/* Medium devices (landscape tablets, 600px and up) */
+/* @media only screen and (min-width: 600px) {.headerFont {
+  font-family: "customfont";
+  color: white;
+  font-size: 10vmax;
+  line-height: 75%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}} */ 
 
 /* background image setup */
 .bg-image {
@@ -35,6 +39,19 @@
 .headerFont {
   font-family: "customfont";
   color: white;
-  font-size: 10vmin;
+  font-size: 10vmax;
   line-height: 75%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  /* min-height: inherit; */
+}
+
+.box .row.content {
+  flex: 1 1 auto;
 }

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-image">
+  <q-layout view="lHr lpr lFr" class="bg-image">
     <q-page-container>
       <!-- <Graph /> -->
 
@@ -10,74 +10,26 @@
       </div>
 
       <div class="row center">
-        <div class="col-auto">
-          <Graph v-bind:temperature="temperatureData" v-bind:time="timestampData" />
+        <!-- Graph -->
+        <div class="col-xs-11 col-sm-11 col-md-8 q-pa-sm">
+          <Graph
+            v-bind:temperature="temperatureData"
+            v-bind:time="timestampData"
+          />
+        </div>
+
+        <!-- Info -->
+        <div class="col-xs-11 col-sm-11 col-md-2 q-pa-sm">
+          <Info
+            v-bind:P="P"
+            v-bind:I="I"
+            v-bind:D="D"
+            v-bind:targetTemperature="targetTemperature"
+            v-bind:temperature="temperatureData"
+            @setPID="setPID($event)"
+          />
         </div>
       </div>
-
-      <div class="row center">
-        <div class="col-auto">
-          <q-card class="my-card bg-secondary text-white">
-            <q-card-section>
-              <div class="text-h6">Main</div>
-              <div class="text-subtitle2">Sub</div>
-            </q-card-section>
-          </q-card>
-        </div>
-        <div class="col-auto">
-          <q-card class="my-card bg-secondary text-white">
-            <q-card-section>
-              <div class="text-h6">Main</div>
-              <div class="text-subtitle2">Sub</div>
-            </q-card-section>
-          </q-card>
-        </div>
-      </div>
-
-      <!-- old -->
-      <div class="row">
-        <div class="col-3">
-          <q-btn
-            rounded
-            color="red"
-            v-on:click="setPID"
-            icon="settings"
-            label="Configuration"
-          />
-
-          <q-input
-            standout="bg-red text-white"
-            bg-color="green"
-            ref="hello"
-            v-model="input_P"
-            label="Custom standout"
-          />
-          <q-input
-            standout="bg-red text-white"
-            bg-color="green"
-            ref="hello"
-            v-model="input_I"
-            label="Custom standout"
-          />
-          <q-input
-            standout="bg-red text-white"
-            bg-color="green"
-            ref="hello"
-            v-model="input_D"
-            label="Custom standout"
-          />
-          <q-input
-            standout="bg-red text-white"
-            bg-color="green"
-            ref="hello"
-            v-model="input_targetTemperature"
-            label="Custom standout"
-          />
-        </div>
-        <div class="col-3">{{ currentTemperature }}</div>
-        <div class="col-3">{{ P }} {{ I }} {{ D }} {{ targetTemperature }}</div>
-      </div>
-
     </q-page-container>
   </q-layout>
 </template>
@@ -92,10 +44,12 @@ var socket = io.connect(process.env.VUE_APP_SOCKET_ENDPOINT);
 
 // components setup
 import Graph from "./components/Graph.vue";
+import Info from "./components/Info.vue";
 
 export default {
   components: {
-    Graph
+    Graph,
+    Info,
   },
   data() {
     return {
@@ -111,9 +65,8 @@ export default {
       input_D: "",
       input_targetTemperature: "",
 
-      // data_set: [ [ "10:09:12", 27.75 ], [ "10:09:13", 27.75 ], [ "10:09:14", 27.75 ], [ "10:09:15", 27.75 ], [ "10:09:16", 27.75 ], [ "10:09:17", 27.75 ], [ "10:09:18", 27.75 ], [ "10:09:19", 27.75 ], [ "10:09:20", 27.75 ], [ "10:09:21", 21.75 ], [ "10:09:22", 27.75 ], [ "10:09:23", 27.75 ], [ "10:09:24", 28 ], [ "10:09:25", 27.75 ], [ "10:09:26", 27.75 ], [ "10:09:27", 27.75 ], [ "10:09:28", 27.75 ], [ "10:09:29", 27.75 ], [ "10:09:30", 28 ], [ "10:09:31", 27.75 ], [ "10:09:32", 27.75 ], [ "10:09:33", 27.75 ], [ "10:09:34", 27.75 ], [ "10:09:35", 27.75 ], [ "10:09:36", 27.75 ], [ "10:09:37", 27.75 ], [ "10:09:38", 27.75 ], [ "10:09:39", 27.75 ], [ "10:09:40", 27.75 ], [ "10:09:41", 27.75 ] ],
       temperatureData: [],
-      timestampData: []
+      timestampData: [],
     };
   },
   created() {
@@ -132,7 +85,6 @@ export default {
         this.currentTemperature = fetchedData.temperature.at(-1);
         this.temperatureData = fetchedData.temperature;
         this.timestampData = fetchedData.timestamp;
-
       });
     },
     getPID() {

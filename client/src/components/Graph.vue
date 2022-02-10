@@ -1,10 +1,9 @@
 <template>
-  <div class="example">
     <q-card class="my-card bg-white text-white">
       <q-card-section>
         <apexchart
-          width="700"
-          height="350"
+          width="100%"
+          height="100%"
           type="line"
           ref="chart"
           :options="chartOptions"
@@ -12,7 +11,6 @@
         ></apexchart>
       </q-card-section>
     </q-card>
-  </div>
 </template>
 
 <script>
@@ -31,7 +29,7 @@ export default {
       chartOptions: {
         chart: {
           id: "realtime",
-          height: 350,
+          // height: 350,
           type: "line",
           redrawOnWindowResize: true,
           animations: {
@@ -46,11 +44,10 @@ export default {
             },
           },
           toolbar: {
-            show: true,
+            show: false,
           },
           zoom: {
             enabled: false,
-            
           },
         },
         colors: ["#D95448", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],

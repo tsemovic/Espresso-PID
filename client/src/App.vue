@@ -7,12 +7,21 @@
           <div class="row text-center">
             <div class="col">
               <h1 class="text-center headerFont">GAGGIA CONTROLLER</h1>
+              <div class="text-h6">
+                {{ P }}|{{ I }}|{{ D }}|{{ targetTemperature }}
+              </div>
             </div>
           </div>
 
           <div class="row content justify-center">
             <!-- Graph -->
-            <div class="graph col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6 q-pa-md">
+            <div
+              class="
+                graph
+                col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6
+                q-pa-md
+              "
+            >
               <Graph
                 v-bind:temperature="temperatureData"
                 v-bind:time="timestampData"
@@ -20,7 +29,13 @@
             </div>
 
             <!-- Info -->
-            <div class="graph col-xs-12 col-sm-12 col-md-3 col-lg-2 col-xl-3 q-pa-md">
+            <div
+              class="
+                graph
+                col-xs-12 col-sm-12 col-md-3 col-lg-2 col-xl-3
+                q-pa-md
+              "
+            >
               <Info
                 v-bind:P="P"
                 v-bind:I="I"
@@ -63,11 +78,6 @@ export default {
       D: "",
       targetTemperature: "",
 
-      input_P: "",
-      input_I: "",
-      input_D: "",
-      input_targetTemperature: "",
-
       temperatureData: [],
       timestampData: [],
     };
@@ -76,7 +86,7 @@ export default {
     this.getTemperature(), this.getPID();
   },
   beforeMount() {
-    this.getPID2();
+    this.getPID();
   },
   mounted() {
     this.askForTemperature();
@@ -91,18 +101,6 @@ export default {
       });
     },
     getPID() {
-      socket.on("recieve_PID", (fetchedData) => {
-        this.P = fetchedData["PID"]["P"];
-        this.I = fetchedData["PID"]["I"];
-        this.D = fetchedData["PID"]["D"];
-
-        this.input_P = fetchedData["PID"]["P"];
-        this.input_I = fetchedData["PID"]["I"];
-        this.input_D = fetchedData["PID"]["D"];
-        this.input_targetTemperature = fetchedData["TargetTemperature"];
-      });
-    },
-    getPID2() {
       socket.on("give_PID", (fetchedData) => {
         this.P = fetchedData["PID"]["P"];
         this.I = fetchedData["PID"]["I"];
@@ -119,12 +117,6 @@ export default {
       socket.emit("get_PID");
     },
     setPID: function (data) {
-      // var data = {
-      //   P: this.input_P,
-      //   I: this.input_I,
-      //   D: this.input_D,
-      //   targetTemperature: this.input_targetTemperature,
-      // };
       socket.emit("send_PID", data);
     },
   },

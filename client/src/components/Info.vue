@@ -11,7 +11,9 @@
           <div class="col">
             <div class="text-subtitle2">Temperature</div>
             <div class="text-h6">{{ temperature.at(-1) }}</div>
-            <div class="text-h6">{{ P }}|{{ I }}|{{ D }}|{{ targetTemperature }}</div>
+            <div class="text-h6">
+              {{ P }}|{{ I }}|{{ D }}|{{ targetTemperature }}
+            </div>
           </div>
         </div>
       </q-card-section>
@@ -35,7 +37,7 @@
           color="red"
           icon="settings"
           label="Settings"
-          @click="updateForm, (settings = true)"
+          @click="updateForm(); settings = true"
         />
       </q-card-actions>
     </q-card>
@@ -104,6 +106,12 @@ export default {
       form_targetTemperature: this.targetTemperature,
     };
   },
+  created() {
+    // this.updateForm();
+  },
+  beforeMount() {
+    // this.updateForm();
+  },
   methods: {
     passEvent() {
       var data = {
@@ -115,10 +123,10 @@ export default {
       this.$emit("setPID", data);
     },
     updateForm() {
-      (this.form_P = this.P),
-        (this.form_I = this.I),
-        (this.form_D = this.D),
-        (this.form_targetTemperature = this.targetTemperature);
+      this.form_P = this.P;
+      this.form_I = this.I;
+      this.form_D = this.D;
+      this.form_targetTemperature = this.targetTemperature;
     },
   },
 };

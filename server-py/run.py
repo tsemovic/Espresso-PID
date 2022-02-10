@@ -105,16 +105,18 @@ def temperature_give():
 def PID_update(data):
     writeSettings(data)
     readSettings()
-    socketio.emit('recieve_PID', currentSettings)
-    print("CURRENT SETTINGS")
+    socketio.emit('give_PID', currentSettings)
+    print("SENDING CURRENT SETTINGS")
     print(currentSettings)
 
-# SOCKET: update settings file and re-instantiate PID settings
+# SOCKET: Send PID settings
 @socketio.on('get_PID')
 def PID_update():
     print("EMIT: give_PID " + str(currentSettings))
     socketio.emit('give_PID', currentSettings)
-
+    print("SENDING CURRENT SETTINGS")
+    print(currentSettings)
+    
 # function to write data to settings.json file
 def writeSettings(data):
     P = data["P"]

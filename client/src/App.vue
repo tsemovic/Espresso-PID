@@ -6,9 +6,7 @@
         <div class="box">
           <div class="row text-center">
             <div class="col">
-              <h1 class="text-center headerFont">
-                GAGGIA CONTROLLER {{ chartHeight }}
-              </h1>
+              <h1 class="text-center headerFont">GAGGIA CONTROLLER</h1>
             </div>
           </div>
 
@@ -43,6 +41,7 @@
                 v-bind:D="D"
                 v-bind:targetTemperature="targetTemperature"
                 v-bind:temperature="temperatureData"
+                v-bind:pidRecieved="pidRecieved"
                 @setPID="setPID($event)"
               />
             </div>
@@ -84,6 +83,8 @@ export default {
 
       // chartHeight: this.$refs.graph.clientHeight,
       chartHeight: null,
+
+      pidRecieved: false,
     };
   },
   created() {
@@ -117,6 +118,9 @@ export default {
         this.I = fetchedData["PID"]["I"];
         this.D = fetchedData["PID"]["D"];
         this.targetTemperature = fetchedData["TargetTemperature"];
+
+        this.pidRecieved = true;
+        setTimeout(() => (this.pidRecieved = false), 3000);
       });
     },
     askForTemperature: function () {

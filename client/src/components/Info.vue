@@ -12,11 +12,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card
-      flat
-      bordered
-      class="info-card bg-white text-primary no-margin"
-    >
+    <q-card flat bordered class="info-card bg-white text-primary no-margin">
       <!-- Target Temperature -->
       <q-card-section>
         <div class="row items-center no-wrap">
@@ -28,19 +24,23 @@
       </q-card-section>
     </q-card>
 
-    <q-card
-      flat
-      bordered
-      class="info-card bg-white text-primary no-margin"
-    >
+    <q-card flat bordered class="info-card bg-white text-primary no-margin">
       <!-- Current Settings -->
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
             <div class="text-subtitle1">Settings</div>
-            <div class="text-h3">P: {{ P }}</div>
-            <div class="text-h3">I: {{ I }}</div>
-            <div class="text-h3">D: {{ D }}</div>
+            <div class="pid-container">
+              <div class="text-h5 text-weight-bold pid-item">
+                P:<span class="text-h5">{{ P }}</span>
+              </div>
+              <div class="text-h5 text-weight-bold pid-item">
+                I:<span class="text-h5">{{ I }}</span>
+              </div>
+              <div class="text-h5 text-weight-bold pid-item">
+                D:<span class="text-h5">{{ D }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </q-card-section>
@@ -52,6 +52,7 @@
           size="22px"
           icon="settings"
           label="Settings"
+          class="full-width"
           @click="
             updateForm();
             settings = true;
@@ -70,7 +71,7 @@
         <q-card-section
           class="row items-center q-pb-none bg-white text-primary"
         >
-          <div class="text-h6">PID Settings</div>
+          <div class="text-h5">PID Settings</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
           <q-btn
@@ -79,23 +80,39 @@
             round
             dense
             v-close-popup
-            @click="passEvent"
+            @click="passEvent()"
           />
         </q-card-section>
 
         <q-card-section>
-          <div class="row">
-            <div class="col-3 q-pa-sm">
-              <q-input v-model="form_P" label="P" :dense="dense" />
-            </div>
-            <div class="col-3 q-pa-sm">
-              <q-input v-model="form_I" label="I" :dense="dense" />
-            </div>
-            <div class="col-3 q-pa-sm">
-              <q-input v-model="form_D" label="D" :dense="dense" />
-            </div>
-            <div class="col-auto q-pa-sm">
+          <div class="settings-container">
+            <div class="settings-item">
               <q-input
+                standout="bg-red text-white"
+                v-model="form_P"
+                label="P"
+                :dense="dense"
+              />
+            </div>
+            <div class="settings-item">
+              <q-input
+                standout="bg-red text-white"
+                v-model="form_I"
+                label="I"
+                :dense="dense"
+              />
+            </div>
+            <div class="settings-item">
+              <q-input
+                standout="bg-red text-white"
+                v-model="form_D"
+                label="D"
+                :dense="dense"
+              />
+            </div>
+            <div class="settings-item2">
+              <q-input
+                standout="bg-red text-white"
                 v-model="form_targetTemperature"
                 label="Target Temperature"
                 :dense="dense"
@@ -114,7 +131,7 @@
 <script>
 export default {
   name: "Info",
-  props: ["P", "I", "D", "targetTemperature", "temperature"],
+  props: ["P", "I", "D", "targetTemperature", "temperature", "pidRecieved"],
 
   data: function () {
     return {
@@ -124,12 +141,6 @@ export default {
       form_D: this.D,
       form_targetTemperature: this.targetTemperature,
     };
-  },
-  created() {
-    // this.updateForm();
-  },
-  beforeMount() {
-    // this.updateForm();
   },
   watch: {
     temperature: function () {
@@ -145,6 +156,7 @@ export default {
         targetTemperature: this.form_targetTemperature,
       };
       this.$emit("setPID", data);
+      setTimeout(() => this.showNotification(), 100);
     },
     updateForm() {
       this.form_P = this.P;
@@ -154,6 +166,17 @@ export default {
     },
     updateDisplayTemperature() {
       this.displayTemperature = this.temperature.at(-1).toFixed(2);
+    },
+    showNotification() {
+      if (this.pidRecieved == true) {
+        this.$q.notify({
+          icon: null,
+          color: "green",
+          position: "top",
+          message: "PID settings updated successfully!",
+          timeout: 3000,
+        });
+      }
     },
   },
 };

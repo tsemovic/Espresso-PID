@@ -1,10 +1,10 @@
 <template>
-  <q-card class="my-card bg-white text-white">
-    <q-card-section>
+  <!-- <q-card class="my-card bg-white text-white"> -->
+  <q-card class="graph-container bg-white text-black">
+    <q-card-section class="graph-card">
       <apexchart
+        class="graph-graph"
         width="100%"
-        height="auto"
-        type="line"
         ref="chart"
         :options="chartOptions"
         :series="series"
@@ -22,7 +22,7 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
-  props: ["temperature", "time"],
+  props: ["temperature", "time", "chartHeight"],
   data: function () {
     return {
       labelColor: "592D1D",
@@ -113,7 +113,24 @@ export default {
   mounted() {
     this.updateChart();
   },
+  watch: {
+    chartHeight: function () {
+      this.resize();
+      // alert("tt");
+    },
+  },
   methods: {
+    resize() {
+      setTimeout(
+        () =>
+          (this.chartOptions = {
+            chart: {
+              height: "100%",
+            },
+          }),
+        3000
+      );
+    },
     updateChart: function () {
       // var me = this;
       this.intervalid1 = setInterval(() => {

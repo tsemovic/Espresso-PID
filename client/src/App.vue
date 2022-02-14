@@ -6,16 +6,16 @@
         <div class="box">
           <div class="row text-center">
             <div class="col">
-              <h1 class="text-center headerFont">GAGGIA CONTROLLER</h1>
-              <div class="text-h6">
-                {{ P }}|{{ I }}|{{ D }}|{{ targetTemperature }}
-              </div>
+              <h1 class="text-center headerFont">
+                GAGGIA CONTROLLER {{ chartHeight }}
+              </h1>
             </div>
           </div>
 
           <div class="row content justify-center">
             <!-- Graph -->
             <div
+              ref="graph"
               class="
                 graph
                 col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6
@@ -25,13 +25,14 @@
               <Graph
                 v-bind:temperature="temperatureData"
                 v-bind:time="timestampData"
+                v-bind:chartHeight="chartHeight"
               />
             </div>
 
             <!-- Info -->
             <div
               class="
-                graph
+                info
                 col-xs-12 col-sm-12 col-md-3 col-lg-2 col-xl-3
                 q-pa-md
               "
@@ -80,6 +81,9 @@ export default {
 
       temperatureData: [],
       timestampData: [],
+
+      // chartHeight: this.$refs.graph.clientHeight,
+      chartHeight: null,
     };
   },
   created() {
@@ -91,6 +95,13 @@ export default {
   mounted() {
     this.askForTemperature();
     this.askForPID();
+    // this.updateChartHeight();
+
+    this.$nextTick(function () {
+      window.addEventListener("resize", this.updateChartHeight);
+
+      this.updateChartHeight();
+    });
   },
   methods: {
     getTemperature() {
@@ -118,6 +129,9 @@ export default {
     },
     setPID: function (data) {
       socket.emit("send_PID", data);
+    },
+    updateChartHeight() {
+      this.chartHeight = this.$refs.graph.clientHeight;
     },
   },
 };

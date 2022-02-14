@@ -1,43 +1,61 @@
 <template>
-  <div>
-    <q-card
-      flat
-      bordered
-      class="my-card bg-white text-primary no-margin full-height"
-    >
+  <div class="info-container">
+    <q-card flat bordered class="info-card bg-white text-primary no-margin">
       <!-- Temperature -->
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle2">Temperature</div>
-            <div class="text-h6">{{ temperature.at(-1) }}</div>
-            <div class="text-h6">
-              {{ P }}|{{ I }}|{{ D }}|{{ targetTemperature }}
-            </div>
+            <div class="text-subtitle1">Temperature</div>
+            <div class="text-h3">{{ displayTemperature }}</div>
           </div>
         </div>
       </q-card-section>
+    </q-card>
 
-      <!-- Separator -->
-      <q-separator inset />
-
+    <q-card
+      flat
+      bordered
+      class="info-card bg-white text-primary no-margin"
+    >
       <!-- Target Temperature -->
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle2">Target Temperature</div>
-            <div class="text-h6">{{ targetTemperature }}</div>
+            <div class="text-subtitle1">Target Temperature</div>
+            <div class="text-h3">{{ targetTemperature }}</div>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
+
+    <q-card
+      flat
+      bordered
+      class="info-card bg-white text-primary no-margin"
+    >
+      <!-- Current Settings -->
+      <q-card-section>
+        <div class="row items-center no-wrap">
+          <div class="col">
+            <div class="text-subtitle1">Settings</div>
+            <div class="text-h3">P: {{ P }}</div>
+            <div class="text-h3">I: {{ I }}</div>
+            <div class="text-h3">D: {{ D }}</div>
           </div>
         </div>
       </q-card-section>
 
       <!-- Settings -->
-      <q-card-actions>
+      <q-card-actions class="justify-center">
         <q-btn
           color="red"
+          size="22px"
           icon="settings"
           label="Settings"
-          @click="updateForm(); settings = true"
+          @click="
+            updateForm();
+            settings = true;
+          "
         />
       </q-card-actions>
     </q-card>
@@ -100,6 +118,7 @@ export default {
 
   data: function () {
     return {
+      displayTemperature: 0,
       form_P: this.P,
       form_I: this.I,
       form_D: this.D,
@@ -111,6 +130,11 @@ export default {
   },
   beforeMount() {
     // this.updateForm();
+  },
+  watch: {
+    temperature: function () {
+      this.updateDisplayTemperature();
+    },
   },
   methods: {
     passEvent() {
@@ -127,6 +151,9 @@ export default {
       this.form_I = this.I;
       this.form_D = this.D;
       this.form_targetTemperature = this.targetTemperature;
+    },
+    updateDisplayTemperature() {
+      this.displayTemperature = this.temperature.at(-1).toFixed(2);
     },
   },
 };

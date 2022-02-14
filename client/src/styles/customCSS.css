@@ -27,7 +27,7 @@ body {
   color: white;
   font-size: 10vmax;
   line-height: 75%;
-  margin-top: 1%;
+  margin-top: 5%;
   margin-bottom: 1%;
 }
 
@@ -89,7 +89,7 @@ body {
 }
 
 .info-card{
-  flex-grow: 4
+  flex-grow: 4;
 }
 
 .pid-container {
@@ -122,10 +122,16 @@ body {
 }
 
 .settings-item{
-  flex-grow: 2
+  flex-grow: 2;
+  width: 30%
 }
 
 .settings-item2{
-  flex-grow: 2
+  flex-grow: 2;
+  width: 100%
 }
 
+
+.rounded {
+  border-radius: 20px !important;
+}

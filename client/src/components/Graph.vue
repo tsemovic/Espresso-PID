@@ -1,6 +1,6 @@
 <template>
   <!-- <q-card class="my-card bg-white text-white"> -->
-  <q-card class="graph-container bg-white text-black">
+  <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
       <apexchart
         class="graph-graph"

@@ -1,6 +1,10 @@
 <template>
   <div class="info-container">
-    <q-card flat bordered class="info-card bg-white text-primary no-margin">
+    <q-card
+      flat
+      bordered
+      class="rounded info-card bg-white text-primary no-margin"
+    >
       <!-- Temperature -->
       <q-card-section>
         <div class="row items-center no-wrap">
@@ -12,7 +16,11 @@
       </q-card-section>
     </q-card>
 
-    <q-card flat bordered class="info-card bg-white text-primary no-margin">
+    <q-card
+      flat
+      bordered
+      class="rounded info-card bg-white text-primary no-margin"
+    >
       <!-- Target Temperature -->
       <q-card-section>
         <div class="row items-center no-wrap">
@@ -24,7 +32,11 @@
       </q-card-section>
     </q-card>
 
-    <q-card flat bordered class="info-card bg-white text-primary no-margin">
+    <q-card
+      flat
+      bordered
+      class="rounded info-card bg-white text-primary no-margin"
+    >
       <!-- Current Settings -->
       <q-card-section>
         <div class="row items-center no-wrap">
@@ -52,7 +64,7 @@
           size="22px"
           icon="settings"
           label="Settings"
-          class="full-width"
+          class="full-width rounded"
           @click="
             updateForm();
             settings = true;
@@ -67,7 +79,7 @@
       transition-show="flip-down"
       transition-hide="flip-up"
     >
-      <q-card>
+      <q-card class="rounded">
         <q-card-section
           class="row items-center q-pb-none bg-white text-primary"
         >
@@ -88,6 +100,7 @@
           <div class="settings-container">
             <div class="settings-item">
               <q-input
+                rounded
                 standout="bg-red text-white"
                 v-model="form_P"
                 label="P"
@@ -96,6 +109,7 @@
             </div>
             <div class="settings-item">
               <q-input
+                rounded
                 standout="bg-red text-white"
                 v-model="form_I"
                 label="I"
@@ -104,6 +118,7 @@
             </div>
             <div class="settings-item">
               <q-input
+                rounded
                 standout="bg-red text-white"
                 v-model="form_D"
                 label="D"
@@ -112,6 +127,7 @@
             </div>
             <div class="settings-item2">
               <q-input
+                rounded
                 standout="bg-red text-white"
                 v-model="form_targetTemperature"
                 label="Target Temperature"

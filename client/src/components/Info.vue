@@ -3,7 +3,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-card bg-white text-primary no-margin"
+      class="rounded info-temperature bg-white text-primary no-margin"
     >
       <!-- Temperature -->
       <q-card-section>
@@ -19,7 +19,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-card bg-white text-primary no-margin"
+      class="rounded info-targetTemperature bg-white text-primary no-margin"
     >
       <!-- Target Temperature -->
       <q-card-section>
@@ -35,7 +35,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-card bg-white text-primary no-margin"
+      class="rounded info-pid bg-white text-primary no-margin"
     >
       <!-- Current Settings -->
       <q-card-section>

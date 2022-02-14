@@ -17,7 +17,7 @@
               class="
                 graph
                 col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6
-                q-pa-md
+                q-pa-sm
               "
             >
               <Graph
@@ -32,7 +32,7 @@
               class="
                 info
                 col-xs-12 col-sm-12 col-md-3 col-lg-2 col-xl-3
-                q-pa-md
+                q-pa-sm
               "
             >
               <Info

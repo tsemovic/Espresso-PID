@@ -25,8 +25,8 @@ export default {
   props: ["temperature", "time", "chartHeight"],
   data: function () {
     return {
+      testData: [],
       labelColor: "592D1D",
-      testData: 1,
       intervalid1: null,
       chartOptions: {
         chart: {
@@ -81,7 +81,9 @@ export default {
           },
         },
         xaxis: {
-          categories: this.time,
+          type: "numeric",
+          // tickAmount: 29,
+          range: 29,
           labels: {
             style: {
               colors: "#592D1D",
@@ -132,39 +134,51 @@ export default {
       );
     },
     updateChart: function () {
-      // var me = this;
+      var me = this;
       this.intervalid1 = setInterval(() => {
-        var current = this.temperature.at(-1);
+        // var current = this.temperature.at(-1);
 
-        var newMin = Math.floor((current + 1) / 10) * 10 - 20;
-        var newMax = Math.ceil(current / 10) * 10 + 20;
+        // var newMin = Math.floor((current + 1) / 10) * 10 - 20;
+        // var newMax = Math.ceil(current / 10) * 10 + 20;
 
-        this.testData = this.testData + 1;
-        this.chartOptions = {
-          xaxis: {
-            categories: this.time,
-          },
-          yaxis: {
-            min: newMin,
-            max: newMax,
-            labels: {
-              style: {
-                colors: "#592D1D",
-              },
-            },
-          },
-        };
-        this.series = [
-          {
-            data: this.temperature,
-          },
-        ];
-        // me.$refs.chart.updateSeries([
+        // this.testData = this.temperature
+        // this.chartOptions = {
+        //   // xaxis: {
+        //   //   categories: this.time,
+        //   //   tickAmount: 29,
+        //   // },
+        //   yaxis: {
+        //     min: newMin,
+        //     max: newMax,
+        //     labels: {
+        //       style: {
+        //         colors: "#592D1D",
+        //       },
+        //     },
+        //   },
+        // };
+        // this.series = [
         //   {
-        //     data: this.temperature,
+        //     // data: this.temperature,
+        //     data: this.testData
+        //   },
+        // ];
+        this.testData.push(this.temperature.at(-1))
+        me.$refs.chart.updateSeries([
+          {
+            data: this.testData,
+          },
+        ]);
+
+        // me.$refs.chart.updateOptions([
+        //   {
+        //     xaxis: {
+        //       categories: this.time,
+        //       tickAmount: 29,
+        //     },
         //   },
         // ]);
-      }, 1000);
+      }, 500);
     },
   },
 };

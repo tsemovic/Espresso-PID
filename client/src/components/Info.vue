@@ -9,7 +9,7 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">Temperature</div>
+            <div class="text-subtitle1">TEMPERATURE</div>
             <div class="text-h3">{{ displayTemperature }}</div>
           </div>
         </div>
@@ -25,7 +25,7 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">Target Temperature</div>
+            <div class="text-subtitle1">TARGET</div>
             <div class="text-h3">{{ targetTemperature }}</div>
           </div>
         </div>
@@ -41,7 +41,7 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">Settings</div>
+            <div class="text-subtitle1">SETTINGS</div>
             <div class="pid-container">
               <div class="text-h5 text-weight-bold pid-item">
                 P:<span class="text-h5">{{ P }}</span>
@@ -63,7 +63,7 @@
           color="red"
           size="22px"
           icon="settings"
-          label="Settings"
+          label="CONFIGURE"
           class="full-width rounded"
           @click="
             updateForm();

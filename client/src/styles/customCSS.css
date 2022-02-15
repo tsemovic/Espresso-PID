@@ -21,8 +21,15 @@ body {
   font-family: customfont;
   src: url(../assets/RelayComp.woff);
 }
+@font-face {
+  font-family: customfont2;
+  src: url(../assets/Montserrat-VariableFont_wght.ttf);
+  font-weight: 450;
 
-.headerFont {
+}
+
+/* Header font */
+.fontHeader {
   font-family: "customfont";
   color: white;
   font-size: 10vmax;
@@ -31,28 +38,10 @@ body {
   margin-bottom: 1%;
 }
 
-/* .box {
-  display: flex;
-  flex-flow: column;
-  height: 90%;
-  min-height: inherit;
-} */
-
-.graph {
-  /* display: flexbox; */
-  /* height: 90%; */
-  /* background-color: green; */
+/* Defualt font */
+* {
+  font-family: "customfont2";
 }
-
-.info {
-  /* display: flexbox; */
-  /* height: 90%; */
-  /* background-color: honeydew; */
-}
-
-/* .box .row.content {
-  flex: 1 1 auto;
-} */
 
 .graph-container {
   height: 100%;
@@ -76,6 +65,10 @@ body {
   align-items: center;
 }
 
+.apexcharts-tooltip {
+  color: white;
+}
+
 .info-container {
   height: 100%;
   display: flex;
@@ -88,15 +81,15 @@ body {
   gap: 15px 15px;
 }
 
-.info-temperature{
+.info-temperature {
   flex-grow: 4;
 }
 
-.info-targetTemperature{
+.info-targetTemperature {
   flex-grow: 2;
 }
 
-.info-pid{
+.info-pid {
   flex-grow: 5;
 }
 
@@ -111,8 +104,8 @@ body {
   justify-content: space-between;
 }
 
-.pid-item{
-  flex-grow: 4
+.pid-item {
+  flex-grow: 4;
 }
 
 .settings-container {
@@ -125,19 +118,17 @@ body {
   /* justify-content: flex-start; */
   /* justify-content: space-between; */
   gap: 10px;
-
 }
 
-.settings-item{
+.settings-item {
   flex-grow: 2;
-  width: 30%
+  width: 30%;
 }
 
-.settings-item2{
+.settings-item2 {
   flex-grow: 2;
-  width: 100%
+  width: 100%;
 }
-
 
 .rounded {
   border-radius: 20px !important;

@@ -6,7 +6,7 @@
         <div class="box">
           <div class="row text-center">
             <div class="col">
-              <h1 class="text-center headerFont">GAGGIA CONTROLLER</h1>
+              <h1 class="text-center fontHeader">GAGGIA CONTROLLER</h1>
             </div>
           </div>
 

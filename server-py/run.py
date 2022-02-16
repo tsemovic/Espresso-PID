@@ -7,6 +7,7 @@ import RPi.GPIO as GPIO
 from simple_pid import PID
 import threading
 import json
+import math
 from datetime import datetime
 from atexit import register
 
@@ -146,7 +147,7 @@ def espresso():
         #internal = sensor.readInternalC()
 
         # date = datetime.today().strftime('%H:%M:%S')
-        date = datetime.today().timestamp() * 1000
+        date = math.trunc(datetime.today().timestamp() * 1000)
 
         if (len(temperatureArray) >=30):
             temperatureArray.pop(0)

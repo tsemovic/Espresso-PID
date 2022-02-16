@@ -2,7 +2,8 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
-      {{dataArray}}
+      {{dataArray.length}}
+      {{testData}}
       <apexchart
         class="graph-graph"
         width="100%"
@@ -184,9 +185,8 @@ export default {
           this.testData = this.testData.slice(-32, -1);
         }
 
-        // var today = new Date();
-        // var date = today.getTime();
-        this.dict = { x: this.dataArray.x, y: this.dataArray.y };
+
+        this.dict = { x: this.dataArray[-1], y: this.dataArray["y"] };
         this.testData.push(this.dict);
 
         me.$refs.chart.updateSeries([

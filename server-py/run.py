@@ -19,8 +19,6 @@ app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
 temperature = 0
-temperatureArray = []
-timestampArray = []
 dataArray = []
 userConnected = False
 currentSettings = ""
@@ -100,7 +98,7 @@ def disconnect():
 # SOCKET: send temperature to socket connection
 @socketio.on('send_temperature')
 def temperature_give():
-    socketio.emit('recieve_temperature', {"temperature": temperatureArray, "timestamp": timestampArray, "data" : dataArray})
+    socketio.emit('recieve_temperature', dataArray)
 
 # SOCKET: update settings file and re-instantiate PID settings
 @socketio.on('send_PID')
@@ -147,18 +145,12 @@ def espresso():
         temperature = sensor.readTempC()
         #internal = sensor.readInternalC()
 
-        # date = datetime.today().strftime('%H:%M:%S')
         date = math.trunc(datetime.today().timestamp() * 1000)
 
-        if (len(temperatureArray) >=30):
-            temperatureArray.pop(0)
-            timestampArray.pop(0)
-            
-        temperatureArray.append(temperature)
-        timestampArray.append(date)
+        if (len(dataArray) >=30):
+            dataArray.pop(0)
         
         dataArray.append({"x": date, "y": temperature})
-        
 
         output = pid(temperature)
         if(output > 0):

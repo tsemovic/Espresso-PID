@@ -79,9 +79,6 @@ export default {
       D: "",
       targetTemperature: "",
 
-      temperatureData: [],
-      timestampData: [],
-
       // chartHeight: this.$refs.graph.clientHeight,
       chartHeight: null,
 
@@ -110,10 +107,7 @@ export default {
   methods: {
     getTemperature() {
       socket.on("recieve_temperature", (fetchedData) => {
-        this.currentTemperature = fetchedData.temperature.at(-1);
-        this.temperatureData = fetchedData.temperature;
-        this.timestampData = fetchedData.timestamp;
-        this.dataArray = fetchedData.data;
+        this.dataArray = fetchedData;
       });
     },
     getPID() {

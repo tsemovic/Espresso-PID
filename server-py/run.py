@@ -147,7 +147,7 @@ def espresso():
 
         date = math.trunc(datetime.today().timestamp() * 1000)
 
-        if (len(dataArray) >=30):
+        if (len(dataArray) >=60):
             dataArray.pop(0)
         
         dataArray.append({"x": date, "y": temperature})

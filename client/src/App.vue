@@ -124,7 +124,7 @@ export default {
     askForTemperature: function () {
       setInterval(function () {
         socket.emit("send_temperature");
-      }, 2000);
+      }, 500);
     },
     askForPID: function () {
       socket.emit("get_PID");

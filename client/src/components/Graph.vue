@@ -2,6 +2,7 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
+      {{dataArray}}
       <apexchart
         class="graph-graph"
         width="100%"
@@ -22,7 +23,7 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
-  props: ["temperature", "time", "chartHeight"],
+  props: ["temperature", "time", "chartHeight", "dataArray"],
   data: function () {
     return {
       testData: [],
@@ -176,16 +177,16 @@ export default {
       this.intervalid1 = setInterval(() => {
 
         if (this.testData.length < 25) {
-          this.initChart();
+          // this.initChart();
         }
 
         if (this.testData.length > 3600) {
           this.testData = this.testData.slice(-32, -1);
         }
 
-        var today = new Date();
-        var date = today.getTime();
-        this.dict = { x: date, y: this.temperature.at(-1) };
+        // var today = new Date();
+        // var date = today.getTime();
+        this.dict = { x: this.dataArray.x, y: this.dataArray.y };
         this.testData.push(this.dict);
 
         me.$refs.chart.updateSeries([

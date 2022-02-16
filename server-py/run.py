@@ -100,7 +100,7 @@ def disconnect():
 # SOCKET: send temperature to socket connection
 @socketio.on('send_temperature')
 def temperature_give():
-    socketio.emit('recieve_temperature', {"temperature": temperatureArray, "timestamp": timestampArray})
+    socketio.emit('recieve_temperature', {"temperature": temperatureArray, "timestamp": timestampArray, "data" : dataArray})
 
 # SOCKET: update settings file and re-instantiate PID settings
 @socketio.on('send_PID')
@@ -157,7 +157,7 @@ def espresso():
         temperatureArray.append(temperature)
         timestampArray.append(date)
         
-        # dataArray.append({"x": date, "y": temperature})
+        dataArray.append({"x": date, "y": temperature})
         
 
         output = pid(temperature)

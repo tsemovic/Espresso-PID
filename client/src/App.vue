@@ -23,6 +23,7 @@
               <Graph
                 v-bind:temperature="temperatureData"
                 v-bind:time="timestampData"
+                v-bind:dataArray="dataArray"
                 v-bind:chartHeight="chartHeight"
               />
             </div>
@@ -85,6 +86,8 @@ export default {
       chartHeight: null,
 
       pidRecieved: false,
+
+      dataArray: [],
     };
   },
   created() {
@@ -110,6 +113,7 @@ export default {
         this.currentTemperature = fetchedData.temperature.at(-1);
         this.temperatureData = fetchedData.temperature;
         this.timestampData = fetchedData.timestamp;
+        this.dataArray = fetchedData.data;
       });
     },
     getPID() {

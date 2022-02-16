@@ -2,7 +2,7 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
-      {{dict}}
+      {{ this.time.at(-1) }}
       <apexchart
         class="graph-graph"
         width="100%"
@@ -50,7 +50,7 @@ export default {
             },
             animateGradually: {
               enabled: true,
-              delay: 0,
+              delay: 1,
             },
           },
           toolbar: {
@@ -85,15 +85,40 @@ export default {
         },
         xaxis: {
           type: "datetime",
-          tickAmount: 15,
-          range: 900,
+          tickAmount: 3,
+
+          range: 30000,
+          // type: "numeric",
+          // range: 29,
           labels: {
             style: {
               colors: "#592D1D",
             },
-          },
-          title: {
-            text: "PREVIOUS 30 SECONDS",
+            formatter: function (timestamp) {
+              var date = new Date(timestamp);
+              var currentDate = new Date();
+              var label =
+                date.getHours() +
+                ":" +
+                date.getMinutes() +
+                ":" +
+                ("0" + date.getSeconds()).slice(-2);
+
+              if (date.getSeconds() == currentDate.getSeconds() - 10) {
+                label = "10 Seconds Ago";
+              }
+
+              if (date.getSeconds() == currentDate.getSeconds() - 20) {
+                label = "20 Seconds Ago";
+              }
+
+              if (date.getSeconds() == currentDate.getSeconds() - 30) {
+                label = "30 Seconds Ago";
+              }
+
+              return label;
+            },
+            // rotateAlways: true,
           },
         },
         yaxis: {
@@ -142,54 +167,20 @@ export default {
     updateChart: function () {
       var me = this;
       this.intervalid1 = setInterval(() => {
-        // var current = this.temperature.at(-1);
+        if (this.testData.length > 3600) {
+          this.testData = this.testData.slice(-32, -1);
+        }
 
-        // var newMin = Math.floor((current + 1) / 10) * 10 - 20;
-        // var newMax = Math.ceil(current / 10) * 10 + 20;
-
-        // this.testData = this.temperature
-        // this.chartOptions = {
-        //   // xaxis: {
-        //   //   categories: this.time,
-        //   //   tickAmount: 29,
-        //   // },
-        //   yaxis: {
-        //     min: newMin,
-        //     max: newMax,
-        //     labels: {
-        //       style: {
-        //         colors: "#592D1D",
-        //       },
-        //     },
-        //   },
-        // };
-        // this.series = [
-        //   {
-        //     // data: this.temperature,
-        //     data: this.testData
-        //   },
-        // ];
-
-        // this.temp = this.temp + 1
-        // this.testData.push({x: this.temp, y: this.temperature.at(-1)});
-        this.dict = {x: this.time.at(-1), y: this.temperature.at(-1)}
+        var today = new Date();
+        var date = today.getTime();
+        this.dict = { x: date, y: this.temperature.at(-1) };
         this.testData.push(this.dict);
-
 
         me.$refs.chart.updateSeries([
           {
             data: this.testData,
           },
         ]);
-
-        // me.$refs.chart.updateOptions([
-        //   {
-        //     xaxis: {
-        //       categories: this.time,
-        //       tickAmount: 29,
-        //     },
-        //   },
-        // ]);
       }, 500);
     },
   },

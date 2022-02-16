@@ -21,6 +21,7 @@ socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 temperature = 0
 temperatureArray = []
 timestampArray = []
+dataArray = []
 userConnected = False
 currentSettings = ""
 
@@ -155,6 +156,8 @@ def espresso():
             
         temperatureArray.append(temperature)
         timestampArray.append(date)
+        
+        # dataArray.append({"x": date, "y": temperature})
         
 
         output = pid(temperature)

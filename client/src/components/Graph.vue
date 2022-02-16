@@ -2,9 +2,6 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
-      <!-- {{ this.tempData }} -->
-      {{ this.t1 }} and {{ this.t2 }}
-
       <apexchart
         class="graph-graph"
         width="100%"
@@ -31,7 +28,7 @@ export default {
       testData: [],
       temp: 1,
       t1: 0,
-      t2: 0,
+      t2: [],
       dict: {},
       labelColor: "592D1D",
       intervalid1: null,
@@ -54,7 +51,7 @@ export default {
             },
             animateGradually: {
               enabled: true,
-              delay: 1,
+              delay: 2,
             },
           },
           toolbar: {
@@ -142,12 +139,12 @@ export default {
       ],
     };
   },
-  created() {
-    // this.updateChart();
+  beforeMount() {
+    // this.initChart();
   },
   mounted() {
-    this.initChart();
     this.updateChart();
+    // this.initChart();
   },
   watch: {
     chartHeight: function () {
@@ -168,23 +165,26 @@ export default {
       );
     },
     initChart: function () {
-      for (var i = this.temperature.length - 1; i > 0; i--) {
-        // var dict = { x: this.time.at(i), y: this.temperature.at(i) };
-        // this.tempData.push(dict);
+      for (var i = 1; i <= this.temperature.length - 1; i++) {
+        var xtime = this.time.at(-i)
+        var dict = { x: xtime, y: this.temperature.at(-i) };
+        this.testData.push(dict);
       }
-      this.t1 = this.time.at(-1);
     },
     updateChart: function () {
       var me = this;
       this.intervalid1 = setInterval(() => {
+
+        if (this.testData.length < 25) {
+          this.initChart();
+        }
+
         if (this.testData.length > 3600) {
           this.testData = this.testData.slice(-32, -1);
         }
 
         var today = new Date();
         var date = today.getTime();
-        this.t2 = date
-        this.t1 = this.time.at(-1);
         this.dict = { x: date, y: this.temperature.at(-1) };
         this.testData.push(this.dict);
 

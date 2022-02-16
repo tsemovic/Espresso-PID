@@ -2,6 +2,7 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
+      {{dict}}
       <apexchart
         class="graph-graph"
         width="100%"
@@ -26,6 +27,8 @@ export default {
   data: function () {
     return {
       testData: [],
+      temp: 1,
+      dict: {},
       labelColor: "592D1D",
       intervalid1: null,
       chartOptions: {
@@ -81,13 +84,16 @@ export default {
           },
         },
         xaxis: {
-          type: "numeric",
-          // tickAmount: 29,
-          range: 29,
+          type: "datetime",
+          tickAmount: 15,
+          range: 900,
           labels: {
             style: {
               colors: "#592D1D",
             },
+          },
+          title: {
+            text: "PREVIOUS 30 SECONDS",
           },
         },
         yaxis: {
@@ -163,7 +169,13 @@ export default {
         //     data: this.testData
         //   },
         // ];
-        this.testData.push(this.temperature.at(-1))
+
+        // this.temp = this.temp + 1
+        // this.testData.push({x: this.temp, y: this.temperature.at(-1)});
+        this.dict = {x: this.time.at(-1), y: this.temperature.at(-1)}
+        this.testData.push(this.dict);
+
+
         me.$refs.chart.updateSeries([
           {
             data: this.testData,

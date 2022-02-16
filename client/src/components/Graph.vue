@@ -2,7 +2,9 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
-      {{ this.testData }}
+      <!-- {{ this.tempData }} -->
+      {{ this.t1 }} and {{ this.t2 }}
+
       <apexchart
         class="graph-graph"
         width="100%"
@@ -28,6 +30,8 @@ export default {
     return {
       testData: [],
       temp: 1,
+      t1: 0,
+      t2: 0,
       dict: {},
       labelColor: "592D1D",
       intervalid1: null,
@@ -164,32 +168,23 @@ export default {
       );
     },
     initChart: function () {
-      var offset = 30 - this.testData.length;
-      var currentDate = new Date();
-
-      for (var i = 0; i <= offset; i++) {
-        var label =
-          currentDate.getHours() +
-          ":" +
-          currentDate.getMinutes() +
-          ":" +
-          ("0" + currentDate.getSeconds() - i).slice(-2);
-
-        var dict = { x: label, y: this.temperature.at(offset) };
-        console.log(dict)
-        // this.testData.unshift(dict);
+      for (var i = this.temperature.length - 1; i > 0; i--) {
+        // var dict = { x: this.time.at(i), y: this.temperature.at(i) };
+        // this.tempData.push(dict);
       }
+      this.t1 = this.time.at(-1);
     },
     updateChart: function () {
       var me = this;
       this.intervalid1 = setInterval(() => {
-
         if (this.testData.length > 3600) {
           this.testData = this.testData.slice(-32, -1);
         }
 
         var today = new Date();
         var date = today.getTime();
+        this.t2 = date
+        this.t1 = this.time.at(-1);
         this.dict = { x: date, y: this.temperature.at(-1) };
         this.testData.push(this.dict);
 

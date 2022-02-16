@@ -145,7 +145,7 @@ def espresso():
         temperature = sensor.readTempC()
         #internal = sensor.readInternalC()
 
-        date = datetime.today()
+        date = datetime.today().strftime('%H:%M:%S')
 
         if (len(temperatureArray) >=30):
             temperatureArray.pop(0)

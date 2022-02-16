@@ -2,7 +2,7 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
-      {{ this.time.at(-1) }}
+      {{ this.testData }}
       <apexchart
         class="graph-graph"
         width="100%"
@@ -104,16 +104,14 @@ export default {
                 ":" +
                 ("0" + date.getSeconds()).slice(-2);
 
-              if (date.getSeconds() == currentDate.getSeconds() - 10) {
-                label = "10 Seconds Ago";
+              if (date.getSeconds() >= currentDate.getSeconds() - 30) {
+                label = "30 Seconds Ago";
               }
-
-              if (date.getSeconds() == currentDate.getSeconds() - 20) {
+              if (date.getSeconds() >= currentDate.getSeconds() - 20) {
                 label = "20 Seconds Ago";
               }
-
-              if (date.getSeconds() == currentDate.getSeconds() - 30) {
-                label = "30 Seconds Ago";
+              if (date.getSeconds() >= currentDate.getSeconds() - 10) {
+                label = "10 Seconds Ago";
               }
 
               return label;
@@ -144,6 +142,7 @@ export default {
     // this.updateChart();
   },
   mounted() {
+    this.initChart();
     this.updateChart();
   },
   watch: {
@@ -164,9 +163,27 @@ export default {
         3000
       );
     },
+    initChart: function () {
+      var offset = 30 - this.testData.length;
+      var currentDate = new Date();
+
+      for (var i = 0; i <= offset; i++) {
+        var label =
+          currentDate.getHours() +
+          ":" +
+          currentDate.getMinutes() +
+          ":" +
+          ("0" + currentDate.getSeconds() - i).slice(-2);
+
+        var dict = { x: label, y: this.temperature.at(offset) };
+        console.log(dict)
+        // this.testData.unshift(dict);
+      }
+    },
     updateChart: function () {
       var me = this;
       this.intervalid1 = setInterval(() => {
+
         if (this.testData.length > 3600) {
           this.testData = this.testData.slice(-32, -1);
         }

@@ -160,7 +160,7 @@ def espresso():
 
         print("TEMPERATURE: " + str(temperature) + " |  PID OUTPUT: " + str(output))
 
-        time.sleep(1)
+        time.sleep(0.5)
 
 @register
 

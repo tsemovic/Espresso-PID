@@ -2,8 +2,8 @@
   <!-- <q-card class="my-card bg-white text-white"> -->
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
-      {{dataArray.length}}
-      {{testData}}
+      <!-- {{dataArray}} -->
+      <!-- {{ testData }} -->
       <apexchart
         class="graph-graph"
         width="100%"
@@ -167,26 +167,25 @@ export default {
       );
     },
     initChart: function () {
-      for (var i = 1; i <= this.temperature.length - 1; i++) {
-        var xtime = this.time.at(-i)
-        var dict = { x: xtime, y: this.temperature.at(-i) };
-        this.testData.push(dict);
-      }
+      // for (var i = 1; i <= this.temperature.length - 1; i++) {
+      // }
+      this.testData = this.dataArray;
     },
     updateChart: function () {
       var me = this;
       this.intervalid1 = setInterval(() => {
-
         if (this.testData.length < 25) {
-          // this.initChart();
+          this.initChart();
         }
 
         if (this.testData.length > 3600) {
           this.testData = this.testData.slice(-32, -1);
         }
 
-
-        this.dict = { x: this.dataArray[-1], y: this.dataArray["y"] };
+        this.dict = {
+          x: this.dataArray[this.dataArray.length - 1].x,
+          y: this.dataArray[this.dataArray.length - 1].y,
+        };
         this.testData.push(this.dict);
 
         me.$refs.chart.updateSeries([

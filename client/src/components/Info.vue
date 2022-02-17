@@ -10,7 +10,7 @@
         <div class="row items-center no-wrap">
           <div class="col">
             <div class="text-subtitle1">TEMPERATURE</div>
-            <div class="text-h3">{{ displayTemperature }}</div>
+            <div class="text-h3">{{ currentTemperature }}</div>
           </div>
         </div>
       </q-card-section>
@@ -25,7 +25,7 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">TARGET</div>
+            <div class="text-subtitle1">TARGET TEMPERATURE</div>
             <div class="text-h3">{{ targetTemperature }}</div>
           </div>
         </div>
@@ -41,7 +41,7 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">SETTINGS</div>
+            <div class="text-subtitle1">Settings</div>
             <div class="pid-container">
               <div class="text-h5 text-weight-bold pid-item">
                 P:<span class="text-h5">{{ P }}</span>
@@ -63,7 +63,7 @@
           color="red"
           size="22px"
           icon="settings"
-          label="CONFIGURE"
+          label="Settings"
           class="full-width rounded"
           @click="
             updateForm();
@@ -147,7 +147,14 @@
 <script>
 export default {
   name: "Info",
-  props: ["P", "I", "D", "targetTemperature", "temperature", "pidRecieved"],
+  props: [
+    "P",
+    "I",
+    "D",
+    "targetTemperature",
+    "currentTemperature",
+    "pidRecieved",
+  ],
 
   data: function () {
     return {
@@ -157,11 +164,6 @@ export default {
       form_D: this.D,
       form_targetTemperature: this.targetTemperature,
     };
-  },
-  watch: {
-    temperature: function () {
-      this.updateDisplayTemperature();
-    },
   },
   methods: {
     passEvent() {
@@ -179,9 +181,6 @@ export default {
       this.form_I = this.I;
       this.form_D = this.D;
       this.form_targetTemperature = this.targetTemperature;
-    },
-    updateDisplayTemperature() {
-      this.displayTemperature = this.temperature.at(-1).toFixed(2);
     },
     showNotification() {
       if (this.pidRecieved == true) {

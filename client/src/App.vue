@@ -6,7 +6,7 @@
         <div class="box">
           <div class="row text-center">
             <div class="col">
-              <h1 class="text-center fontHeader">GAGGIA CONTROLLER</h1>
+              <h1 class="text-center fontHeader">GAGGIA CONTROLLER {{new Date(dataArray.at(-1).x).getSeconds()}}</h1>
             </div>
           </div>
 
@@ -41,7 +41,7 @@
                 v-bind:I="I"
                 v-bind:D="D"
                 v-bind:targetTemperature="targetTemperature"
-                v-bind:temperature="temperatureData"
+                v-bind:currentTemperature="currentTemperature"
                 v-bind:pidRecieved="pidRecieved"
                 @setPID="setPID($event)"
               />
@@ -72,19 +72,15 @@ export default {
   },
   data() {
     return {
-      currentTemperature: "Waiting to connect...",
-
       P: "",
       I: "",
       D: "",
       targetTemperature: "",
-
-      // chartHeight: this.$refs.graph.clientHeight,
-      chartHeight: null,
-
-      pidRecieved: false,
-
+      currentTemperature: "",
       dataArray: [],
+
+      chartHeight: null,
+      pidRecieved: false,
     };
   },
   created() {
@@ -96,7 +92,6 @@ export default {
   mounted() {
     this.askForTemperature();
     this.askForPID();
-    // this.updateChartHeight();
 
     this.$nextTick(function () {
       window.addEventListener("resize", this.updateChartHeight);
@@ -108,6 +103,7 @@ export default {
     getTemperature() {
       socket.on("recieve_temperature", (fetchedData) => {
         this.dataArray = fetchedData;
+        this.currentTemperature = fetchedData.at(-1).y.toFixed(2)
       });
     },
     getPID() {

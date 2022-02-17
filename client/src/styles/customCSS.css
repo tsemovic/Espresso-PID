@@ -19,11 +19,11 @@ body {
 /* custom font setup */
 @font-face {
   font-family: customfont;
-  src: url(../assets/RelayComp.woff);
+  src: url(../assets/Headding.ttf);
 }
 @font-face {
   font-family: customfont2;
-  src: url(../assets/Montserrat-VariableFont_wght.ttf);
+  src: url(../assets/Other.ttf);
   font-weight: 450;
 }
 

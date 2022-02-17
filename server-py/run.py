@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask  # Import flask
+from flask import Flask, render_template  # Import flask
 import time
 from flask_socketio import SocketIO, emit
 import Adafruit_MAX31855.MAX31855 as MAX31855
@@ -12,9 +12,10 @@ from datetime import datetime
 from atexit import register
 
 
-
 # Webserver setup
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder="./dist/static",
+            template_folder="./dist")
 app.config['SECRET_KEY'] = 'secretkey'
 socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
@@ -77,13 +78,15 @@ def readSettings():
 readSettings()
 
 # Webserver Routes
+
+
 @app.route('/')
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
-@app.route('/data')
-def data(filepath):
-    return send_from_directory('../client/dist', 'index.html')
+@app.route('/test')
+def index():
+    return render_template("index.html")
 
 # SOCKET: connect
 @socketio.on('connect')
@@ -93,6 +96,8 @@ def connect():
     print('user connected to websocket')
 
 # SOCKET: disconnect
+
+
 @socketio.on('disconnect')
 def disconnect():
     global userConnected
@@ -100,11 +105,15 @@ def disconnect():
     print('user disconnected to websocket')
 
 # SOCKET: send temperature to socket connection
+
+
 @socketio.on('send_temperature')
 def temperature_give():
     socketio.emit('recieve_temperature', dataArray)
 
 # SOCKET: update settings file and re-instantiate PID settings
+
+
 @socketio.on('send_PID')
 def PID_update(data):
     writeSettings(data)
@@ -114,14 +123,18 @@ def PID_update(data):
     print(currentSettings)
 
 # SOCKET: Send PID settings
+
+
 @socketio.on('get_PID')
 def PID_update():
     print("EMIT: give_PID " + str(currentSettings))
     socketio.emit('give_PID', currentSettings)
     print("SENDING CURRENT SETTINGS")
     print(currentSettings)
-    
+
 # function to write data to settings.json file
+
+
 def writeSettings(data):
     P = data["P"]
     I = data["I"]
@@ -151,9 +164,9 @@ def espresso():
 
         date = math.trunc(datetime.today().timestamp() * 1000)
 
-        if (len(dataArray) >=60):
+        if (len(dataArray) >= 60):
             dataArray.pop(0)
-        
+
         dataArray.append({"x": date, "y": temperature})
 
         output = pid(temperature)
@@ -162,16 +175,18 @@ def espresso():
         else:
             GPIO.output(21, GPIO.LOW)
 
-        print("TEMPERATURE: " + str(temperature) + " |  PID OUTPUT: " + str(output))
+        print("TEMPERATURE: " + str(temperature) +
+              " |  PID OUTPUT: " + str(output))
 
         time.sleep(0.5)
 
-@register
 
+@register
 def terminate():
     GPIO.output(21, GPIO.LOW)
     print("Goodbye!")
-    
+
+
 # If the script that was run is this script (we have not been imported)
 if __name__ == '__main__':
 

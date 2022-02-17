@@ -192,5 +192,5 @@ if __name__ == '__main__':
 
     # Run flask and espresso controller on seperate threads
     threading.Thread(target=lambda: socketio.run(
-        app, host='192.168.1.21', port=3000, debug=False)).start()
+        app, host='0.0.0.0', port=3000, debug=False)).start()
     threading.Thread(target=espresso).start()

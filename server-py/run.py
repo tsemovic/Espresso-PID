@@ -81,6 +81,10 @@ readSettings()
 def home():  # At the same home function as before
     return "<p>Hello this is the backend</p>"
 
+@app.route('/data')
+def data(filepath):
+    return send_from_directory('../client/dist', 'index.html')
+
 # SOCKET: connect
 @socketio.on('connect')
 def connect():

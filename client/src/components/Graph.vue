@@ -3,7 +3,7 @@
   <q-card class="rounded graph-container bg-white text-black">
     <q-card-section class="graph-card">
       <!-- {{dataArray}} -->
-      <!-- {{ testData }} -->
+      <!-- {{ chartData }} -->
       <apexchart
         class="graph-graph"
         width="100%"
@@ -27,11 +27,7 @@ export default {
   props: ["temperature", "time", "chartHeight", "dataArray"],
   data: function () {
     return {
-      testData: [],
-      temp: 1,
-      t1: 0,
-      t2: [],
-      dict: {},
+      chartData: [],
       labelColor: "592D1D",
       intervalid1: null,
       chartOptions: {
@@ -89,32 +85,38 @@ export default {
         xaxis: {
           type: "datetime",
           tickAmount: 3,
-
           range: 30000,
-          // type: "numeric",
-          // range: 29,
           labels: {
             style: {
               colors: "#592D1D",
             },
             formatter: function (timestamp) {
-              var date = new Date(timestamp);
               var currentDate = new Date();
-              var label =
-                date.getHours() +
-                ":" +
-                date.getMinutes() +
-                ":" +
-                ("0" + date.getSeconds()).slice(-2);
 
-              if (date.getSeconds() >= currentDate.getSeconds() - 30) {
-                label = "30 Seconds Ago";
+              // var date = new Date(timestamp);
+              // var label =
+              //   date.getHours() +
+              //   ":" +
+              //   date.getMinutes() +
+              //   ":" +
+              //   ("0" + date.getSeconds()).slice(-2);
+
+              var label = "";
+
+              if (timestamp >= currentDate.getTime() - 31000) {
+                label = "T-30";
               }
-              if (date.getSeconds() >= currentDate.getSeconds() - 20) {
-                label = "20 Seconds Ago";
+
+              if (timestamp >= currentDate.getTime() - 21000) {
+                label = "T-20";
               }
-              if (date.getSeconds() >= currentDate.getSeconds() - 10) {
-                label = "10 Seconds Ago";
+
+              if (timestamp >= currentDate.getTime() - 11000) {
+                label = "T-10";
+              }
+
+              if (timestamp >= currentDate.getTime() - 1000) {
+                label = "Now";
               }
 
               return label;
@@ -126,6 +128,18 @@ export default {
           labels: {
             style: {
               colors: "#592D1D",
+            },
+          },
+          title: {
+            text: "TEMPERATURE (°C)",
+            rotate: -90,
+            offsetX: -5,
+            offsetY: 0,
+            style: {
+              color: "#592D1D",
+              fontSize: "12px",
+              fontFamily: "customfont2",
+              fontWeight: 600,
             },
           },
         },
@@ -141,20 +155,16 @@ export default {
       ],
     };
   },
-  beforeMount() {
-    // this.initChart();
-  },
   mounted() {
     this.updateChart();
-    // this.initChart();
   },
   watch: {
     chartHeight: function () {
       this.resize();
-      // alert("tt");
     },
   },
   methods: {
+    // Method to resize chart on window resize
     resize() {
       setTimeout(
         () =>
@@ -167,30 +177,33 @@ export default {
       );
     },
     initChart: function () {
-      // for (var i = 1; i <= this.temperature.length - 1; i++) {
-      // }
-      this.testData = this.dataArray;
+      this.chartData = this.dataArray;
     },
     updateChart: function () {
       var me = this;
       this.intervalid1 = setInterval(() => {
-        if (this.testData.length < 25) {
+        // If the chart data isn't populated (replace with dataArray)
+        if (this.chartData.length < 25) {
           this.initChart();
         }
 
-        if (this.testData.length > 3600) {
-          this.testData = this.testData.slice(-32, -1);
+        // Replace chart data array (avoid memory leaks)
+        if (this.chartData.length > 360) {
+          this.chartData = this.dataArray;
         }
 
+        // Add data to chart dict
         this.dict = {
           x: this.dataArray[this.dataArray.length - 1].x,
           y: this.dataArray[this.dataArray.length - 1].y,
         };
-        this.testData.push(this.dict);
 
+        this.chartData.push(this.dict);
+
+        // Update chart
         me.$refs.chart.updateSeries([
           {
-            data: this.testData,
+            data: this.chartData,
           },
         ]);
       }, 500);

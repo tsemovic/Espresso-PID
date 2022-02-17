@@ -6,7 +6,7 @@
         <div class="box">
           <div class="row text-center">
             <div class="col">
-              <h1 class="text-center fontHeader">GAGGIA CONTROLLER {{new Date(dataArray.at(-1).x).getSeconds()}}</h1>
+              <h1 class="text-center fontHeader">GAGGIA CONTROLLER</h1>
             </div>
           </div>
 
@@ -136,6 +136,7 @@ export default {
 </script>
 
 <style scoped>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
@@ -151,10 +152,5 @@ export default {
   padding: 12px;
   width: 100%;
   margin-top: 24px;
-}
-.example {
-  margin: 0 auto 40px;
-  border-bottom: 2px solid #aaa;
-  padding-bottom: 20px;
 }
 </style>

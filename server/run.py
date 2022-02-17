@@ -48,7 +48,7 @@ GPIO.output(21, GPIO.HIGH)
 def readSettings():
 
     # read settings file
-    with open('settings.json', 'r') as f:
+    with open('pidSettings.json', 'r') as f:
         data = f.read()
     jsonData = json.loads(data)
 
@@ -144,7 +144,7 @@ def writeSettings(data):
                   "TargetTemperature": float(targetTemperature)}
 
     # write settings file
-    with open('settings.json', 'w', encoding='utf-8') as f:
+    with open('pidSettings.json', 'w', encoding='utf-8') as f:
         json.dump(dictionary, f, ensure_ascii=False, indent=4)
 
     print("Written settings to file: " + str(dictionary))

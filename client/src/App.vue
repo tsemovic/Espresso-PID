@@ -6,7 +6,9 @@
         <div class="box">
           <div class="row text-center">
             <div class="col">
-              <h1 class="text-center fontHeader">GAGGIA CONTROLLER</h1>
+              <h1 class="text-center fontHeader">
+                GAGGIA CONTROLLER {{ jsonData }}
+              </h1>
             </div>
           </div>
 
@@ -59,11 +61,13 @@ import "./styles/customCSS.css";
 
 // socket io setup
 import io from "socket.io-client";
-var socket = io.connect(process.env.VUE_APP_SOCKET_ENDPOINT);
+
+var socket = io.connect(process.env.vueSocketEndpoint);
 
 // components setup
 import Graph from "./components/Graph.vue";
 import Info from "./components/Info.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -72,12 +76,15 @@ export default {
   },
   data() {
     return {
+      jsonData: "",
       P: "",
       I: "",
       D: "",
       targetTemperature: "",
       currentTemperature: "",
       dataArray: [],
+
+      vueSocketEndpoint: "",
 
       chartHeight: null,
       pidRecieved: false,
@@ -92,10 +99,9 @@ export default {
   mounted() {
     this.askForTemperature();
     this.askForPID();
-
+    this.fetchSettingsData();
     this.$nextTick(function () {
       window.addEventListener("resize", this.updateChartHeight);
-
       this.updateChartHeight();
     });
   },
@@ -103,7 +109,7 @@ export default {
     getTemperature() {
       socket.on("recieve_temperature", (fetchedData) => {
         this.dataArray = fetchedData;
-        this.currentTemperature = fetchedData.at(-1).y.toFixed(2)
+        this.currentTemperature = fetchedData.at(-1).y.toFixed(2);
       });
     },
     getPID() {
@@ -131,12 +137,18 @@ export default {
     updateChartHeight() {
       this.chartHeight = this.$refs.graph.clientHeight;
     },
+    fetchSettingsData() {
+      axios.get("/settings.json").then((response) => {
+        this.jsonData = response;
+        // this.vueSocketEndpoint = response.VUE_SOCKET_ENDPOINT
+        socket = io.connect(response.VUE_SOCKET_ENDPOINT);
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;

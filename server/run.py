@@ -79,12 +79,11 @@ readSettings()
 
 # Webserver Routes
 
+# @app.route('/')
+# def home():  # At the same home function as before
+#     return "<p>Hello this is the backend</p>"
 
 @app.route('/')
-def home():  # At the same home function as before
-    return "<p>Hello this is the backend</p>"
-
-@app.route('/test')
 def index():
     return render_template("index.html")
 
@@ -192,5 +191,5 @@ if __name__ == '__main__':
 
     # Run flask and espresso controller on seperate threads
     threading.Thread(target=lambda: socketio.run(
-        app, host='0.0.0.0', port=3000, debug=False)).start()
+        app, host='192.168.1.21', port=3000, debug=False)).start()
     threading.Thread(target=espresso).start()

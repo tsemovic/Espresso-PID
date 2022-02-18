@@ -7,7 +7,7 @@
           <div class="row text-center">
             <div class="col">
               <h1 class="text-center fontHeader">
-                GAGGIA CONTROLLER {{ jsonData }}
+                GAGGIA CONTROLLER {{settingsJsonData}}
               </h1>
             </div>
           </div>
@@ -56,18 +56,15 @@
 </template>
 
 <script>
-// css setup
-import "./styles/customCSS.css";
 
-// socket io setup
-import io from "socket.io-client";
-
-var socket = io.connect(process.env.vueSocketEndpoint);
-
-// components setup
+// imports setup
 import Graph from "./components/Graph.vue";
 import Info from "./components/Info.vue";
-import axios from "axios";
+import "./styles/customCSS.css";
+import io from "socket.io-client";
+import json from '../public/settings.json';
+
+var socket = io.connect(json.VUE_SOCKET_ENDPOINT);
 
 export default {
   components: {
@@ -76,7 +73,8 @@ export default {
   },
   data() {
     return {
-      jsonData: "",
+      settingsJsonData: json,
+
       P: "",
       I: "",
       D: "",
@@ -99,7 +97,6 @@ export default {
   mounted() {
     this.askForTemperature();
     this.askForPID();
-    this.fetchSettingsData();
     this.$nextTick(function () {
       window.addEventListener("resize", this.updateChartHeight);
       this.updateChartHeight();
@@ -136,13 +133,6 @@ export default {
     },
     updateChartHeight() {
       this.chartHeight = this.$refs.graph.clientHeight;
-    },
-    fetchSettingsData() {
-      axios.get("/settings.json").then((response) => {
-        this.jsonData = response;
-        // this.vueSocketEndpoint = response.VUE_SOCKET_ENDPOINT
-        socket = io.connect(response.VUE_SOCKET_ENDPOINT);
-      });
     },
   },
 };

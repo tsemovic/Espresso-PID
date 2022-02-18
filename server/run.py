@@ -11,6 +11,9 @@ import json
 import math
 from datetime import datetime
 from atexit import register
+print ("DIRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
+
+print (os.getcwd())
 
 
 # Webserver setup

@@ -6,7 +6,7 @@ import quasarUserOptions from "./quasar-user-options";
 import axios from "axios";
 
 async function getSettings() {
-  let res = await axios.get("/settings.json");
+  let res = await axios.get("/settings");
   return await res.data;
 }
 

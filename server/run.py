@@ -83,11 +83,25 @@ readSettings()
 # def home():  # At the same home function as before
 #     return "<p>Hello this is the backend</p>"
 
+
 @app.route('/')
 def index():
     return render_template("index.html")
 
+
+@app.route('/settings')
+def index():
+
+    # read settings file
+    with open('./dist/static/settings.json', 'r') as f:
+        data = f.read()
+    jsonData = json.loads(data)
+
+    return jsonData
+
 # SOCKET: connect
+
+
 @socketio.on('connect')
 def connect():
     global userConnected

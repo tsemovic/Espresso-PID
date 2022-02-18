@@ -67,9 +67,6 @@ var socket = null;
 // alert(settings.VUE_SOCKET_ENDPOINT);
 
 export default {
-  setup(){
-    socket = io.connect(this.settings.VUE_SOCKET_ENDPOINT);
-  },
   inject: ["settings"],
   components: {
     Graph,
@@ -91,6 +88,8 @@ export default {
     };
   },
   created() {
+    socket = io.connect("http://192.168.1.21:3000");
+
     this.getTemperature();
     this.getPID();
   },
@@ -99,7 +98,7 @@ export default {
   },
   mounted() {
     // this.settings();
-    alert(this.$config.FLASK_PORT);
+    alert(this.settings.FLASK_PORT);
     this.askForTemperature();
     this.askForPID();
     this.$nextTick(function () {

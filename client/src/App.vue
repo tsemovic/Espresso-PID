@@ -63,7 +63,7 @@ import Info from "./components/Info.vue";
 import "./styles/customCSS.css";
 import io from "socket.io-client";
 
-var socket = null;
+var socket = io();
 // alert(settings.VUE_SOCKET_ENDPOINT);
 
 export default {
@@ -88,8 +88,8 @@ export default {
     };
   },
   created() {
-    socket = io.connect("http://192.168.1.21:3000");
-
+    alert(this.settings.VUE_SOCKET_ENDPOINT)
+    // socket = io.connect("http://192.168.1.21:3000");
     this.getTemperature();
     this.getPID();
   },

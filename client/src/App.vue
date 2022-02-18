@@ -13,6 +13,7 @@
           </div>
 
           <div class="row content justify-center">
+            {{settings.VUE_SOCKET_ENDPOINT}}
             <!-- Graph -->
             <div
               ref="graph"
@@ -72,7 +73,6 @@ export default {
   },
   data() {
     return {
-      settingsJsonData: "",
 
       P: "",
       I: "",

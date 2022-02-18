@@ -26,6 +26,6 @@ getSettings().then((res) => {
       },
       quasarUserOptions
     )
-    .provide("settings", res)
+    .provide("settings", JSON.parse(res))
     .mount("#app");
 });

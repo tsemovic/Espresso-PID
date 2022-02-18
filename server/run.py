@@ -45,8 +45,17 @@ GPIO.setup(21, GPIO.OUT)
 GPIO.output(21, GPIO.HIGH)
 
 
+def readGlobalSettings():
+    
+    # read settings file
+    with open('./settings_global.json', 'r') as f:
+        global settingsGlobal
+
+        settingsGloabl = json.load(f)
+    
+
 # read PID settings from settings.json
-def readSettings():
+def readPIDSettings():
 
     # read settings file
     with open('settings_PID.json', 'r') as f:
@@ -75,16 +84,11 @@ def readSettings():
     print("Updated PID settings to: " + str(jsonData))
 
 
-# readSettings called once at startup to get previously saved configuration from settings.json file
-readSettings()
+# readSettings called once at startup to get previously saved PID configuration and global settings
+readPIDSettings()
+readGlobalSettings()
 
 # Webserver Routes
-
-# @app.route('/')
-# def home():  # At the same home function as before
-#     return "<p>Hello this is the backend</p>"
-
-
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -92,16 +96,10 @@ def index():
 
 @app.route('/settings')
 def settings():
-
-    # read settings file
-    with open('./settings_global.json', 'r') as f:
-        settingsGloabl = json.load(f)
-
+    readGlobalSettings()
     return settingsGloabl
 
 # SOCKET: connect
-
-
 @socketio.on('connect')
 def connect():
     global userConnected
@@ -109,8 +107,6 @@ def connect():
     print('user connected to websocket')
 
 # SOCKET: disconnect
-
-
 @socketio.on('disconnect')
 def disconnect():
     global userConnected
@@ -118,26 +114,20 @@ def disconnect():
     print('user disconnected to websocket')
 
 # SOCKET: send temperature to socket connection
-
-
 @socketio.on('send_temperature')
 def temperature_give():
     socketio.emit('recieve_temperature', dataArray)
 
 # SOCKET: update settings file and re-instantiate PID settings
-
-
 @socketio.on('send_PID')
 def PID_update(data):
     writeSettings(data)
-    readSettings()
+    readPIDSettings()
     socketio.emit('give_PID', settingsPID)
     print("SENDING CURRENT SETTINGS")
     print(settingsPID)
 
 # SOCKET: Send PID settings
-
-
 @socketio.on('get_PID')
 def PID_update():
     print("EMIT: give_PID " + str(settingsPID))
@@ -146,8 +136,6 @@ def PID_update():
     print(settingsPID)
 
 # function to write data to settings.json file
-
-
 def writeSettings(data):
     P = data["P"]
     I = data["I"]
@@ -164,6 +152,7 @@ def writeSettings(data):
     print("Written settings to file: " + str(dictionary))
 
 
+# Main PID function
 def espresso():
     print("THREAD STARTING")
     global temperature
@@ -193,12 +182,11 @@ def espresso():
 
         time.sleep(0.5)
 
-
+# If the application is termiated (turon off SSR)
 @register
 def terminate():
     GPIO.output(21, GPIO.LOW)
     print("Goodbye!")
-
 
 # If the script that was run is this script (we have not been imported)
 if __name__ == '__main__':

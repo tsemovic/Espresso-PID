@@ -23,7 +23,6 @@ temperature = 0
 dataArray = []
 userConnected = False
 settingsPID = ""
-settingsGlobal = ""
 
 # PID setup (default settings)
 P = 1
@@ -44,20 +43,6 @@ sensor = MAX31855.MAX31855(CLK, CS, DO)
 GPIO.setup(21, GPIO.OUT)
 GPIO.output(21, GPIO.HIGH)
 
-
-def readGlobalSettings():
-    
-    # read settings file
-    with open('./settings_global.json', 'r') as f:
-        data = f.read()
-    jsonData = json.loads(data)
-    
-    global settingsGlobal
-    
-    IP = jsonData["FLASK_IP"]
-    PORT = jsonData["FLASK_PORT"]
-    settingsGlobal = {"FLASK_IP" : IP, "FLASK_PORT" : PORT}
-    
 
 # read PID settings from settings.json
 def readPIDSettings():
@@ -91,7 +76,6 @@ def readPIDSettings():
 
 # readSettings called once at startup to get previously saved PID configuration and global settings
 readPIDSettings()
-readGlobalSettings()
 
 # Webserver Routes
 @app.route('/')
@@ -101,9 +85,9 @@ def index():
 
 @app.route('/settings')
 def settings():
-    readGlobalSettings()
-    print(settingsGlobal)
-    return settingsGloabl
+    with open('./settings_global.json', 'r') as f:
+        data = json.load(f)
+    return data
 
 # SOCKET: connect
 @socketio.on('connect')
@@ -196,7 +180,10 @@ def terminate():
 
 # If the script that was run is this script (we have not been imported)
 if __name__ == '__main__':
-
+    
+    with open('./settings_global.json', 'r') as f:
+        data = json.load(f)
+    print(data)
     # Run flask and espresso controller on seperate threads
     threading.Thread(target=lambda: socketio.run(
         app, host='192.168.1.21', port=3000, debug=False)).start()

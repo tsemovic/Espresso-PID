@@ -183,7 +183,7 @@ if __name__ == '__main__':
     
     with open('./settings_global.json', 'r') as f:
         data = json.load(f)
-    print(data)
+    print(data["FLASK_IP"])
     # Run flask and espresso controller on seperate threads
     threading.Thread(target=lambda: socketio.run(
         app, host='192.168.1.21', port=3000, debug=False)).start()

@@ -94,7 +94,6 @@ export default {
     this.getPID();
   },
   mounted() {
-    alert(this.settings.FLASK_PORT);
     this.askForTemperature();
     this.askForPID();
     this.$nextTick(function () {

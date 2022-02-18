@@ -49,9 +49,11 @@ def readGlobalSettings():
     
     # read settings file
     with open('./settings_global.json', 'r') as f:
-        global settingsGlobal
-
-        settingsGloabl = json.load(f)
+        data = f.read()
+    jsonData = json.loads(data)
+    
+    global settingsGlobal
+    settingsGlobal = jsonData
     
 
 # read PID settings from settings.json

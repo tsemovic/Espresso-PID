@@ -1,6 +1,6 @@
 Espresso-PID
 --------------
-
+sudo python /home/pi/Espresso-PID/server/run.py
 
 for running the server
 

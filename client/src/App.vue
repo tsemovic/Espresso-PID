@@ -7,7 +7,7 @@
           <div class="row text-center">
             <div class="col">
               <h1 class="text-center fontHeader">
-                GAGGIA CONTROLLER {{ settingsJsonData }}
+                GAGGIA CONTROLLER {{ settings }}
               </h1>
             </div>
           </div>
@@ -61,26 +61,19 @@ import Graph from "./components/Graph.vue";
 import Info from "./components/Info.vue";
 import "./styles/customCSS.css";
 import io from "socket.io-client";
-// import json from '../public/settings.json';
 
-import axios from "axios";
-var json = ""
-axios.get('/settings.json')
-  .then(res => {
-    alert(res.data);
-    json = res.data
-  });
+var socket = null;
 
-var socket = io.connect("http://192.168.1.21:3000");
 
 export default {
+  inject: ["settings"],
   components: {
     Graph,
     Info,
   },
   data() {
     return {
-      settingsJsonData: json,
+      settingsJsonData: "",
 
       P: "",
       I: "",
@@ -94,14 +87,19 @@ export default {
       chartHeight: null,
       pidRecieved: false,
     };
+    
   },
   created() {
-    this.getTemperature(), this.getPID();
+    socket = io.connect(this.settings.VUE_SOCKET_ENDPOINT);
+    this.getTemperature();
+    this.getPID();
   },
   beforeMount() {
     this.getPID();
   },
   mounted() {
+    // this.settings();
+    alert(this.$config.FLASK_PORT);
     this.askForTemperature();
     this.askForPID();
     this.$nextTick(function () {

@@ -3,19 +3,35 @@ import App from "./App.vue";
 import { Quasar, Notify } from "quasar";
 import quasarUserOptions from "./quasar-user-options";
 
-createApp(App)
-  .use(
-    Quasar,
-    {
-      plugins: {
-        Notify,
-      },
-      config: {
-        notify: {
-          /* look at QuasarConfOptions from the API card */
+import axios from "axios";
+
+async function getSettings() {
+  let res = await axios({
+    url: "/settings.json",
+    method: "get",
+  });
+  return await res.data;
+}
+
+getSettings().then((res) => {
+  setTimeout(function(){
+    createApp(App)
+    .use(
+      Quasar,
+      {
+        plugins: {
+          Notify,
+        },
+        config: {
+          notify: {
+            /* look at QuasarConfOptions from the API card */
+          },
         },
       },
-    },
-    quasarUserOptions,
-  )
-  .mount("#app");
+      quasarUserOptions
+    )
+    .provide("settings", res)
+    .mount("#app");
+  }, 500)
+  
+});

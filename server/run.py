@@ -94,7 +94,7 @@ def settings():
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+                               'icon.png', mimetype='image/vnd.microsoft.icon')
     
 # SOCKET: connect
 @socketio.on('connect')

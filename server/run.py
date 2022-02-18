@@ -1,5 +1,6 @@
 # Imports
-from flask import Flask, render_template  # Import flask
+import os
+from flask import Flask, render_template, send_from_directory  # Import flask
 import time
 from flask_socketio import SocketIO, emit
 import Adafruit_MAX31855.MAX31855 as MAX31855
@@ -17,6 +18,7 @@ app = Flask(__name__,
             static_folder="./dist/static",
             template_folder="./dist")
 app.config['SECRET_KEY'] = 'secretkey'
+
 socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 
 temperature = 0
@@ -89,6 +91,11 @@ def settings():
         data = json.load(f)
     return data
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    
 # SOCKET: connect
 @socketio.on('connect')
 def connect():

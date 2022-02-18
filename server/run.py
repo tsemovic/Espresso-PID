@@ -22,7 +22,8 @@ socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
 temperature = 0
 dataArray = []
 userConnected = False
-currentSettings = ""
+settingsPID = ""
+settingsGlobal = ""
 
 # PID setup (default settings)
 P = 1
@@ -48,7 +49,7 @@ GPIO.output(21, GPIO.HIGH)
 def readSettings():
 
     # read settings file
-    with open('pidSettings.json', 'r') as f:
+    with open('settings_PID.json', 'r') as f:
         data = f.read()
     jsonData = json.loads(data)
 
@@ -56,15 +57,15 @@ def readSettings():
     global I
     global D
     global pid
-    global currentSettings
+    global settingsPID
 
     P = (jsonData['PID']['P'])
     I = (jsonData['PID']['I'])
     D = (jsonData['PID']['D'])
     targetTemperature = jsonData['TargetTemperature']
 
-    currentSettings = {"PID":   {"P": P, "I": I, "D": D},
-                       "TargetTemperature": targetTemperature}
+    settingsPID = {"PID":   {"P": P, "I": I, "D": D},
+                   "TargetTemperature": targetTemperature}
 
     pid = PID(P, I, D)
     pid.sample_time = 0.01
@@ -90,14 +91,13 @@ def index():
 
 
 @app.route('/settings')
-def index():
+def settings():
 
     # read settings file
-    with open('./dist/static/settings.json', 'r') as f:
-        data = f.read()
-    jsonData = json.loads(data)
+    with open('./settings_global.json', 'r') as f:
+        settingsGloabl = json.load(f)
 
-    return jsonData
+    return settingsGloabl
 
 # SOCKET: connect
 
@@ -131,19 +131,19 @@ def temperature_give():
 def PID_update(data):
     writeSettings(data)
     readSettings()
-    socketio.emit('give_PID', currentSettings)
+    socketio.emit('give_PID', settingsPID)
     print("SENDING CURRENT SETTINGS")
-    print(currentSettings)
+    print(settingsPID)
 
 # SOCKET: Send PID settings
 
 
 @socketio.on('get_PID')
 def PID_update():
-    print("EMIT: give_PID " + str(currentSettings))
-    socketio.emit('give_PID', currentSettings)
+    print("EMIT: give_PID " + str(settingsPID))
+    socketio.emit('give_PID', settingsPID)
     print("SENDING CURRENT SETTINGS")
-    print(currentSettings)
+    print(settingsPID)
 
 # function to write data to settings.json file
 
@@ -158,7 +158,7 @@ def writeSettings(data):
                   "TargetTemperature": float(targetTemperature)}
 
     # write settings file
-    with open('pidSettings.json', 'w', encoding='utf-8') as f:
+    with open('settings_PID.json', 'w', encoding='utf-8') as f:
         json.dump(dictionary, f, ensure_ascii=False, indent=4)
 
     print("Written settings to file: " + str(dictionary))

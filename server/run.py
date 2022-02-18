@@ -53,7 +53,10 @@ def readGlobalSettings():
     jsonData = json.loads(data)
     
     global settingsGlobal
-    settingsGlobal = jsonData
+    
+    IP = jsonData["FLASK_IP"]
+    PORT = jsonData["FLASK_PORT"]
+    settingsGlobal = {"FLASK_IP" : IP, "FLASK_PORT" : PORT}
     
 
 # read PID settings from settings.json
@@ -99,6 +102,7 @@ def index():
 @app.route('/settings')
 def settings():
     readGlobalSettings()
+    print(settingsGlobal)
     return settingsGloabl
 
 # SOCKET: connect

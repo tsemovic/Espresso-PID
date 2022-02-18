@@ -13,7 +13,7 @@
           </div>
 
           <div class="row content justify-center">
-            {{settings.VUE_SOCKET_ENDPOINT}}
+            {{ settings.VUE_SOCKET_ENDPOINT }}
             <!-- Graph -->
             <div
               ref="graph"
@@ -64,8 +64,12 @@ import "./styles/customCSS.css";
 import io from "socket.io-client";
 
 var socket = null;
+// alert(settings.VUE_SOCKET_ENDPOINT);
 
 export default {
+  setup(){
+    socket = io.connect(this.settings.VUE_SOCKET_ENDPOINT);
+  },
   inject: ["settings"],
   components: {
     Graph,
@@ -73,7 +77,6 @@ export default {
   },
   data() {
     return {
-
       P: "",
       I: "",
       D: "",
@@ -86,10 +89,8 @@ export default {
       chartHeight: null,
       pidRecieved: false,
     };
-    
   },
   created() {
-    socket = io.connect(this.settings.VUE_SOCKET_ENDPOINT);
     this.getTemperature();
     this.getPID();
   },

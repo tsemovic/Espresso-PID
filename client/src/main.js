@@ -6,16 +6,12 @@ import quasarUserOptions from "./quasar-user-options";
 import axios from "axios";
 
 async function getSettings() {
-  let res = await axios({
-    url: "/settings.json",
-    method: "get",
-  });
+  let res = await axios.get("/settings.json");
   return await res.data;
 }
 
 getSettings().then((res) => {
-  setTimeout(function(){
-    createApp(App)
+  createApp(App)
     .use(
       Quasar,
       {
@@ -32,6 +28,4 @@ getSettings().then((res) => {
     )
     .provide("settings", res)
     .mount("#app");
-  }, 500)
-  
 });

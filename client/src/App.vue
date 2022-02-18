@@ -64,7 +64,6 @@ import io from "socket.io-client";
 
 var socket = null;
 
-
 export default {
   inject: ["settings"],
   components: {

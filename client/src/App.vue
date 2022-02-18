@@ -7,7 +7,7 @@
           <div class="row text-center">
             <div class="col">
               <h1 class="text-center fontHeader">
-                GAGGIA CONTROLLER {{settingsJsonData}}
+                GAGGIA CONTROLLER {{ settingsJsonData }}
               </h1>
             </div>
           </div>
@@ -56,15 +56,22 @@
 </template>
 
 <script>
-
 // imports setup
 import Graph from "./components/Graph.vue";
 import Info from "./components/Info.vue";
 import "./styles/customCSS.css";
 import io from "socket.io-client";
-import json from '../public/settings.json';
+// import json from '../public/settings.json';
 
-var socket = io.connect(json.VUE_SOCKET_ENDPOINT);
+import axios from "axios";
+var json = ""
+axios.get('/settings.json')
+  .then(res => {
+    alert(res.data);
+    json = res.data
+  });
+
+var socket = io.connect("http://192.168.1.21:3000");
 
 export default {
   components: {

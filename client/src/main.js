@@ -16,6 +16,6 @@ createApp(App)
         },
       },
     },
-    quasarUserOptions
+    quasarUserOptions,
   )
   .mount("#app");

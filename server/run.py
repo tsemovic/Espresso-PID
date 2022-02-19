@@ -15,7 +15,7 @@ from atexit import register
 print ("DIRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
 
 file_path = Path(os.path.realpath(__file__))
-directory_path = file_path.parent.absolute()
+directory_path = str(file_path.parent.absolute())
 print(directory_path)
 print(os.path.join(directory_path, "/dist/static"))
 

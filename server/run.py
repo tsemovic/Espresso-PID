@@ -12,12 +12,12 @@ import json
 import math
 from datetime import datetime
 from atexit import register
-print ("DIRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
 
+print("FLASK SERVER STARTING")
+
+# Directory path setup
 file_path = Path(os.path.realpath(__file__))
 directory_path = file_path.parent.absolute()
-print(directory_path)
-print(directory_path / "dist/static")
 
 # Webserver setup
 app = Flask(__name__,

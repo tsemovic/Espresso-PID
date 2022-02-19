@@ -14,14 +14,14 @@ from atexit import register
 print ("DIRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
 
 file_path = os.path.realpath(__file__)
-print(file_path)
-# print (os.getcwd())
-
+directory_path = file_path.parent.absolute()
+print(directory_path)
+print(os.path.join(directory_path, "/dist/static"))
 
 # Webserver setup
 app = Flask(__name__,
-            static_folder="./dist/static",
-            template_folder="./dist")
+            static_folder=os.path.join(directory_path, "/dist/static"),
+            template_folder=os.path.join(directory_path, "/dist"))
 app.config['SECRET_KEY'] = 'secretkey'
 
 socketio = SocketIO(app, logger=False, cors_allowed_origins="*")
@@ -55,7 +55,7 @@ GPIO.output(21, GPIO.HIGH)
 def readPIDSettings():
 
     # read settings file
-    with open('./settings_PID.json', 'r') as f:
+    with open(os.path.join(directory_path, "/settings_PID.json"), 'r') as f:
         data = f.read()
     jsonData = json.loads(data)
 
@@ -92,14 +92,13 @@ def index():
 
 @app.route('/settings')
 def settings():
-    with open('./settings_global.json', 'r') as f:
+    with open(os.path.join(directory_path, "/settings_global.json"), 'r') as f:
         data = json.load(f)
     return data
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'icon.png', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(directory_path, "/dist/favicon.ico"))
     
 # SOCKET: connect
 @socketio.on('connect')
@@ -148,7 +147,7 @@ def writeSettings(data):
                   "TargetTemperature": float(targetTemperature)}
 
     # write settings file
-    with open('./settings_PID.json', 'w', encoding='utf-8') as f:
+    with open(os.path.join(directory_path, "/settings_PID.json"), 'w', encoding='utf-8') as f:
         json.dump(dictionary, f, ensure_ascii=False, indent=4)
 
     print("Written settings to file: " + str(dictionary))
@@ -193,7 +192,7 @@ def terminate():
 # If the script that was run is this script (we have not been imported)
 if __name__ == '__main__':
     
-    with open('./settings_global.json', 'r') as f:
+    with open(os.path.join(directory_path, "/settings_global.json"), 'r') as f:
         data = json.load(f)
         
     # Run flask and espresso controller on seperate threads

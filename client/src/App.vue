@@ -7,7 +7,7 @@
           <div class="row text-center">
             <div class="col">
               <h1 class="text-center fontHeader">
-                GAGGIA CONTROLLER
+                {{ settings.VUE_TITLE }}
               </h1>
             </div>
           </div>

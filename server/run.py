@@ -1,6 +1,7 @@
 # Imports
 import os
 from flask import Flask, render_template, send_from_directory  # Import flask
+from pathlib import Path
 import time
 from flask_socketio import SocketIO, emit
 import Adafruit_MAX31855.MAX31855 as MAX31855
@@ -13,7 +14,7 @@ from datetime import datetime
 from atexit import register
 print ("DIRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
 
-file_path = os.path.realpath(__file__)
+file_path = Path(os.path.realpath(__file__))
 directory_path = file_path.parent.absolute()
 print(directory_path)
 print(os.path.join(directory_path, "/dist/static"))

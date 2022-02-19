@@ -13,7 +13,9 @@ from datetime import datetime
 from atexit import register
 print ("DIRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
 
-print (os.getcwd())
+file_path = os.path.realpath(__file__)
+print(file_path)
+# print (os.getcwd())
 
 
 # Webserver setup

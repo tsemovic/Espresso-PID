@@ -41,7 +41,7 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">Settings</div>
+            <div class="text-subtitle1">CONFIGURATION</div>
             <div class="pid-container">
               <div class="text-h5 text-weight-bold pid-item">
                 P:<span class="text-h5">{{ P }}</span>

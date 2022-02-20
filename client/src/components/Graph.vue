@@ -180,6 +180,10 @@ export default {
           fontSize: "16px",
           fontFamily: "customFont2",
           fontWeight: "450",
+          labels: {
+            colors: this.settings.VUE_COLOUR.secondary,
+            useSeriesColors: false,
+          },
           onItemClick: {
             toggleDataSeries: false,
           },

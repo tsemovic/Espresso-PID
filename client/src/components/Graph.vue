@@ -85,7 +85,9 @@ export default {
         },
         stroke: {
           curve: "smooth",
-          dashArray: [0, 10],
+          lineCap: 'butt',
+          width: [2, 5],
+          dashArray: [0, 0],
         },
         title: {
           align: "left",

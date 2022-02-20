@@ -72,11 +72,12 @@ body {
 }
 
 .info-temperature {
-  flex-grow: 20;
+  flex-grow: 2;
 }
 
 .info-targetTemperature {
   flex-grow: 2;
+  flex-shrink: 3;  
 }
 
 .info-pid {

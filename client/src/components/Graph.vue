@@ -87,7 +87,7 @@ export default {
           curve: "smooth",
           lineCap: "butt",
           width: [5, 2],
-          dashArray: [0, 0],
+          dashArray: [0, 10],
         },
         title: {
           align: "left",

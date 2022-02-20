@@ -23,10 +23,10 @@
               "
             >
               <Graph
-                v-bind:temperature="temperatureData"
-                v-bind:time="timestampData"
                 v-bind:dataArray="dataArray"
                 v-bind:chartHeight="chartHeight"
+                v-bind:targetTemperature="targetTemperature"
+                v-bind:settings="settings"
               />
             </div>
 
@@ -44,6 +44,7 @@
                 v-bind:D="D"
                 v-bind:targetTemperature="targetTemperature"
                 v-bind:currentTemperature="currentTemperature"
+                v-bind:currentTime="currentTime"
                 v-bind:pidRecieved="pidRecieved"
                 @setPID="setPID($event)"
               />
@@ -78,6 +79,7 @@ export default {
       D: "",
       targetTemperature: "",
       currentTemperature: "",
+      currentTime: "",
       dataArray: [],
 
       vueSocketEndpoint: "",
@@ -87,6 +89,7 @@ export default {
     };
   },
   created() {
+    this.setColours();
     this.getTemperature();
     this.getPID();
   },
@@ -106,6 +109,18 @@ export default {
       socket.on("recieve_temperature", (fetchedData) => {
         this.dataArray = fetchedData;
         this.currentTemperature = fetchedData.at(-1).y.toFixed(2);
+
+        let currentTimeFormatted = new Date(fetchedData.at(-1).x);
+        var hours = currentTimeFormatted.getHours();
+        var minutes = currentTimeFormatted.getMinutes();
+        var seconds = currentTimeFormatted.getSeconds();
+        var ampm = hours >= 12 ? "pm" : "am";
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        var strTime = hours + ":" + minutes + ":" + seconds + " " + ampm;
+        this.currentTime = strTime;
       });
     },
     getPID() {
@@ -132,6 +147,12 @@ export default {
     },
     updateChartHeight() {
       this.chartHeight = this.$refs.graph.clientHeight;
+    },
+    setColours() {
+      let root = document.documentElement;
+      root.style.setProperty("--primary", this.settings.VUE_COLOUR.primary);
+      root.style.setProperty("--secondary", this.settings.VUE_COLOUR.secondary);
+      root.style.setProperty("--accent", this.settings.VUE_COLOUR.accent);
     },
   },
 };

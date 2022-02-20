@@ -1,9 +1,9 @@
 <template>
   <!-- <q-card class="my-card bg-white text-white"> -->
-  <q-card class="rounded graph-container bg-white text-black">
+  <q-card class="rounded graph-container bg-primary text-secondary">
     <q-card-section class="graph-card">
       <!-- {{dataArray}} -->
-      <!-- {{ chartData }} -->
+      <!-- {{ temperatureData }} -->
       <apexchart
         class="graph-graph"
         width="100%"
@@ -24,10 +24,11 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
-  props: ["temperature", "time", "chartHeight", "dataArray"],
+  props: ["chartHeight", "dataArray", "settings", "targetTemperature"],
   data: function () {
     return {
-      chartData: [],
+      temperatureData: [],
+      targetData: [],
       labelColor: "592D1D",
       intervalid1: null,
       chartOptions: {
@@ -35,9 +36,12 @@ export default {
           id: "realtime",
           type: "line",
           grid: {
-            padding: {
-              left: 0,
-              right: 0,
+            show: false, // you can either change hear to disable all grids
+
+            yaxis: {
+              lines: {
+                show: false, //or just here to disable only y axis
+              },
             },
           },
           redrawOnWindowResize: true,
@@ -59,24 +63,39 @@ export default {
             enabled: false,
           },
         },
-        colors: ["#D95448", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
-
+        grid: {
+          show: false,
+          xaxis: {
+            lines: {
+              show: false,
+            },
+          },
+          yaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+        colors: [
+          this.settings.VUE_COLOUR.accent,
+          this.settings.VUE_COLOUR.info,
+        ],
         dataLabels: {
           enabled: false,
         },
         stroke: {
           curve: "smooth",
+          dashArray: [0, 10],
         },
         title: {
-          // text: "Temperature",
           align: "left",
         },
         markers: {
           size: 0,
         },
         tooltip: {
-          enabled: true,
-          followCursor: true,
+          enabled: false,
+          followCursor: false,
           fillSeriesColor: true,
           x: {
             show: false,
@@ -88,7 +107,7 @@ export default {
           range: 30000,
           labels: {
             style: {
-              colors: "#592D1D",
+              colors: this.settings.VUE_COLOUR.secondary,
             },
             formatter: function (timestamp) {
               var currentDate = new Date();
@@ -123,24 +142,41 @@ export default {
             },
             // rotateAlways: true,
           },
+          axisBorder: {
+            show: true,
+            color: this.settings.VUE_COLOUR.info,
+            offsetX: -4,
+            offsetY: 0,
+          },
+          axisTicks: {
+            show: true,
+            color: this.settings.VUE_COLOUR.info,
+          },
         },
         yaxis: {
           labels: {
+            offsetX: -5,
             style: {
-              colors: "#592D1D",
+              colors: this.settings.VUE_COLOUR.secondary,
             },
           },
           title: {
             text: "TEMPERATURE (°C)",
             rotate: -90,
-            offsetX: -5,
+            offsetX: 0,
             offsetY: 0,
             style: {
-              color: "#592D1D",
+              color: this.settings.VUE_COLOUR.secondary,
               fontSize: "12px",
               fontFamily: "customfont2",
               fontWeight: 600,
             },
+          },
+          axisBorder: {
+            show: true,
+            color: this.settings.VUE_COLOUR.info,
+            offsetX: 0,
+            offsetY: 0,
           },
         },
         legend: {
@@ -150,7 +186,11 @@ export default {
       series: [
         {
           name: "Temperature",
-          data: this.temperature,
+          data: this.dataArray,
+        },
+        {
+          name: "Target",
+          data: this.targetTemperature,
         },
       ],
     };
@@ -177,33 +217,59 @@ export default {
       );
     },
     initChart: function () {
-      this.chartData = this.dataArray;
+      this.temperatureData = this.dataArray;
+
+      for (var i = 0; i <= 60; i++) {
+        try {
+          this.targetData.push({
+            x: this.dataArray[i].x,
+            y: this.targetTemperature,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
     },
     updateChart: function () {
       var me = this;
       this.intervalid1 = setInterval(() => {
         // If the chart data isn't populated (replace with dataArray)
-        if (this.chartData.length < 25) {
+        if (this.temperatureData.length < 25) {
           this.initChart();
         }
 
         // Replace chart data array (avoid memory leaks)
-        if (this.chartData.length > 360) {
-          this.chartData = this.dataArray;
+        if (this.temperatureData.length > 600) {
+          this.temperatureData = this.dataArray;
+          this.targetData = this.targetData.slice(
+            this.targetData.length - 60,
+            this.targetData.length
+          );
         }
 
-        // Add data to chart dict
-        this.dict = {
+        // Add chart temperature data
+        let newTemperature = {
           x: this.dataArray[this.dataArray.length - 1].x,
           y: this.dataArray[this.dataArray.length - 1].y,
         };
+        this.temperatureData.push(newTemperature);
 
-        this.chartData.push(this.dict);
+        // Add chart target data
+        let newTarget = {
+          x: this.dataArray[this.dataArray.length - 1].x,
+          y: this.targetTemperature,
+        };
+        this.targetData.push(newTarget);
 
         // Update chart
         me.$refs.chart.updateSeries([
           {
-            data: this.chartData,
+            name: "Temperature",
+            data: this.temperatureData,
+          },
+          {
+            name: "Target",
+            data: this.targetData,
           },
         ]);
       }, 500);

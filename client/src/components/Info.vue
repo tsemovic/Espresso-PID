@@ -3,7 +3,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-temperature bg-white text-primary no-margin"
+      class="rounded info-temperature bg-primary text-secondary no-margin"
     >
       <!-- Temperature -->
       <q-card-section>
@@ -11,6 +11,8 @@
           <div class="col">
             <div class="text-subtitle1">TEMPERATURE</div>
             <div class="text-h3">{{ currentTemperature }}</div>
+            <div class="text-subtitle1">TIME</div>
+            <div class="text-h5">{{ currentTime }}</div>
           </div>
         </div>
       </q-card-section>
@@ -19,7 +21,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-targetTemperature bg-white text-primary no-margin"
+      class="rounded info-targetTemperature bg-primary text-secondary no-margin"
     >
       <!-- Target Temperature -->
       <q-card-section>
@@ -35,7 +37,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-pid bg-white text-primary no-margin"
+      class="rounded info-pid bg-primary text-secondary no-margin"
     >
       <!-- Current Settings -->
       <q-card-section>
@@ -60,7 +62,8 @@
       <!-- Settings -->
       <q-card-actions class="justify-center">
         <q-btn
-          color="red"
+          color="accent"
+          text-color="primary"
           size="22px"
           icon="settings"
           label="Settings"
@@ -81,7 +84,7 @@
     >
       <q-card class="rounded">
         <q-card-section
-          class="row items-center q-pb-none bg-white text-primary"
+          class="row items-center q-pb-none bg-primary text-secondary"
         >
           <div class="text-h5">PID Settings</div>
           <q-space />
@@ -101,7 +104,7 @@
             <div class="settings-item">
               <q-input
                 rounded
-                standout="bg-red text-white"
+                standout="bg-accent text-primary"
                 v-model="form_P"
                 label="P"
                 :dense="dense"
@@ -110,7 +113,7 @@
             <div class="settings-item">
               <q-input
                 rounded
-                standout="bg-red text-white"
+                standout="bg-accent text-primary"
                 v-model="form_I"
                 label="I"
                 :dense="dense"
@@ -119,7 +122,7 @@
             <div class="settings-item">
               <q-input
                 rounded
-                standout="bg-red text-white"
+                standout="bg-accent text-primary"
                 v-model="form_D"
                 label="D"
                 :dense="dense"
@@ -128,7 +131,7 @@
             <div class="settings-item2">
               <q-input
                 rounded
-                standout="bg-red text-white"
+                standout="bg-accent text-primary"
                 v-model="form_targetTemperature"
                 label="Target Temperature"
                 :dense="dense"
@@ -153,6 +156,7 @@ export default {
     "D",
     "targetTemperature",
     "currentTemperature",
+    "currentTime",
     "pidRecieved",
   ],
 

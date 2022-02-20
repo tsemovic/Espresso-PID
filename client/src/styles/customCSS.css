@@ -30,7 +30,7 @@ body {
 /* Header font */
 .fontHeader {
   font-family: "customfont";
-  color: white;
+  color: var(--primary);
   font-size: 10vmax;
   line-height: 75%;
   margin-top: 1%;
@@ -59,7 +59,7 @@ body {
 }
 
 .apexcharts-tooltip {
-  color: white;
+  color: var(--primary);
 }
 
 .info-container {

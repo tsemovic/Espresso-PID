@@ -3,7 +3,7 @@
   "VUE_COLOUR": {
     "primary": "#FFFFFF",
     "secondary": "#D98FD4",
-    "accent": "#0468BF",
+    "accent": "#D95448",
     "info": "#D98FD4"
   },
   "FLASK_IP": "192.168.1.21",

@@ -177,18 +177,24 @@ export default {
           show: true,
           position: "top",
           horizontalAlign: "right",
-          floating: true,
-          offsetY: -25,
-          offsetX: -5,
+          fontSize: "16px",
+          fontFamily: "customFont2",
+          fontWeight: "450",
+          onItemClick: {
+            toggleDataSeries: false,
+          },
+          onItemHover: {
+            highlightDataSeries: false,
+          },
         },
       },
       series: [
         {
-          name: "Temperature",
+          name: "TEMPERATURE",
           data: this.dataArray,
         },
         {
-          name: "Target",
+          name: "TARGET",
           data: this.targetTemperature,
         },
       ],
@@ -267,11 +273,11 @@ export default {
         // Update chart
         me.$refs.chart.updateSeries([
           {
-            name: "Temperature",
+            name: "TEMPERATURE",
             data: this.temperatureData,
           },
           {
-            name: "Target",
+            name: "TARGET",
             data: this.targetData,
           },
         ]);

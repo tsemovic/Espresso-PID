@@ -174,12 +174,13 @@ export default {
           },
         },
         legend: {
-          position: 'top',
-          horizontalAlign: 'right',
+          show: true,
+          position: "top",
+          horizontalAlign: "right",
           floating: true,
           offsetY: -25,
-          offsetX: -5
-        }
+          offsetX: -5,
+        },
       },
       series: [
         {

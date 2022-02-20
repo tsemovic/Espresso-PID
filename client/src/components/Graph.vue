@@ -219,16 +219,17 @@ export default {
     initChart: function () {
       this.temperatureData = this.dataArray;
 
-      for (var i = 0; i <= this.dataArray.length; i++) {
-        try {
-          this.targetData.push({
-            x: this.dataArray[i].x,
-            y: this.targetTemperature,
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
+      var backInTime = new Date(this.dataArray[this.dataArray.length - 1].x)
+      backInTime = backInTime - 60000
+      this.targetData.push({
+        x: backInTime,
+        y: this.targetTemperature,
+      });
+
+      this.targetData.push({
+        x: this.dataArray[this.dataArray.length - 1].x,
+        y: this.targetTemperature,
+      });
     },
     updateChart: function () {
       var me = this;

@@ -85,8 +85,8 @@ export default {
         },
         stroke: {
           curve: "smooth",
-          lineCap: 'butt',
-          width: [2, 5],
+          lineCap: "butt",
+          width: [5, 2],
           dashArray: [0, 0],
         },
         title: {
@@ -221,12 +221,15 @@ export default {
     initChart: function () {
       this.temperatureData = this.dataArray;
 
-      var backInTime = new Date(this.dataArray[this.dataArray.length - 1].x)
-      backInTime = backInTime - 60000
-      this.targetData.push({
-        x: backInTime,
-        y: this.targetTemperature,
-      });
+      let currentTime = new Date(this.dataArray[this.dataArray.length - 1].x);
+      var backInTime = currentTime - 60000;
+
+      for (var i = backInTime; i <= currentTime; i += 1000) {
+        this.targetData.push({
+          x: new Date(i),
+          y: this.targetTemperature,
+        });
+      }
 
       this.targetData.push({
         x: this.dataArray[this.dataArray.length - 1].x,

@@ -87,7 +87,7 @@ export default {
           curve: "smooth",
           lineCap: "butt",
           width: [5, 2],
-          dashArray: [0, 10],
+          dashArray: [0, 0],
         },
         title: {
           align: "left",
@@ -113,14 +113,6 @@ export default {
             },
             formatter: function (timestamp) {
               var currentDate = new Date();
-
-              // var date = new Date(timestamp);
-              // var label =
-              //   date.getHours() +
-              //   ":" +
-              //   date.getMinutes() +
-              //   ":" +
-              //   ("0" + date.getSeconds()).slice(-2);
 
               var label = "";
 
@@ -182,8 +174,12 @@ export default {
           },
         },
         legend: {
-          show: false,
-        },
+          position: 'top',
+          horizontalAlign: 'right',
+          floating: true,
+          offsetY: -25,
+          offsetX: -5
+        }
       },
       series: [
         {

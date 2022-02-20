@@ -219,7 +219,7 @@ export default {
     initChart: function () {
       this.temperatureData = this.dataArray;
 
-      for (var i = 0; i <= 60; i++) {
+      for (var i = 0; i <= this.dataArray.length; i++) {
         try {
           this.targetData.push({
             x: this.dataArray[i].x,

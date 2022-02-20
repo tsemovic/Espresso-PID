@@ -153,6 +153,7 @@ export default {
       root.style.setProperty("--primary", this.settings.VUE_COLOUR.primary);
       root.style.setProperty("--secondary", this.settings.VUE_COLOUR.secondary);
       root.style.setProperty("--accent", this.settings.VUE_COLOUR.accent);
+      root.style.setProperty("--info", this.settings.VUE_COLOUR.info);
     },
   },
 };

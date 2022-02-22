@@ -64,8 +64,8 @@ import "./styles/customCSS.css";
 import io from "socket.io-client";
 
 // Socket setup
-// var socket = io();
-var socket = io.connect("192.168.1.21");
+var socket = io();
+// var socket = io.connect("192.168.1.21");
 
 export default {
   inject: ["settings"],

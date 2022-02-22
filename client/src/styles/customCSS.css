@@ -30,7 +30,6 @@ body {
 /* Header font */
 .fontHeader {
   font-family: "customfont";
-  color: var(--primary);
   font-size: 10vmax;
   line-height: 75%;
   margin-top: 1%;
@@ -40,6 +39,7 @@ body {
 /* Defualt font */
 * {
   font-family: "customfont2";
+  /* color: var(--info) */
 }
 
 .graph-container {

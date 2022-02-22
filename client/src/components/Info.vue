@@ -3,16 +3,16 @@
     <q-card
       flat
       bordered
-      class="rounded info-temperature bg-primary text-secondary no-margin"
+      class="rounded info-temperature bg-dark text-secondary no-margin"
     >
       <!-- Temperature -->
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">TEMPERATURE</div>
-            <div class="text-h3">{{ currentTemperature }}</div>
-            <div class="text-subtitle1">TIME</div>
-            <div class="text-h5">{{ currentTime }}</div>
+            <div class="text-subtitle1 text-secondary">TEMPERATURE</div>
+            <div class="text-h3 text-info">{{ currentTemperature }}</div>
+            <div class="text-subtitle1 text-secondary">TIME</div>
+            <div class="text-h5 text-info">{{ currentTime }}</div>
           </div>
         </div>
       </q-card-section>
@@ -21,14 +21,14 @@
     <q-card
       flat
       bordered
-      class="rounded info-targetTemperature bg-primary text-secondary no-margin"
+      class="rounded info-targetTemperature bg-dark text-secondary no-margin"
     >
       <!-- Target Temperature -->
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">TARGET TEMPERATURE</div>
-            <div class="text-h3">{{ targetTemperature }}</div>
+            <div class="text-subtitle1 text-secondary">TARGET TEMPERATURE</div>
+            <div class="text-h3 text-info">{{ targetTemperature }}</div>
           </div>
         </div>
       </q-card-section>
@@ -37,21 +37,21 @@
     <q-card
       flat
       bordered
-      class="rounded info-pid bg-primary text-secondary no-margin"
+      class="rounded info-pid bg-dark text-secondary no-margin"
     >
       <!-- Current Settings -->
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-subtitle1">CONFIGURATION</div>
+            <div class="text-subtitle1 text-secondary">CONFIGURATION</div>
             <div class="pid-container">
-              <div class="text-h5 text-weight-bold pid-item">
+              <div class="text-h5 text-weight-bold pid-item text-info">
                 P:<span class="text-h5">{{ P }}</span>
               </div>
-              <div class="text-h5 text-weight-bold pid-item">
+              <div class="text-h5 text-weight-bold pid-item text-info">
                 I:<span class="text-h5">{{ I }}</span>
               </div>
-              <div class="text-h5 text-weight-bold pid-item">
+              <div class="text-h5 text-weight-bold pid-item text-info">
                 D:<span class="text-h5">{{ D }}</span>
               </div>
             </div>
@@ -62,8 +62,8 @@
       <!-- Settings -->
       <q-card-actions class="justify-center">
         <q-btn
-          color="accent"
-          text-color="primary"
+          color="positive"
+          text-color="negative"
           size="22px"
           icon="settings"
           label="Settings"
@@ -86,7 +86,7 @@
         <q-card-section
           class="row items-center q-pb-none bg-primary text-secondary"
         >
-          <div class="text-h5">PID Settings</div>
+          <div class="text-h5 text-negative">PID Settings</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
           <q-btn

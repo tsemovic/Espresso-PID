@@ -6,7 +6,7 @@
         <div class="box">
           <div class="row text-center">
             <div class="col">
-              <h1 class="text-center fontHeader">
+              <h1 class="text-center fontHeader text-primary">
                 {{ settings.VUE_TITLE }}
               </h1>
             </div>
@@ -65,6 +65,7 @@ import io from "socket.io-client";
 
 // Socket setup
 var socket = io();
+// var socket = io.connect("192.168.1.21");
 
 export default {
   inject: ["settings"],
@@ -153,7 +154,11 @@ export default {
       root.style.setProperty("--primary", this.settings.VUE_COLOUR.primary);
       root.style.setProperty("--secondary", this.settings.VUE_COLOUR.secondary);
       root.style.setProperty("--accent", this.settings.VUE_COLOUR.accent);
+      root.style.setProperty("--dark", this.settings.VUE_COLOUR.dark);
+      root.style.setProperty("--positive", this.settings.VUE_COLOUR.positive);
+      root.style.setProperty("--negative", this.settings.VUE_COLOUR.negative);
       root.style.setProperty("--info", this.settings.VUE_COLOUR.info);
+      root.style.setProperty("--warning", this.settings.VUE_COLOUR.warning);
     },
   },
 };

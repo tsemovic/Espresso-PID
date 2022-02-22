@@ -33,6 +33,9 @@ getSettings().then((res) => {
             primary: res.VUE_COLOUR.primary,
             secondary: res.VUE_COLOUR.secondary,
             accent: res.VUE_COLOUR.accent,
+            positive: res.VUE_COLOUR.positive,
+            negative: res.VUE_COLOUR.negative,
+
             info: res.VUE_COLOUR.info
           }
         },

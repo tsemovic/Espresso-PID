@@ -4,7 +4,11 @@
     "primary": "#FFFFFF",
     "secondary": "#592D1D",
     "accent": "#D95448",
-    "info": "#592D1D"
+    "positive": "#592D1D",
+    "negative": "#592D1D",
+    "info": "#592D1D",
+    "warning": "#592D1D"
+
   },
   "FLASK_IP": "0.0.0.0",
   "FLASK_PORT": 80

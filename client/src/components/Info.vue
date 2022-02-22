@@ -3,7 +3,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-temperature bg-dark text-secondary no-margin"
+      class="rounded info-temperature text-secondary no-margin card-bg"
     >
       <!-- Temperature -->
       <q-card-section>
@@ -21,7 +21,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-targetTemperature bg-dark text-secondary no-margin"
+      class="rounded info-targetTemperature text-secondary no-margin card-bg"
     >
       <!-- Target Temperature -->
       <q-card-section>
@@ -37,7 +37,7 @@
     <q-card
       flat
       bordered
-      class="rounded info-pid bg-dark text-secondary no-margin"
+      class="rounded info-pid text-secondary no-margin card-bg"
     >
       <!-- Current Settings -->
       <q-card-section>
@@ -84,7 +84,14 @@
     >
       <q-card class="rounded">
         <q-card-section
-          class="row items-center q-pb-none bg-primary text-secondary"
+          class="
+            row
+            items-center
+            q-pb-none
+            card-settings-bg
+            bg-info
+            text-secondary
+          "
         >
           <div class="text-h5 text-negative">PID Settings</div>
           <q-space />
@@ -99,7 +106,7 @@
           />
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="card-settings-bg">
           <div class="settings-container">
             <div class="settings-item">
               <q-input

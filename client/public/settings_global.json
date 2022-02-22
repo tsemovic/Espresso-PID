@@ -1,14 +1,14 @@
 {
   "VUE_TITLE": "GAGGIA CONTROLLER",
   "VUE_COLOUR": {
-    "primary": "#FFFFFF",
+    "primary": "#fff",
     "secondary": "#592D1D",
     "accent": "#D95448",
-    "positive": "#592D1D",
-    "negative": "#592D1D",
-    "info": "#592D1D",
-    "warning": "#592D1D"
-
+    "dark": "#fff",
+    "positive": "#D95448",
+    "negative": "#fff",
+    "info": "#8C6542",
+    "warning": "#000"
   },
   "FLASK_IP": "0.0.0.0",
   "FLASK_PORT": 80

@@ -14,7 +14,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = "Gaggia Controller"
+        args[0].title = "PID Controller"
         return args
       })
   }

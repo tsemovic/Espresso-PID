@@ -7,7 +7,8 @@ body {
 
 /* background image setup */
 .bg-image {
-  background-image: url("../assets/background.jpg");
+  /* background-image: url("../assets/background.jpg"); */
+  background-color: #ced0f2;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -46,6 +47,10 @@ body {
 
 .card-bg {
   background: var(--dark) !important;
+}
+
+.card-info-bg {
+  background: var(--warning) !important;
 }
 
 .card-settings-bg {

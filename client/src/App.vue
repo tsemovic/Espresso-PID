@@ -5,10 +5,14 @@
       <q-page>
         <div class="box">
           <div class="row text-center">
+
             <div class="col">
               <h1 class="text-center fontHeader text-primary">
                 {{ settings.VUE_TITLE }}
               </h1>
+              <!-- <h1 class="text-center test22">
+                {{ settings.VUE_TITLE }}
+              </h1> -->
             </div>
           </div>
 
@@ -64,8 +68,8 @@ import "./styles/customCSS.css";
 import io from "socket.io-client";
 
 // Socket setup
-var socket = io();
-// var socket = io.connect("192.168.1.21");
+// var socket = io();
+var socket = io.connect("192.168.1.21");
 
 export default {
   inject: ["settings"],

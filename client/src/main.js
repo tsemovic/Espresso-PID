@@ -3,27 +3,27 @@ import App from "./App.vue";
 import { Quasar, Notify } from "quasar";
 import quasarUserOptions from "./quasar-user-options";
 
-import axios from "axios";
+// import axios from "axios";
 
 async function getSettings() {
-  let res = await axios.get("/settings");
-  return await res.data;
-  // let json = {
-  //   VUE_TITLE: "GAGGIA CONTROLLER",
-  //   VUE_COLOUR: {
-  //     primary: "#fff",
-  //     secondary: "#592D1D",
-  //     accent: "#D95448",
-  //     dark: "#fff",
-  //     positive: "#D95448",
-  //     negative: "#fff",
-  //     info: "#8C6542",
-  //     warning: "#000",
-  //   },
-  //   FLASK_IP: "0.0.0.0",
-  //   FLASK_PORT: 80,
-  // };
-  // return json;
+  // let res = await axios.get("/settings");
+  // return await res.data;
+  let json = {
+    VUE_TITLE: "GAGGIA CONTROLLER",
+    VUE_COLOUR: {
+      primary: "#EBEBF2",
+      secondary: "#164DF2",
+      accent: "#164DF2",
+      dark: "#dadbf7",
+      positive: "#164DF2",
+      negative: "#fff",
+      info: "#6B8DF2",
+      warning: "#EBEBF2",
+    },
+    FLASK_IP: "0.0.0.0",
+    FLASK_PORT: 80,
+  };
+  return json;
 }
 
 getSettings().then((res) => {

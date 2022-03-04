@@ -1,6 +1,6 @@
 <template>
   <!-- <q-card class="my-card bg-white text-white"> -->
-  <q-card class="rounded graph-container card-bg text-secondary">
+  <q-card class="rounded graph-container card-bg text-secondary no-shadow">
     <q-card-section class="graph-card">
       <!-- {{dataArray}} -->
       <!-- {{ temperatureData }} -->

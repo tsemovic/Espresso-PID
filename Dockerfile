@@ -1,7 +1,7 @@
-FROM python:3.8-slim-buster
-WORKDIR /ESPRESSO-PID/server
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-COPY . .
+FROM python:3.8
+COPY . /server
+WORKDIR /server
+RUN pip install -r server/requirements.txt
 EXPOSE 5000
-CMD [ "python", "app.py"]
+ENTRYPOINT ["python"]
+CMD ["server/run.py"]

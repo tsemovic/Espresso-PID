@@ -3,7 +3,14 @@
     <q-card
       flat
       bordered
-      class="rounded info-temperature text-secondary no-margin card-info-bg no-shadow"
+      class="
+        rounded
+        info-temperature
+        text-secondary
+        no-margin
+        card-info-bg
+        no-shadow
+      "
     >
       <!-- Temperature -->
       <q-card-section>
@@ -21,7 +28,14 @@
     <q-card
       flat
       bordered
-      class="rounded info-targetTemperature text-secondary no-margin card-info-bg no-shadow"
+      class="
+        rounded
+        info-targetTemperature
+        text-secondary
+        no-margin
+        card-info-bg
+        no-shadow
+      "
     >
       <!-- Target Temperature -->
       <q-card-section>
@@ -40,7 +54,7 @@
       class="rounded info-pid text-secondary no-margin card-info-bg no-shadow"
     >
       <!-- Current Settings -->
-      <q-card-section>
+      <q-card-section class="q-pb-xs">
         <div class="row items-center no-wrap">
           <div class="col">
             <div class="text-subtitle1 text-secondary">CONFIGURATION</div>
@@ -60,7 +74,7 @@
       </q-card-section>
 
       <!-- Settings -->
-      <q-card-actions class="justify-center">
+      <q-card-actions class="justify-center q-pt-xs">
         <q-btn
           color="positive"
           text-color="negative"
@@ -89,11 +103,11 @@
             items-center
             q-pb-none
             card-settings-bg
-            bg-info
+            bg-primary
             text-secondary
           "
         >
-          <div class="text-h5 text-negative">PID Settings</div>
+          <div class="text-h5 text-info">PID Settings</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
           <q-btn
@@ -111,7 +125,9 @@
             <div class="settings-item">
               <q-input
                 rounded
-                standout="bg-accent text-primary"
+                input-class="card-settings-text"
+                standout="bg-dark text-info"
+                bg-color="warning"
                 v-model="form_P"
                 label="P"
                 :dense="dense"
@@ -120,7 +136,9 @@
             <div class="settings-item">
               <q-input
                 rounded
-                standout="bg-accent text-primary"
+                input-class="card-settings-text"
+                standout="bg-dark text-info"
+                bg-color="warning"
                 v-model="form_I"
                 label="I"
                 :dense="dense"
@@ -129,7 +147,9 @@
             <div class="settings-item">
               <q-input
                 rounded
-                standout="bg-accent text-primary"
+                input-class="card-settings-text"
+                standout="bg-dark text-info"
+                bg-color="warning"
                 v-model="form_D"
                 label="D"
                 :dense="dense"
@@ -138,7 +158,9 @@
             <div class="settings-item2">
               <q-input
                 rounded
-                standout="bg-accent text-primary"
+                input-class="card-settings-text"
+                standout="bg-dark text-info"
+                bg-color="warning"
                 v-model="form_targetTemperature"
                 label="Target Temperature"
                 :dense="dense"

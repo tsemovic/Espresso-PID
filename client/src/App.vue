@@ -1,18 +1,14 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-image">
+  <q-layout view="hHh lpR fFf" :class="{ bgimage: background, bgcolour: !background}">
     <q-page-container>
       <!-- <Graph /> -->
       <q-page>
         <div class="box">
           <div class="row text-center">
-
             <div class="col">
               <h1 class="text-center fontHeader text-primary">
                 {{ settings.VUE_TITLE }}
               </h1>
-              <!-- <h1 class="text-center test22">
-                {{ settings.VUE_TITLE }}
-              </h1> -->
             </div>
           </div>
 
@@ -20,11 +16,7 @@
             <!-- Graph -->
             <div
               ref="graph"
-              class="
-                graph
-                col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6
-                q-pa-sm
-              "
+              class="graph col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6 q-pa-sm"
             >
               <Graph
                 v-bind:dataArray="dataArray"
@@ -36,11 +28,7 @@
 
             <!-- Info -->
             <div
-              class="
-                info
-                col-xs-12 col-sm-12 col-md-3 col-lg-2 col-xl-3
-                q-pa-sm
-              "
+              class="info col-xs-12 col-sm-12 col-md-3 col-lg-2 col-xl-3 q-pa-sm"
             >
               <Info
                 v-bind:P="P"
@@ -68,8 +56,8 @@ import "./styles/customCSS.css";
 import io from "socket.io-client";
 
 // Socket setup
-// var socket = io();
-var socket = io.connect("192.168.1.104");
+var socket = io();
+// var socket = io.connect("192.168.1.102");
 
 export default {
   inject: ["settings"],
@@ -91,6 +79,8 @@ export default {
 
       chartHeight: null,
       pidRecieved: false,
+
+      background: true,
     };
   },
   created() {
@@ -156,12 +146,19 @@ export default {
     },
     setColours() {
       let root = document.documentElement;
+      if(this.settings.BACKGROUND_IMAGE == true){
+        this.background = true;
+      }else{
+        this.background = false;
+      }
+
       root.style.setProperty("--primary", this.settings.VUE_COLOUR.primary);
       root.style.setProperty("--secondary", this.settings.VUE_COLOUR.secondary);
       root.style.setProperty("--accent", this.settings.VUE_COLOUR.accent);
       root.style.setProperty("--dark", this.settings.VUE_COLOUR.dark);
       root.style.setProperty("--positive", this.settings.VUE_COLOUR.positive);
       root.style.setProperty("--negative", this.settings.VUE_COLOUR.negative);
+      
       root.style.setProperty("--info", this.settings.VUE_COLOUR.info);
       root.style.setProperty("--warning", this.settings.VUE_COLOUR.warning);
     },

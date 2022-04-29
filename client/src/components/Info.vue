@@ -3,14 +3,7 @@
     <q-card
       flat
       bordered
-      class="
-        rounded
-        info-temperature
-        text-secondary
-        no-margin
-        card-info-bg
-        no-shadow
-      "
+      class="rounded info-temperature text-secondary no-margin card-info-bg no-shadow"
     >
       <!-- Temperature -->
       <q-card-section>
@@ -28,14 +21,7 @@
     <q-card
       flat
       bordered
-      class="
-        rounded
-        info-targetTemperature
-        text-secondary
-        no-margin
-        card-info-bg
-        no-shadow
-      "
+      class="rounded info-targetTemperature text-secondary no-margin card-info-bg no-shadow"
     >
       <!-- Target Temperature -->
       <q-card-section>
@@ -77,7 +63,7 @@
       <q-card-actions class="justify-center q-pt-xs">
         <q-btn
           color="positive"
-          text-color="negative"
+          text-color="warning"
           size="22px"
           icon="settings"
           label="Settings"
@@ -98,14 +84,7 @@
     >
       <q-card class="rounded">
         <q-card-section
-          class="
-            row
-            items-center
-            q-pb-none
-            card-settings-bg
-            bg-primary
-            text-secondary
-          "
+          class="row items-center q-pb-none card-settings-bg bg-primary text-secondary"
         >
           <div class="text-h5 text-info">PID Settings</div>
           <q-space />
@@ -173,8 +152,7 @@
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
 export default {

@@ -9,22 +9,22 @@ async function getSettings() {
   let res = await axios.get("/settings");
   return await res.data;
   // let json = {
-  //   VUE_TITLE: "Espresso Machine",
-  //   BACKGROUND_IMAGE: false,
-  //   VUE_COLOUR: {
-  //     primary: "#0da54e", // page title
-  //     secondary: "#0da54e", // card heading
-  //     accent: "#f48221", //graph line
-  //     dark: "#f2f2f2", //graph bg
-  //     positive: "#0da54e", //settings fill
-  //     negative: "#d2d6d9", //BACKGROUND colour
-  //     info: "#0da54e", // card text / graph outline
-  //     warning: "#f2f2f2", // card bg
+  //   "VUE_TITLE": "COFFEE CONTROLLER",
+  //   "BACKGROUND_IMAGE": false,
+  //   "VUE_COLOUR": {
+  //     "primary": "#0da54e", 
+  //     "secondary": "#0da54e",
+  //     "accent": "#f48221",
+  //     "dark": "#f2f2f2",
+  //     "positive": "#0da54e",
+  //     "negative": "#d2d6d9",
+  //     "info": "#0da54e",
+  //     "warning": "#f2f2f2"
   //   },
-  //   FLASK_IP: "0.0.0.0",
-  //   FLASK_PORT: 80,
+  //   "FLASK_IP": "0.0.0.0",
+  //   "FLASK_PORT": 5000
   // };
-  return json;
+  // return json;
 }
 
 getSettings().then((res) => {

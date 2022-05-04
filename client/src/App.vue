@@ -57,7 +57,7 @@ import io from "socket.io-client";
 
 // Socket setup
 var socket = io();
-// var socket = io.connect("192.168.1.102");
+// var socket = io.connect("192.168.1.103");
 
 export default {
   inject: ["settings"],

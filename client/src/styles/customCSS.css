@@ -145,10 +145,6 @@ body {
   border-radius: 20px !important;
 }
 
-.card-settings-bg {
-  background: var(--dark) !important;
-}
-
 .card-settings-text {
-  color: var(--secondary) !important;
+  color: var(--info) !important;
 }

@@ -113,22 +113,22 @@ export default {
             },
             formatter: function (timestamp) {
               var currentDate = new Date();
-
+              var currentTime = currentDate.getTime()
               var label = "";
 
-              if (timestamp >= currentDate.getTime() - 31000) {
+              if (timestamp >= currentTime - 37000) {
                 label = "T-30";
               }
 
-              if (timestamp >= currentDate.getTime() - 21000) {
+              if (timestamp >= currentTime - 27000) {
                 label = "T-20";
               }
 
-              if (timestamp >= currentDate.getTime() - 11000) {
+              if (timestamp >= currentTime - 17000) {
                 label = "T-10";
               }
 
-              if (timestamp >= currentDate.getTime() - 1000) {
+              if (timestamp >= currentTime - 1000) {
                 label = "Now";
               }
 

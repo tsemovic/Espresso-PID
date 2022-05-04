@@ -84,9 +84,9 @@
     >
       <q-card class="rounded">
         <q-card-section
-          class="row items-center q-pb-none card-settings-bg bg-primary text-secondary"
+          class="row items-center q-pb-none card-settings-bg bg-warning text-secondary"
         >
-          <div class="text-h5 text-info">PID Settings</div>
+          <div class="text-h5 text-secondary">PID Settings</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
           <q-btn
@@ -99,51 +99,59 @@
           />
         </q-card-section>
 
-        <q-card-section class="card-settings-bg">
+        <q-card-section class="bg-warning">
           <div class="settings-container">
             <div class="settings-item">
               <q-input
                 rounded
                 input-class="card-settings-text"
-                standout="bg-dark text-info"
-                bg-color="warning"
+                standout="bg-dark"
+                bg-color="--negative"
                 v-model="form_P"
                 label="P"
+                label-color="info"
                 :dense="dense"
-              />
+              >
+              </q-input>
             </div>
             <div class="settings-item">
               <q-input
                 rounded
                 input-class="card-settings-text"
-                standout="bg-dark text-info"
-                bg-color="warning"
+                standout="bg-dark"
+                bg-color="--negative"
                 v-model="form_I"
                 label="I"
+                label-color="info"
                 :dense="dense"
-              />
+              >
+              </q-input>
             </div>
             <div class="settings-item">
               <q-input
                 rounded
                 input-class="card-settings-text"
-                standout="bg-dark text-info"
-                bg-color="warning"
+                standout="bg-dark"
+                bg-color="--negative"
                 v-model="form_D"
                 label="D"
+                label-color="info"
                 :dense="dense"
-              />
+              >
+              </q-input>
             </div>
             <div class="settings-item2">
               <q-input
                 rounded
                 input-class="card-settings-text"
-                standout="bg-dark text-info"
-                bg-color="warning"
+                standout="bg-dark"
+                bg-color="--negative"
                 v-model="form_targetTemperature"
                 label="Target Temperature"
+                label-color="info"
                 :dense="dense"
-              />
+              >
+              </q-input>
             </div>
           </div>
         </q-card-section>

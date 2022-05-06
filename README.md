@@ -30,8 +30,16 @@ docker tag espresso-pid:latest tsemovic/espresso-pid:latest
 docker push tsemovic/espresso-pid:latest
 
 
-
-
+---
+version: "2.1"
+services:
+  espresso-pid:
+    image: tsemovic/espresso-pid:latest
+    container_name: espresso-pid
+    ports:
+      - 80:5000
+    restart: unless-stopped
+    privileged: true
 
 # Espresso-PID
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
@@ -60,28 +68,49 @@ The front-end of the app is built on [Vue 3](https://vuejs.org/guide/introductio
 
 
 ## Hardware Installation
-![Wiring Diagram](https://github.com/tsemovic/Espresso-PID/blob/main/images/theme1.jpg?raw=true)
+This is how all of the components should be physically connected together
+![Wiring Diagram](https://github.com/tsemovic/Espresso-PID/blob/main/images/wiringDiagramGCP.jpg?raw=true)
+
+Here is a more colourful diagram
+![Wiring Diagram](https://github.com/tsemovic/Espresso-PID/blob/main/images/System%20Diagram.jpg?raw=true)
 
 
 
 ## Software Installation
+### Docker
+This espresso PID is very easy to install and deploy in a Docker container.
 
-Dillinger is very easy to install and deploy in a Docker container.
+By default, this app runs on port 5000, so change this within the
+Dockerfile if necessary. This app must be run in privileged mode to work correctly
 
-By default, the Docker will expose port 8080, so change this within the
-Dockerfile if necessary. When ready, simply use the Dockerfile to
-build the image.
-
+Docker compose:
 ```sh
-cd dillinger
-docker build -t <youruser>/dillinger:${package.json.version} .
+---
+version: "2.1"
+services:
+  espresso-pid:
+    image: tsemovic/espresso-pid:latest
+    container_name: espresso-pid
+    ports:
+      - 80:5000
+    restart: unless-stopped
+    privileged: true
 ```
 
-This will create the dillinger image and pull in the necessary dependencies.
-Be sure to swap out `${package.json.version}` with the actual
-version of Dillinger.
+### Manual Install
+1. Download & extract this repository
+2. Navigate to the /server folder in your terminal
+2. Run ```pip install -r requirements.txt```
+3. Run ```sudo python run.py``` from inside the main /server folder
 
+## Usage 
+Click the settings button to configure the PID parameters and the target temperature
+![Wiring Diagram](https://github.com/tsemovic/Espresso-PID/blob/main/images/theme5_settings.jpg?raw=true)
 
+## Theming
+This app allows you to fully customise the colours and images used for that personalised touch
+
+To do this you will need to edit the ```settings_global.json``` file
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 

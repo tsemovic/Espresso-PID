@@ -5,7 +5,9 @@ A web-based PID controller primarily aimed for controlling espresso machines. In
 
 
 ## Why 
-The most popular entry-level espresso machines such as the Gaggia Classic Pro and the Rancilio Silvia don't come with a PID. Installing a PID is one of the best upgrades to pull consistent shots and avoid temp-surfing. There are many hardware-based PID controllers designed for espresso machines but the kits usually cost around $200. I wanted a more affordable solution to this so I went with the software route. There are also many different web-app controlled PID's but I wanted to create my own as other dashboards weren't very appealing and lacked customisation.
+The most popular entry-level espresso machines such as the Gaggia Classic Pro and the Rancilio Silvia don't come with a PID. Installing a PID is one of the best upgrades to pull consistent shots and avoid temp-surfing. 
+
+There are many hardware-based PID controllers designed for espresso machines but the kits usually cost around $200. I wanted a more affordable solution to this so I went with the software route. There are also many different web-app controlled PID's but I wanted to create my own as other dashboards weren't very appealing and lacked customisation.
 
 
 ## Built With
@@ -28,6 +30,7 @@ This is how all of the components should be physically connected together
 ![Wiring Diagram](https://github.com/tsemovic/Espresso-PID/blob/main/images/wiringDiagramGCP.jpg?raw=true)
 
 Here is a more colourful diagram
+
 ![Wiring Diagram](https://github.com/tsemovic/Espresso-PID/blob/main/images/System%20Diagram.jpg?raw=true)
 
 

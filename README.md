@@ -26,7 +26,7 @@ The front-end of the app is built on [Vue 3](https://vuejs.org/guide/introductio
 
 
 ## Hardware Installation
-This is how all of the components should be physically connected together
+This is how all of the components should be physically connected together (wire colours may vary depending on the model and region of the machine)
 ![Wiring Diagram](https://github.com/tsemovic/Espresso-PID/blob/main/images/wiringDiagramGCP.jpg?raw=true)
 
 Here is a more colourful diagram

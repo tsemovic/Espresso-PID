@@ -1,9 +1,10 @@
 # Espresso-PID
 A web-based PID controller primarily aimed for controlling espresso machines. In my case: the Gaggia Classic Pro
+
 ![Main Dashboard](https://github.com/tsemovic/Espresso-PID/blob/main/images/theme5.jpg?raw=true)
 
 
-### Why 
+## Why 
 The most popular entry-level espresso machines such as the Gaggia Classic Pro and the Rancilio Silvia don't come with a PID. Installing a PID is one of the best upgrades in order to pull consistent shots and avoid temp-surfing. 
 
 

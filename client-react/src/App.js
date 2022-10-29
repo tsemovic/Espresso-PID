@@ -1,18 +1,18 @@
 // import logo from './logo.svg';
-import './App.css';
-import React, { Component, useState, useEffect }  from 'react';
-import io from 'socket.io-client';
+import "./App.css";
+import React, { Component, useState, useEffect } from "react";
+import io from "socket.io-client";
 
-import Paper from '@mui/material/Paper';
-import Grid2 from '@mui/material/Unstable_Grid2';
-import Card from '@mui/material/Card';
+import Info from "./components/Info.js";
+import Graph from "./components/Graph.js";
 
+import Paper from "@mui/material/Paper";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 //const socket = io();
 const socket = io.connect("192.168.1.100");
 
 function App() {
-
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [currentTemperature, setCurrentTemperature] = useState(null);
   const [dataArray, setDataArray] = useState(null);
@@ -26,30 +26,29 @@ function App() {
   const [pidRecieved, setPidRecieved] = useState(null);
 
   useEffect(() => {
-    socket.on('connect', () => {
+    socket.on("connect", () => {
       setIsConnected(true);
     });
 
-    socket.on('disconnect', () => {
+    socket.on("disconnect", () => {
       setIsConnected(false);
     });
 
-    socket.on('recieve_temperature', (fetchedData) => {
-      
-        setDataArray(fetchedData);
-        setCurrentTemperature(fetchedData.at(-1).y.toFixed(2))
+    socket.on("recieve_temperature", (fetchedData) => {
+      setDataArray(fetchedData);
+      setCurrentTemperature(fetchedData.at(-1).y.toFixed(2));
 
-        let currentTimeFormatted = new Date(fetchedData.at(-1).x);
-        var hours = currentTimeFormatted.getHours();
-        var minutes = currentTimeFormatted.getMinutes();
-        var seconds = currentTimeFormatted.getSeconds();
-        var ampm = hours >= 12 ? "pm" : "am";
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-        var strTime = hours + ":" + minutes + ":" + seconds + " " + ampm;
-        setCurrentTime(strTime);      
+      let currentTimeFormatted = new Date(fetchedData.at(-1).x);
+      var hours = currentTimeFormatted.getHours();
+      var minutes = currentTimeFormatted.getMinutes();
+      var seconds = currentTimeFormatted.getSeconds();
+      var ampm = hours >= 12 ? "pm" : "am";
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      var strTime = hours + ":" + minutes + ":" + seconds + " " + ampm;
+      setCurrentTime(strTime);
     });
 
     socket.on("give_PID", (fetchedData) => {
@@ -58,8 +57,8 @@ function App() {
       setD(fetchedData["PID"]["D"]);
       setTargetTemperature(fetchedData["TargetTemperature"]);
 
-      setPidRecieved(true)
-      setTimeout(() => (setPidRecieved(false)), 3000);
+      setPidRecieved(true);
+      setTimeout(() => setPidRecieved(false), 3000);
     });
 
     setInterval(function () {
@@ -67,41 +66,54 @@ function App() {
     }, 500);
 
     return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-      socket.off('pong');
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("pong");
     };
   }, []);
 
-  const sendPing = () => {
-    socket.emit('get_PID');
-  }
+  const get_PID = () => {
+    socket.emit("get_PID");
+  };
 
   return (
     <div className="App">
       <h1 class="text-center fontHeader">Gaggia Controller</h1>
-      <Grid2 container spacing={0}>
-        <Grid2 xs></Grid2>
-        <Grid2 xs={8}>
+      <Grid2
+        container
+        spacing={2}
+        alignItems="center"
+        style={{
+          margin: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        {/* <Grid2 xs={8}>
           <Paper elevation={6} className="curve">
+            <p>Current Temperature: {currentTemperature}</p>
+            <p>Target Temperature: {targetTemperature}</p>
+            <p>P: {P}</p>
+            <p>I: {I}</p>
+            <p>D: {D}</p>
 
-            <p>Current Temperature: { currentTemperature }</p>
-            <p>Target Temperature: { targetTemperature }</p>
-            <p>P: { P }</p>
-            <p>I: { I }</p>
-            <p>D: { D }</p>
+            <p>Current Time: {currentTime}</p>
 
-            <p>Current Time: { currentTime }</p>
-
-
-            <button onClick={ sendPing }>Send ping</button>
+            <button onClick={get_PID}>Get PID</button>
           </Paper>
+        </Grid2> */}
+        <Grid2 xs={12} md={6} mdOffset={2}>
+          <Graph
+            dataArray={dataArray}
+            currentTemperature={currentTemperature}
+            targetTemperature={targetTemperature}
+          />
         </Grid2>
-        <Grid2 xs></Grid2>
+        <Grid2 xs={12} md={2}>
+          <Info />
+        </Grid2>
       </Grid2>
-      
     </div>
-    
   );
 }
 

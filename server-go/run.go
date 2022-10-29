@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"time"
 
-	max31855 "github.com/teebr/go-max31855"
+	max31855 "go-max31855"
 )
 
 func main() {

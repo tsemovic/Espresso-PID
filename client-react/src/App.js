@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import "./App.css";
 import React, { Component, useState, useEffect } from "react";
 import io from "socket.io-client";
@@ -6,11 +5,10 @@ import io from "socket.io-client";
 import Info from "./components/Info.js";
 import Graph from "./components/Graph.js";
 
-import Paper from "@mui/material/Paper";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 //const socket = io();
-const socket = io.connect("192.168.1.100");
+const socket = io.connect("10.0.0.100");
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -18,14 +16,16 @@ function App() {
   const [dataArray, setDataArray] = useState(null);
   const [currentTime, setCurrentTime] = useState(null);
 
-  const [P, setP] = useState(null);
-  const [I, setI] = useState(null);
-  const [D, setD] = useState(null);
+  const [PIDP, setPIDP] = useState(null);
+  const [PIDI, setPIDI] = useState(null);
+  const [PIDD, setPIDD] = useState(null);
   const [targetTemperature, setTargetTemperature] = useState(null);
 
   const [pidRecieved, setPidRecieved] = useState(null);
 
   useEffect(() => {
+    socket.emit("get_PID");
+
     socket.on("connect", () => {
       setIsConnected(true);
     });
@@ -37,7 +37,6 @@ function App() {
     socket.on("recieve_temperature", (fetchedData) => {
       setDataArray(fetchedData);
       setCurrentTemperature(fetchedData.at(-1).y.toFixed(2));
-
       let currentTimeFormatted = new Date(fetchedData.at(-1).x);
       var hours = currentTimeFormatted.getHours();
       var minutes = currentTimeFormatted.getMinutes();
@@ -52,9 +51,9 @@ function App() {
     });
 
     socket.on("give_PID", (fetchedData) => {
-      setP(fetchedData["PID"]["P"]);
-      setI(fetchedData["PID"]["I"]);
-      setD(fetchedData["PID"]["D"]);
+      setPIDP(fetchedData["PID"]["P"]);
+      setPIDI(fetchedData["PID"]["I"]);
+      setPIDD(fetchedData["PID"]["D"]);
       setTargetTemperature(fetchedData["TargetTemperature"]);
 
       setPidRecieved(true);
@@ -72,13 +71,9 @@ function App() {
     };
   }, []);
 
-  const get_PID = () => {
-    socket.emit("get_PID");
-  };
-
   return (
     <div className="App">
-      <h1 class="text-center fontHeader">Gaggia Controller</h1>
+      <h1 className="text-center fontHeader titleText">Gaggia Controller</h1>
       <Grid2
         container
         spacing={2}
@@ -89,30 +84,21 @@ function App() {
           height: "100%",
         }}
       >
-        {/* <Grid2 xs={8}>
-          <Paper elevation={6} className="curve">
-            <p>Current Temperature: {currentTemperature}</p>
-            <p>Target Temperature: {targetTemperature}</p>
-            <p>P: {P}</p>
-            <p>I: {I}</p>
-            <p>D: {D}</p>
-
-            <p>Current Time: {currentTime}</p>
-
-            <button onClick={get_PID}>Get PID</button>
-          </Paper>
-        </Grid2> */}
         <Grid2 xs={12} md={6} mdOffset={2}>
           <Graph
-            dataArray={dataArray}
-            currentTemperature={currentTemperature}
-            targetTemperature={targetTemperature}
-          />
+              dataArray={dataArray}
+              currentTemperature={currentTemperature}
+              targetTemperature={targetTemperature}
+            />
+
         </Grid2>
         <Grid2 xs={12} md={2}>
-          <Info />
+          <Info dataArray={dataArray} currentTemperature={currentTemperature} targetTemperature={targetTemperature} P={PIDP} I={PIDI} D={PIDD} currentTime={currentTime} />
         </Grid2>
       </Grid2>
+      <div>
+       {/* {dataArray} */}
+      </div>
     </div>
   );
 }

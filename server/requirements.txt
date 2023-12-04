@@ -4,3 +4,4 @@ Flask==2.0.2
 Flask_SocketIO==5.1.1
 simple_pid==1.0.1
 RPi.GPIO==0.7.1
+Werkzeug==2.2.2

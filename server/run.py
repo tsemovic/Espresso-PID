@@ -179,8 +179,8 @@ def espresso():
         else:
             GPIO.output(21, GPIO.LOW)
 
-        print("TEMPERATURE: " + str(temperature) +
-              " |  PID OUTPUT: " + str(output))
+        #print("TEMPERATURE: " + str(temperature) +
+        #      " |  PID OUTPUT: " + str(output))
 
         time.sleep(0.5)
 
